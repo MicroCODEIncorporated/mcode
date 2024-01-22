@@ -72,9 +72,6 @@
 
 // #region  I M P O R T S
 
-// support .env file variables - this bring the .env file variables into the `process.env` object
-//* require(`dotenv`).config(); - needs WebPack work from my site
-
 // #endregion
 
 // #region  T Y P E S
@@ -86,6 +83,7 @@
 // #endregion
 
 // #region  C O N S T A N T S
+// #region  F U N C T I O N S – P U B L I C
 
 // @ts-ignore TS6133 - standard module definition for 'debug' logging
 const moduleName = 'mcode';
@@ -211,10 +209,6 @@ const mcode = {
         string: "\x1b[94m",  // blue - special value
     },
 
-    // #endregion
-
-    // #region  F U N C T I O N S – P U B L I C
-
     /**
      * @func log
      * @memberof mcode
@@ -260,7 +254,7 @@ const mcode = {
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
-        else if (mcode.hasJson(message))
+        else if (mcode.isJson(message))
         {
             logifiedMessage = "\n" + mcode.logify(message);
         }
@@ -340,7 +334,6 @@ const mcode = {
         return status;  // for caller to use as needed
     },
 
-
     /**
      * @func exp
      * @memberof mcode
@@ -363,7 +356,7 @@ const mcode = {
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
-        else if (mcode.hasJson(message))
+        else if (mcode.isJson(message))
         {
             logifiedMessage = "\n" + mcode.logify(message);
         }
@@ -391,56 +384,27 @@ const mcode = {
     },
 
     /**
-     * @func timestamp
-     * @memberof mcode
-     * @desc Generates timestamp string: YYYY-MM-DD HH:MM:SS.mmm.
-     * @api public
-     * @returns {string} "Mon YYYY-MM-DD HH:MM:SS.mmm UTC".
-     */
-    timeStamp: function ()
-    {
-        const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-        // make sure all fields are fixed length with leading zeros
-        const leadingZeros = (number, length) =>
-        {
-            let numberField = '' + number;
-            while (numberField.length < length)
-            {
-                numberField = '0' + numberField;
-            }
-            return numberField;
-        };
-
-        let now = new Date();
-        let dayofweek = weekdays[now.getDay()];           // 3-letter day of week
-        let year = now.getFullYear();                     // 4-digit year
-        let month = leadingZeros(now.getMonth() + 1, 2);  // 2-digit month
-        let day = leadingZeros(now.getDate(), 2);         // 2-digit day
-        let hours = leadingZeros(now.getHours(), 2);      // 2-digit hour
-        let minutes = leadingZeros(now.getMinutes(), 2);  // 2-digit minute
-        let seconds = leadingZeros(now.getSeconds(), 2);  // 2-digit second
-        let ms = leadingZeros(now.getMilliseconds(), 3);  // 3-digit millisecond
-
-        return `${year}-${month}-${day} ${dayofweek} ${hours}:${minutes}:${seconds}.${ms} UTC`;
-    },
-
-    /**
      * @func simplify
      * @memberof mcode
      * @desc Strips a string of BRACES, BRACKETS, QUOTES, etc.
      * @api public
-     * @param {string} textToSimplify the string to be simplified to data
+     * @param {object} object the string to be simplified to data
      * @returns {string} the simplified text
      */
-    simplify: function (textToSimplify)
+    simplify: function (object)
     {
+        if (mcode.isObject(object))
+        {
+            // do not use JSON.stringify(object, null, 4) -- it's output is horrible, use our own
+            object = JSON.stringify(objectToSimplify);
+        }
+
         let simplifiedText = "";
         let inValue = false;
 
-        for (let i = 0; i < textToSimplify.length; i++)
+        for (let i = 0; i < object.length; i++)
         {
-            switch (textToSimplify[i])
+            switch (object[i])
             {
                 case '{':
                 case '}':
@@ -451,7 +415,7 @@ const mcode = {
                 case '"':
                     break;
                 case ':':
-                    simplifiedText += textToSimplify[i];
+                    simplifiedText += object[i];
                     if (!inValue)
                     {
                         simplifiedText += ' ';
@@ -459,12 +423,12 @@ const mcode = {
                     inValue = true;
                     break;
                 case ',':
-                    simplifiedText += textToSimplify[i];
+                    simplifiedText += object[i];
                     simplifiedText += ' ';
                     inValue = false;
                     break;
                 default:
-                    simplifiedText += textToSimplify[i];
+                    simplifiedText += object[i];
                     break;
             }
         }
@@ -851,66 +815,56 @@ const mcode = {
     },
 
     /**
-     * @func listifyArrayHTML
+     * @func listifyArray
      * @memberof mcode
-     * @desc Converts an array of text items into a BOOTSTRAP CARD LIST.
+     * @desc Converts an array of text items into a HTML or JSX List.
      * @api public
      * @param {Array<any>} arrayToListify the array to be convert to a HTML List.
+     * @param {string} outputType how to out the list: 'html' or 'jsx'.
      * @returns {string} the HTML List code.
      */
-    listifyArrayHTML: function (arrayToListify)
+    listifyArray: function (arrayToListify, outputType = 'html')
     {
         let listifiedText = "";
         var keyIndex = 0;
 
-        arrayToListify.forEach(element =>
+        if (outputType === 'jsx')
         {
-            // convert array element to text, simplify for display, and add to LIST...
-            listifiedText += `<li class="list-group-item" key="${keyIndex++}">${mcode.simplifyObject(element)}</li>`;
-        });
+            listifiedText += '<ul className="list-group">';
+
+            arrayToListify.forEach(element =>
+            {
+                // convert array element to text, simplify for display, and add to LIST...
+                listifiedText += `<li className="list-group-item" key="${keyIndex++}">${mcode.simplifyObject(element)}</li>`;
+            });
+
+            listifiedText += '</ul>';
+        }
+        else
+        {
+            arrayToListify.forEach(element =>
+            {
+                // convert array element to text, simplify for display, and add to LIST...
+                listifiedText += `<li class="list-group-item" key="${keyIndex++}">${mcode.simplifyObject(element)}</li>`;
+            });
+        }
 
         return listifiedText;
     },
 
     /**
-     * @func listifyArrayJSX
-     * @memberof mcode
-     * @desc Converts an array of text items into a BOOTSTRAP CARD LIST - JSX code.
-     * @api public
-     * @param {array} arrayToListify the array to be convert to a HTML List.
-     * @returns {string} the HTML List code.
-     */
-    listifyArrayJSX: function (arrayToListify)
-    {
-        let listifiedText = "";
-        var keyIndex = 0;
-
-        listifiedText += '<ul className="list-group">';
-
-        arrayToListify.forEach(element =>
-        {
-            // convert array element to text, simplify for display, and add to LIST...
-            listifiedText += `<li className="list-group-item" key="${keyIndex++}">${mcode.simplifyObject(element)}</li>`;
-        });
-
-        listifiedText += '</ul>';
-
-        return listifiedText;
-    },
-
-    /**
-     * @func extractIdField
+     * @func extractId
      * @memberof mcode
      * @desc Extracts an alpha-numberic ID Field from a string, intended to be a unique portion of a common string.
      * @param {string} objectName typically a file name, but can be any string, to extract an ID Field from.
      * @returns {string} the extracted ID Field.
      *
-     * Rules for extracting the ID Field:
-     * ----------------------------------
-     * 1. The ID Field is assumed to be the first alpha-numeric field in the string.
-     * 2. The ID Field is assumed to be Letters + Numbers, with no spaces or special characters.
-     * 3. The ID Field is assumed to be either at the beginning or end of the string, or separated by non-alpha-numeric characters.
-     * 4. The ID Field cound have lowercase 'placeholders' for numbers, like 'PxCy' or 'PnCn' for 'P1C2'.
+     *  Rules for extracting the ID Field:
+     *  ----------------------------------
+     *  1. The ID Field is assumed to be the first alpha-numeric field in the string.
+     *  2. The ID Field is assumed to be Letters + Numbers, with no spaces or special characters.
+     *  3. The ID Field is assumed to be either at the beginning or end of the string, or separated by non-alpha-numeric characters.
+     *  4. The ID Field cound have lowercase 'placeholders' for numbers, like 'PxCy' or 'PnCn' for 'P1C2'.
      *
      * @example
      *
@@ -939,7 +893,7 @@ const mcode = {
      * console.log(extractIdField(str2)); // Expected output: "PxCy"
      *
      */
-    extractIdField: function (objectName)
+    extractId: function (objectName)
     {
         let idField = '';
         let inAlphaNumeric = false;
@@ -1022,14 +976,42 @@ const mcode = {
     },
 
     /**
-     * @func hasJson
+     * @method isObject
+     * @memberof mcode
+     * @desc Checks whether or not a string is a JS Object.
+     * @api public
+     * @param {object} jsObject string to be tested
+     * @returns {boolean} a value indicating whether or not the string is a JS Object.
+     */
+    isObject: function (jsObject)
+    {
+        return typeof jsObject === 'object' && jsObject !== null && !Array.isArray(jsObject) && typeof jsObject !== 'function';
+    },
+
+    /**
+     * @func isNumber
+     * @memberof mcode
+     * @desc Checks for NaN.
+     * @api public
+     * @param {any} numberToCheck as a number of some type
+     * @returns {boolean} a value indicating whether or not it is NaN.
+     */
+    isNumber: function (numberToCheck)
+    {
+        // NOTE: this compare will fail for NaN
+        // eslint-disable-next-line no-self-compare
+        return (numberToCheck === numberToCheck);
+    },
+
+    /**
+     * @func isJson
      * @memberof mcode
      * @desc Checks a string for embedded JSON data.
      * @api public
      * @param {object} object string to be tested
      * @returns {boolean} a value indicating whether or not the object contains a JSON string
      */
-    hasJson: function (object)
+    isJson: function (object)
     {
         try
         {
@@ -1054,94 +1036,43 @@ const mcode = {
     },
 
     /**
-     * @method isObject
+     * @func timestamp
      * @memberof mcode
-     * @desc Checks whether or not a string is a JS Object.
+     * @desc Generates timestamp string: YYYY-MM-DD HH:MM:SS.mmm.
      * @api public
-     * @param {object} jsObject string to be tested
-     * @returns {boolean} a value indicating whether or not the string is a JS Object.
+     * @returns {string} "Mon YYYY-MM-DD HH:MM:SS.mmm UTC".
      */
-    isObject: function (jsObject)
+    timeStamp: function ()
     {
-        return typeof jsObject === 'object' && jsObject !== null && !Array.isArray(jsObject) && typeof jsObject !== 'function';
-    },
+        const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-
-    /**
-     * @func NotaNumber
-     * @memberof mcode
-     * @desc Checks for NaN.
-     * @api public
-     * @param {any} numberToCheck as a number of some type
-     * @returns {boolean} a value indicating whether or not it is NaN.
-     */
-    NotaNumber: function (numberToCheck)
-    {
-        // NOTE: this compare will fail for NaN
-        // eslint-disable-next-line no-self-compare
-        return (numberToCheck !== numberToCheck);
-    },
-
-    /**
-     * @func roundToCents
-     * @memberof mcode
-     * @desc Rounds a floating point number that represents dollars and cents to 2 decimals digits (pennies).
-     * @api public
-     * @param {number} numberToRound as a floating point value
-     * @returns {number} number rounded to dollars and cents (2 decimals place)
-     */
-    roundToCents: function (numberToRound)
-    {
-        return mcode.roundOff(numberToRound, 2);
-    },
-
-    /**
-     * @func roundOff
-     * @memberof mcode
-     * @desc Rounds a floating point number to any number of places.
-     * @api public
-     * @param {number} numberToRound as a floating point value
-     * @param {number} numberOfPlaces number of decimal places to round
-     * @returns {number} number rounded to dollars and cents (2 decimals place)
-     */
-    roundOff: function (numberToRound, numberOfPlaces)
-    {
-        // if NaN reset to ZERO
-        if (mcode.NotaNumber(numberToRound))
+        // make sure all fields are fixed length with leading zeros
+        const leadingZeros = (number, length) =>
         {
-            return 0.00;
-        }
-        else
-        {
-            const roundingFactor = Math.pow(10, numberOfPlaces);
-            return Math.round(numberToRound * roundingFactor) / roundingFactor;
-        }
+            let numberField = '' + number;
+            while (numberField.length < length)
+            {
+                numberField = '0' + numberField;
+            }
+            return numberField;
+        };
+
+        let now = new Date();
+        let dayofweek = weekdays[now.getDay()];           // 3-letter day of week
+        let year = now.getFullYear();                     // 4-digit year
+        let month = leadingZeros(now.getMonth() + 1, 2);  // 2-digit month
+        let day = leadingZeros(now.getDate(), 2);         // 2-digit day
+        let hours = leadingZeros(now.getHours(), 2);      // 2-digit hour
+        let minutes = leadingZeros(now.getMinutes(), 2);  // 2-digit minute
+        let seconds = leadingZeros(now.getSeconds(), 2);  // 2-digit second
+        let ms = leadingZeros(now.getMilliseconds(), 3);  // 3-digit millisecond
+
+        return `${year}-${month}-${day} ${dayofweek} ${hours}:${minutes}:${seconds}.${ms} UTC`;
     },
-
-    /**
-     * @func toCurrency
-     * @memberof mcode
-     * @desc Rounds a floating point number to any number of places.
-     * @api public
-     * @param {number} numberToDisplay as a floating point value
-     * @returns {string} number rounded to dollars and cents (2 decimals place)
-     */
-    toCurrency: function (numberToDisplay)
-    {
-        // if NaN reset to ZERO
-        if (mcode.NotaNumber(numberToDisplay))
-        {
-            return '$0.00';
-        }
-        else
-        {
-            return `$${mcode.roundToCents(numberToDisplay)}`;
-        }
-    },
-
-    // #endregion
-
 };
+
+// #endregion
+// #endregion
 
 // #region  M E T H O D - E X P O R T S
 
