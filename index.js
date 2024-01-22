@@ -1,5 +1,5 @@
 // #region  F I L E
-// <copyright file="mcode/index.js" company="MicroCODE Incorporated">Copyright © 2022 MicroCODE, Inc. Troy, MI</copyright><author>Timothy J. McGuire</author>
+// <copyright file="mcode/index.js" company="MicroCODE Incorporated">Copyright © 2022-2024 MicroCODE, Inc. Troy, MI</copyright><author>Timothy J. McGuire</author>
 // #region  M O D U L E
 
 // #region  D O C U M E N T A T I O N
@@ -9,22 +9,36 @@
  *      Project:  MicroCODE MERN Applications
  *      Customer: Internal+MIT xPRO Course
  *      Creator:  MicroCODE Incorporated
- *      Date:     January 2022
- *      Author:   Timothy J McGuire
+ *      Date:     January 2022-2024
+ *      Author:   Timothy McGuire
  *
- *      Designed and Coded: 2022-2024 MicroCODE Incorporated
+ *      MIT License: MicroCODE.mcode
  *
- *      This software and related materials are the property of
- *      MicroCODE Incorporated and contain confidential and proprietary
- *      information. This software and related materials shall not be
- *      duplicated, disclosed to others, or used in any way without the
- *      written of MicroCODE Incorported.
+ *      Copyright (c) 2022-2024 Timothy J McGuire, MicroCODE, Inc.
+ *
+ *      Permission is hereby granted, free of charge, to any person obtaining a copy
+ *      of this software and associated documentation files (the "Software"), to deal
+ *      in the Software without restriction, including without limitation the rights
+ *      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *      copies of the Software, and to permit persons to whom the Software is
+ *      furnished to do so, subject to the following conditions:
+ *
+ *      The above copyright notice and this permission notice shall be included in all
+ *      copies or substantial portions of the Software.
+ *
+ *      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *      SOFTWARE.
  *
  *
  *      DESCRIPTION:
  *      ------------
  *
- *      This module implements the MicroCODE's Common JavaScript Client/Front-End functions.
+ *      This module implements the MicroCODE's Common JavaScript functions.
  *
  *
  *      REFERENCES:
@@ -32,17 +46,10 @@
  *
  *      1. MIT xPRO Course: Professional Certificate in Coding: Full Stack Development with MERN
  *
- *      2. CHALK for colorizing Console message easily and explicitly.
- *         https://www.npmjs.com/package/chalk
- *
- *
- *      VIDEOS:
- *      -------
- *
- *      1.  List of ANSI Color Escape Sequences
+ *      2.  List of ANSI Color Escape Sequences
  *          https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
  *
- *      2.  Showing Line Numbers in console.log from Node.js
+ *      3.  Showing Line Numbers in console.log from Node.js
  *          https://stackoverflow.com/questions/45395369/how-to-get-console-log-line-numbers-shown-in-nodejs
  *
  *
@@ -53,16 +60,16 @@
  *
  *  Date:         By-Group:   Rev:    Description:
  *
- *  27-Jan-2022   TJM-MCODE  {0001}   New module for common reusable Javascript UI/Client functions.
+ *  27-Jan-2022   TJM-MCODE  {0001}   New module for common reusable Javascript logging functions.
  *  05-Mar-2022   TJM-MCODE  {0002}   Documentation updates.
  *  04-May-0222   TJM-MCODE  {0003}   Corrected 'month' in timeStamp.
  *  03-Oct-2022   TJM-MCODE  {0004}   Added 'log()' to simplify console logging of app events.
  *  03-Oct-2022   TJM-MCODE  {0005}   Added use of 'vt' for colorizing Console Log entries.
  *  16-Oct-2022   TJM-MCODE  {0006}   Added 'success' as a severity.
- *  30-Oct-2023   TJM-MCODE  {0007}   Updated to TypeScript.
+ *  30-Oct-2023   TJM-MCODE  {0007}   Updated to TypeScript, reversed to pure JavaScript in Jan 2024.
  *  03-Dec-2023   TJM-MCODE  {0008}   Don't log 'debug' messages in staging or production mode.
  *  21-Jan-2024   TJM-MCODE  {0009}   Converted to a single ES6 Module (ESM) for use in both
- *                                    Frontedm/Client and Backend/Server as a NodeJS package.
+ *                                    Frontend/Client and Backend/Server as a NodeJS package.
  *
  *
  *
@@ -311,9 +318,9 @@ const mcode = {
                 break;
             case '?':
             default:
-                sevText = 'hmmmmm';
+                sevText = 'undefined';
                 sevColor += vt.hmmm;
-                entry += `${vt.hmmm} ? ｢mcode｣: 😕 [${moduleName}] '${logifiedMessage}'`;
+                entry += `${vt.hmmm} ? ｢mcode｣: ❓ [${moduleName}] '${logifiedMessage}'`;
                 break;
         }
         entry += '\n';
@@ -387,7 +394,7 @@ const mcode = {
         entry +=
             `${vt.reset}${vt.dim}++\n` +
             `${vt.reset}${vt.dead} * ｢mcode｣: ☠️ [${moduleName}] '${logifiedMessage}'\n` +
-            `${vt.reset}${vt.dead} exception: ${vt.dead}${exception}${vt.reset}\n` +
+            `${vt.reset}${vt.dead} exception: ${vt.dead}${mcode.simplify(exception)}\n` +
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
             `${vt.reset}${vt.dim}  severity: ${vt.reset}${vt.dead}exception${vt.dead}`;
@@ -448,8 +455,10 @@ const mcode = {
                 case '[':
                 case ']':
                     inValue = false;
+                    c = ' ';
                     break;
                 case '"':
+                    c = ' ';
                     break;
                 case ':':
                     simplifiedText += c;
@@ -1087,13 +1096,15 @@ const mcode = {
     /**
      * @func timestamp
      * @memberof mcode
-     * @desc Generates timestamp string: YYYY-MM-DD HH:MM:SS.mmm.
+     * @desc Generates timestamp string: YYYY-MM-DD Day HH:MM:SS.mmm.
      * @api public
-     * @returns {string} "Mon YYYY-MM-DD HH:MM:SS.mmm UTC".
+     * @param {boolean} local [Optional] determines whether or not local time is used, if not it returns use UTC.
+     * @returns {string} "YYYY-MM-DD Day HH:MM:SS.mmm UTC|Local".
      */
-    timeStamp: function ()
+    timeStamp: function (local = true)
     {
         const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         // make sure all fields are fixed length with leading zeros
         const leadingZeros = (number, length) =>
@@ -1107,16 +1118,33 @@ const mcode = {
         };
 
         let now = new Date();
-        let dayofweek = weekdays[now.getDay()];           // 3-letter day of week
-        let year = now.getFullYear();                     // 4-digit year
-        let month = leadingZeros(now.getMonth() + 1, 2);  // 2-digit month
-        let day = leadingZeros(now.getDate(), 2);         // 2-digit day
-        let hours = leadingZeros(now.getHours(), 2);      // 2-digit hour
-        let minutes = leadingZeros(now.getMinutes(), 2);  // 2-digit minute
-        let seconds = leadingZeros(now.getSeconds(), 2);  // 2-digit second
-        let ms = leadingZeros(now.getMilliseconds(), 3);  // 3-digit millisecond
 
-        return `${year}-${month}-${day} ${dayofweek} ${hours}:${minutes}:${seconds}.${ms} UTC`;
+        if (local)
+        {
+            let dayofweek = weekdays[now.getDay()];           // 3-letter day of week
+            let year = now.getFullYear();                     // 4-digit year
+            let month = months[now.getMonth()];               // 3-letter month of year
+            let day = leadingZeros(now.getDate(), 2);         // 2-digit day
+            let hours = leadingZeros(now.getHours(), 2);      // 2-digit hour
+            let minutes = leadingZeros(now.getMinutes(), 2);  // 2-digit minute
+            let seconds = leadingZeros(now.getSeconds(), 2);  // 2-digit second
+            let ms = leadingZeros(now.getMilliseconds(), 3);  // 3-digit millisecond
+
+            return `${year}-${month}-${day} ${dayofweek} ${hours}:${minutes}:${seconds}.${ms} Local`;
+        }
+        else
+        {
+            let dayofweek = weekdays[now.getUTCDay()];           // 3-letter day of week
+            let year = now.getUTCFullYear();                     // 4-digit year
+            let month = months[now.getMonth()];                  // 3-letter month of year
+            let day = leadingZeros(now.getUTCDate(), 2);         // 2-digit day
+            let hours = leadingZeros(now.getUTCHours(), 2);      // 2-digit hour
+            let minutes = leadingZeros(now.getUTCMinutes(), 2);  // 2-digit minute
+            let seconds = leadingZeros(now.getUTCSeconds(), 2);  // 2-digit second
+            let ms = leadingZeros(now.getUTCMilliseconds(), 3);  // 3-digit millisecond
+
+            return `${year}-${month}-${day} ${dayofweek} ${hours}:${minutes}:${seconds}.${ms} UTC`;
+        }
     },
 };
 
