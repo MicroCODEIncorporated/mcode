@@ -160,6 +160,8 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.0.2
+    * Updates after testing and documentating README.
 * 0.0.1
     * Initial movement of our internal code into an NPM package for ease of use in other projects.
 
