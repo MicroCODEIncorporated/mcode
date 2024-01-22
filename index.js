@@ -276,7 +276,7 @@ const mcode = {
             case 'info':
                 sevText = 'info';
                 sevColor += vt.info;
-                entry += `${vt.info} i ｢mcode｣: 📰 [${moduleName}] '${logifiedMessage}'`;
+                entry += `${vt.info} i ｢mcode｣: 📣 [${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'w':
             case 'warn':
@@ -313,15 +313,30 @@ const mcode = {
             default:
                 sevText = 'hmmmmm';
                 sevColor += vt.hmmm;
-                entry += `${vt.hmmm} ? ｢mcode｣: 🤔 [${moduleName}] '${logifiedMessage}'`;
+                entry += `${vt.hmmm} ? ｢mcode｣: 😕 [${moduleName}] '${logifiedMessage}'`;
                 break;
         }
         entry += '\n';
 
         if (error)
         {
-            entry += `${vt.errr}     error: ${error}\n`;
-            status += ` ERROR: ${error}`;
+            let logifiedError = "";
+
+            if (mcode.isObject(error))
+            {
+                logifiedError = "\n" + mcode.logify(mcode.logifyObject(error));
+            }
+            else if (mcode.isJson(error))
+            {
+                logifiedError = "\n" + mcode.logify(error);
+            }
+            else
+            {
+                logifiedError = error;
+            }
+
+            entry += `${vt.errr}     error: ${mcode.simplify(logifiedError)}\n`;
+            status += ` ERROR: ${mcode.simplify(logifiedError)}`;
         }
 
         entry +=
@@ -402,10 +417,31 @@ const mcode = {
 
         let simplifiedText = "";
         let inValue = false;
+        let inEscape = false;
+        let c = ' ';
+        let clast = ' ';
 
         for (let i = 0; i < object.length; i++)
         {
-            switch (object[i])
+            clast = c;
+            c = object[i];
+
+            // detect VT52,100,200 escape sequence
+            if (c === '\x1b')
+            {
+                inEscape = true;
+                continue;
+            }
+            // skip entire escape sequence
+            if (inEscape)
+            {
+                if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')))
+                {
+                    inEscape = false;
+                }
+                continue;
+            }
+            switch (c)
             {
                 case '{':
                 case '}':
@@ -416,20 +452,32 @@ const mcode = {
                 case '"':
                     break;
                 case ':':
-                    simplifiedText += object[i];
+                    simplifiedText += c;
                     if (!inValue)
                     {
                         simplifiedText += ' ';
+                        c = ' ';
                     }
                     inValue = true;
                     break;
                 case ',':
-                    simplifiedText += object[i];
+                    simplifiedText += c;
                     simplifiedText += ' ';
+                    c = ' ';
                     inValue = false;
                     break;
+                case '\n':
+                case '\t':
+                    c = ' ';
+                    break;  // strip newlines and tabs
+                case ' ':
+                    if (clast != ' ')
+                    {
+                        simplifiedText += c;
+                    }
+                    break;
                 default:
-                    simplifiedText += object[i];
+                    simplifiedText += c;
                     break;
             }
         }
@@ -455,7 +503,7 @@ const mcode = {
      * @func logify
      * @memberof mcode
      * @desc Formats a string of BRACES, BRACKETS, QUOTES, for display in the EVENT LOG.
-     * No formatting occurs until the opening brace '{' of the JSON Data.
+     * No formatting occurs until the opening brace '{' of the JSON Data. VT Escape sequences are stripped.
      * @api public
      * @param {string} textToLogify the string to be formatted for the event log
      * @returns {string} the logified text
