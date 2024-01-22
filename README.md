@@ -12,7 +12,7 @@ Identical logging on both...
 This is our internal logging code. It replaces the use of "console.log()" with "mcode.log()" and "mcode.exp()".
 
 * **mcode.log()** - provides an ultra-consistent function for logging events into any console.
-* **mcode.exp()** - provides an ultra-consistent function for logging exception (with a stack dump) into any console.
+* **mcode.exp()** - provides an ultra-consistent function for logging exceptions (with a stack dump) into any console.
 
 ## mcode.log() vs. console.log()
 
