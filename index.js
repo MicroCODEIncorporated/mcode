@@ -201,7 +201,7 @@ const mcode = {
         dead: "\x1b[95m",  // magenta
         info: "\x1b[96m",  // cyan
         hmmm: "\x1b[97m",  // white
-        dbug: "\x1b[95m",  // Bright Magenta
+        dbug: "\x1b[94m",  // Bright Magenta
 
         // custom JSON colors
         key: "\x1b[96m",  // cyan - key name
@@ -283,13 +283,13 @@ const mcode = {
             case 'warning':
                 sevText = 'warn';
                 sevColor += vt.warn;
-                entry += `${vt.warn} ⚠ ｢mcode｣: ⚠️ [${moduleName}] '${logifiedMessage}'`;
+                entry += `${vt.warn} ! ｢mcode｣: ⚠️ [${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'e':
             case 'error':
                 sevText = 'error';
                 sevColor += vt.errr;
-                entry += `${vt.errr} ✖ ｢mcode｣: ⛔ [${moduleName}] '${logifiedMessage}'`;
+                entry += `${vt.errr} x ｢mcode｣: ⛔ [${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'x':
             case 'exception':
@@ -313,7 +313,7 @@ const mcode = {
             default:
                 sevText = 'hmmmmm';
                 sevColor += vt.hmmm;
-                entry += `${vt.hmmm} ❔ ｢mcode｣: 🤔 [${moduleName}] '${logifiedMessage}'`;
+                entry += `${vt.hmmm} ? ｢mcode｣: 🤔 [${moduleName}] '${logifiedMessage}'`;
                 break;
         }
         entry += '\n';
@@ -327,7 +327,7 @@ const mcode = {
         entry +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-            `${vt.reset}${vt.dim}  severity: ${sevColor}${sevText}\n` +
+            `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}\n` +
             `${vt.reset}${vt.dim}--${vt.reset}`;
 
         console.log(entry);
@@ -375,7 +375,7 @@ const mcode = {
             `${vt.reset}${vt.dead} exception: ${vt.dead}${exception}${vt.reset}\n` +
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-            `${vt.reset}${vt.dim}  severity: ${vt.dead}exception${vt.dead}`;
+            `${vt.reset}${vt.dim}  severity: ${vt.reset}${vt.dead}exception${vt.dead}`;
 
         console.log(entry);
         console.trace(`${vt.dead} Call Stack`);
