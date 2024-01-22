@@ -345,7 +345,7 @@ const mcode = {
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
      *
      */
-    exp: function exp(message, source, exception)
+    exp: function (message, source, exception)
     {
         let vt = mcode.vt;
 
