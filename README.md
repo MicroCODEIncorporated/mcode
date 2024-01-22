@@ -19,36 +19,31 @@ This is our internal logging code. It replaces the use of "console.log()" with "
 Why did we write this package? We were unhappy with the limitations of console.log() and the lack of a common
 way to log events--with timestamps and source code origin--with **standardized severity**.
 
-* console.log(complexObject)
-```
+* mcode.log() shows a pure data view of an object, parsing the methods and functions out of the view.
+* console.log() shows a complex object filled with all methods and data mixed, and it must be 'drilled' to get to the data of interest while debugging.
+* NOTE: Notice that 'loading' (an important state key) is washed off the screen in teh console.log() view by functions and prototypes.
 
-```
+<p align="left"><img src=".\.github\images\mcode-log-object.png" width="720" title="Complex Object..."></p>
 
-* mcode.log(complexObject)
-```
-
-```
 
 ## Dependencies
 
 * Node.JS - standard environment
 * JSDocs - our preferred JavaScripts
 
-### Frontend - Usage
 
-* ...
+### Log Event Severities
 
-```
+This is an example of each mcode.log and mcode.exp event supported by the package...
 
-```
+* JavaScript calls...
 
-### Backend - Usage
+<p align="left"><img src=".\.github\images\mcode-log-calls.png" width="720" title="Call examples..."></p>
 
-* ...
+* Example of the output...
 
-```
+<p align="left"><img src=".\.github\images\mcode-log-severity.png" width="720" title="Event Severities..."></p>
 
-```
 
 ## Development
 
@@ -63,6 +58,9 @@ way to log events--with timestamps and source code origin--with **standardized s
 npm install mcode
 ```
 
+
+### Examples
+
 * View of mcode.log() in a Browser...
 
 <p align="left"><img src=".\.github\images\mcode-log-frontend.png" width="720" title="Frontend logging..."></p>
@@ -73,7 +71,7 @@ npm install mcode
 
 * View of mcode.exp() in a Server...
 
-<p align="left"><img src=".\.github\images\mcode-exp-backend.png" width="720" title="Backend exception..."></p>
+<p align="left"><img src=".\.github\images\mcode-exp-trace.png" width="720" title="Backend exception..."></p>
 
 
 ## Included Functions

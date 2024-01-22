@@ -280,6 +280,7 @@ const mcode = {
                 break;
             case 'w':
             case 'warn':
+            case 'warning':
                 sevText = 'warn';
                 sevColor += vt.warn;
                 entry += `${vt.warn} ⚠ ｢mcode｣: ⚠️ [${moduleName}] '${logifiedMessage}'`;
@@ -319,7 +320,7 @@ const mcode = {
 
         if (error)
         {
-            entry += `${vt.dim}     error: ${error}\n`;
+            entry += `${vt.errr}     error: ${error}\n`;
             status += ` ERROR: ${error}`;
         }
 
