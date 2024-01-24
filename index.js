@@ -89,8 +89,7 @@
 
 // #endregion
 
-// #region  C O N S T A N T S
-// #region  F U N C T I O N S – P U B L I C
+// #region  C O N S T A N T S, F U N C T I O N S – P U B L I C
 
 // @ts-ignore TS6133 - standard module definition for 'debug' logging
 const moduleName = 'mcode';
@@ -272,7 +271,7 @@ const mcode = {
 
         const moduleName = source.split('.')[0].toUpperCase();
 
-        entry += (vt.reset + vt.dim + '++\n');
+        entry += (vt.reset + vt.dim + '++\n' + vt.reset);
 
         let sevColor = vt.reset;
         let sevText = severity;
@@ -1148,7 +1147,6 @@ const mcode = {
     },
 };
 
-// #endregion
 // #endregion
 
 // #region  M E T H O D - E X P O R T S
