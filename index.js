@@ -400,7 +400,7 @@ const mcode = {
 
         console.log(entry);
         console.trace(`${vt.dead} Call Stack`);
-        console.log(`${vt.dim}--`);
+        console.log(`${vt.dim}--${vt.reset}`);
 
         return `${message} ${exception}`;  // for caller to return
     },
@@ -415,10 +415,16 @@ const mcode = {
      */
     simplify: function (object)
     {
+        if (mcode.isUndefined(object))
+        {
+            return "undefined";
+        }
+
         if (mcode.isObject(object))
         {
-            // do not use JSON.stringify(object, null, 4) -- it's output is horrible, use our own
-            object = JSON.stringify(objectToSimplify);
+            // do not use JSON.stringify(object, null, 4)
+            // --it's output is horrible, produce our own here in 'simplify()'
+            object = JSON.stringify(object);
         }
 
         let simplifiedText = "";
@@ -806,8 +812,7 @@ const mcode = {
         const recursiveStringify = (currentObject) =>
         {
             // Handle non-object types
-            if (typeof currentObject !== 'object'
-                || currentObject === null)
+            if (typeof currentObject !== 'object' || currentObject === null)
             {
                 return handleNonObject(currentObject);
             }
@@ -1090,6 +1095,20 @@ const mcode = {
         {
             return false;  // *not* JSON and not parsable
         }
+    },
+
+    /**
+     * @func isUndefined
+     * @memberof mcode
+     * @desc Checks for undefined.
+     * @api public
+     * @param {any} objectToCheck as a variable of some type
+     * @returns {boolean} a value indicating whether or not it is UNDEFINED.
+     */
+    isUndefined: function (objectToCheck)
+    {
+        // retunrn true if 'objectToCheck' is UNDEFINED
+        return ((typeof objectToCheck === 'undefined') || (objectToCheck === null));
     },
 
     /**

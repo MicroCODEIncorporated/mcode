@@ -1,7 +1,7 @@
 # MicroCODE's 'mcode' package
 A public NPM Package of our internal logging tools for Frontend and Backend JavaScript NodeJS projects.
 
-This is extremely 'light weight' having zero dependencies on any other package.
+This is extremely an 'light weight' package with *zero dependencies*.
 
 Identical logging on both...
 
@@ -111,8 +111,8 @@ These are the functions we want at the ready in any module for development and d
 | **extractId**      | Extracts the first alpha-numberic ID Field from a string.   | mcode.extractId("EP_**GPT13TZ1**_20231115_0800.L5K")
 | **isString**       | Checks the type of an Object for String.                    | mcode.isString('stringToTest')
 | **isObject**       | Checks the type of an Object for Object.                    | mcode.isObject(objectName)
-| **isNumber**       | Checks the type of an Object for Number.                    | mcode.isNumber(102022 or NumberName)
-| **isJson**         | Checks the type of an Object for JSON.                      | mcode.isJson('JSON text' or Object)
+| **isNumber**       | Checks the type of an Object for Number.                    | mcode.isNumber(102022 or numberName)
+| **isJson**         | Checks the type of an Object for JSON.                      | mcode.isJson('JSON text' or objectName)
 | **timeStamp**      | Returns - YYYY-MM-DD Day HH:MM:SS.mmm UTC                   | mcode.timeStamp() --> 2024-01-22 Mon 15:23:42.790 UTC
 
 
@@ -160,6 +160,12 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.0.5
+    * Reset terminal VT video after an Exception.
+* 0.0.4
+    * Exception formatting and simplification.
+* 0.0.3
+    * Icon and colors adjustments
 * 0.0.2
     * Updates after testing and documentating README.
 * 0.0.1
