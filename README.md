@@ -94,6 +94,23 @@ npm install mcode
 <p align="left"><img src=".\.github\images\mcode-exp-trace.png" width="720" title="Backend exception..."></p>
 
 
+### Debugging Example
+
+If you'd like see the values of any parameter--and the call stack that got you to a specific function--you
+can place an 'exception' log statement on entry and you'll get the display shown below...
+
+* Code to log parameters and call stack before the actual exception...
+
+<p align="left"><img src=".\.github\images\mcode-exp-debug1.png" width="720" title="Code to see params/call..."></p>
+
+* View of mcode.exp() in the console, and the handled exception (in a higher module) of the thrown exception.
+* **Note**: The actual call stack if lost in the 'Higher Order Function' that is catching exception by default
+        but it is present if the 'preemptive' logging for debug in the local function...
+
+<p align="left"><img src=".\.github\images\mcode-exp-debug2.png" width="720" title="Params/Call Stack..."></p>
+
+
+
 ## Included Functions
 
 These are the functions we want at the ready in any module for development and debug.
