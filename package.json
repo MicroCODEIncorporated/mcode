@@ -1,6 +1,6 @@
 {
   "name": "mcode",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "A stand-alone package of core code for logging and debugging.",
   "main": "index.js",
   "scripts": {

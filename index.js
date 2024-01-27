@@ -194,8 +194,8 @@ const mcode = {
             warn: "\x1b[33m",  // yellow
             cold: "\x1b[34m",  // blue
             dead: "\x1b[35m",  // magenta
-            info: "\x1b[36m",  // cyan
-            hmmm: "\x1b[37m",  // white
+            hmmm: "\x1b[36m",  // cyan
+            info: "\x1b[37m",  // white
             dbug: "\x1b[35m",  // Bright Magenta
         */
         // - colors on BLACK background, i.e.: for 'Dark Mode' Console
@@ -205,8 +205,8 @@ const mcode = {
         warn: "\x1b[93m",  // yellow
         cold: "\x1b[94m",  // blue
         dead: "\x1b[95m",  // magenta
-        info: "\x1b[96m",  // cyan
-        hmmm: "\x1b[97m",  // white
+        hmmm: "\x1b[96m",  // cyan
+        info: "\x1b[97m",  // white
         dbug: "\x1b[94m",  // Bright Magenta
 
         // custom JSON colors
@@ -271,7 +271,7 @@ const mcode = {
 
         const moduleName = source.split('.')[0].toUpperCase();
 
-        entry += (vt.reset + vt.dim + '++\n' + vt.reset);
+        entry += (vt.reset + vt.dim + '++\n' + vt.reset + vt.dim);
 
         let sevColor = vt.reset;
         let sevText = severity;
@@ -282,44 +282,44 @@ const mcode = {
             case 'info':
                 sevText = 'info';
                 sevColor += vt.info;
-                entry += `${vt.info} i ｢mcode｣: 📣 [${moduleName}] '${logifiedMessage}'`;
+                entry += ` i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'w':
             case 'warn':
             case 'warning':
                 sevText = 'warn';
                 sevColor += vt.warn;
-                entry += `${vt.warn} ! ｢mcode｣: ⚠️ [${moduleName}] '${logifiedMessage}'`;
+                entry += ` ! ｢mcode｣: ⚠️ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'e':
             case 'error':
                 sevText = 'error';
                 sevColor += vt.errr;
-                entry += `${vt.errr} x ｢mcode｣: ⛔ [${moduleName}] '${logifiedMessage}'`;
+                entry += ` x ｢mcode｣: ❌ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'x':
             case 'exception':
                 sevText = 'exception';
                 sevColor += vt.dead;
-                entry += `${vt.dead} * ｢mcode｣: ☠️ [${moduleName}] '${logifiedMessage}'`;
+                entry += ` * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 's':
             case 'success':
                 sevText = 'success';
                 sevColor += vt.good;
-                entry += `${vt.good} ✓ ｢mcode｣: ✅ [${moduleName}] '${logifiedMessage}'`;
+                entry += ` ✓ ｢mcode｣: ✅ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'd':
             case 'debug':
                 sevText = 'debug';
                 sevColor += vt.dbug;
-                entry += `${vt.dbug} µ ｢mcode｣: 🔍 [${moduleName}] '${logifiedMessage}'`;
+                entry += ` µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case '?':
             default:
                 sevText = 'undefined';
                 sevColor += vt.hmmm;
-                entry += `${vt.hmmm} ? ｢mcode｣: ❓ [${moduleName}] '${logifiedMessage}'`;
+                entry += ` ? ｢mcode｣: ❓ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
         }
         entry += '\n';
@@ -341,7 +341,7 @@ const mcode = {
                 logifiedError = error;
             }
 
-            entry += `${vt.errr}     error: ${mcode.simplify(logifiedError)}\n`;
+            entry += `${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.simplify(logifiedError)}\n`;
             status += ` ERROR: ${mcode.simplify(logifiedError)}`;
         }
 
@@ -389,20 +389,51 @@ const mcode = {
 
         const moduleName = source.split('.')[0].toUpperCase();
 
-        // Exceptions are always logged as 'Fatal' -- NOTE: do not use 'collapsed' for Server Log
-        entry +=
-            `${vt.reset}${vt.dim}++\n` +
-            `${vt.reset}${vt.dead} * ｢mcode｣: ☠️ [${moduleName}] '${logifiedMessage}'\n` +
-            `${vt.reset}${vt.dead} exception: ${vt.dead}${mcode.simplify(exception)}\n` +
-            `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
-            `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-            `${vt.reset}${vt.dim}  severity: ${vt.reset}${vt.dead}exception${vt.dead}`;
+        let sevColor = vt.reset;
+        sevColor += vt.dead;
 
-        console.log(entry);
-        console.trace(`${vt.dead} Call Stack`);
-        console.log(`${vt.dim}--${vt.reset}`);
+        // if the 'exception' arg contains "Error: " and "at " it is a Error message with a Call Stack
+        // just log it without generating a new 'console.trace()' Call Stack
+        if (exception.includes("Error: ") && exception.includes("at "))
+        {
+            entry +=
+                `${vt.reset}${vt.dim}++\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
+                `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
+                `${vt.reset}${vt.dim}  severity: ${sevColor}exception${sevColor}`;
 
-        return `${message} ${exception}`;  // for caller to return
+            console.log(entry);
+
+            // strip the "Error: " line from the exception message, it's redundant and shown above,
+            // take off the entire 1st line, it contains the 'exception' message, leave only the Call Stack
+            let exceptionLines = exception.split('\n');
+            exceptionLines.shift();
+            exception = exceptionLines.join('\n');
+
+            console.log(`${vt.dead}Call Stack`);
+            console.log(exception);
+            console.log(`${vt.dim}--${vt.reset}`);
+
+            return `${message} ${exception}`;  // for caller to return
+        }
+        else
+        {
+            // Exceptions are always logged as 'Fatal' -- NOTE: do not use 'collapsed' for Server Log
+            entry +=
+                `${vt.reset}${vt.dim}++\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} ${sevColor}${mcode.simplify(exception)}\n` +
+                `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
+                `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
+                `${vt.reset}${vt.dim}  severity: ${sevColor}exception${sevColor}`;
+
+            console.log(entry);
+            console.trace('exception call stack...');
+            console.log(`${vt.dim}--${vt.reset}`);
+
+            return `${message} ${exception}`;  // for caller to return
+        }
     },
 
     /**

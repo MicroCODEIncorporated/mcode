@@ -29,8 +29,13 @@ and "console.error()" with "mcode.exp()".
 ## mcode.log() vs. console.log()
 
 Why did we write this package? We were unhappy with the limitations of console.log() and the lack of a common
-way to log events--with timestamps and source code origin--and needed standardized severity marking.
+way to log events with:
 
+1) timestamps,
+2) source code origin, and
+3) standardized severity marking.
+4) We also wanted our app events to stand out, and not to get confused with events coming out of other packages into a console.
+5) We wanted to use our own Object parsing / display to control what is shown from within teh Object...
 * **mcode.log()** shows a pure data view of an object, parsing the methods and functions out of the view.
 * **console.log()** shows a complex object filled with all methods, prototypes, and data mixed, and it must be 'drilled' to get to the data of interest while debugging.
 
@@ -56,7 +61,7 @@ This is an example of each **mcode.log()** and **mcode.exp()** event severity su
 
 <p align="left"><img src=".\.github\images\mcode-log-calls.png" width="720" title="Call examples..."></p>
 
-* Example of the differing severities in console output...
+* Example of the differing severities in the console output...
 
 <p align="left"><img src=".\.github\images\mcode-log-severity.png" width="720" title="Event Severities..."></p>
 
@@ -78,7 +83,6 @@ This is an example of each **mcode.log()** and **mcode.exp()** event severity su
 npm install mcode
 ```
 
-
 ### Examples
 
 * View of mcode.log() in a Browser...
@@ -99,6 +103,12 @@ npm install mcode
 If you'd like see the values of any parameter--and the call stack that got you to a specific function--you
 can place an 'exception' log statement on entry and you'll get the display shown below...
 
+* Code import 'mcode' and define 'moduleName'...
+* We recommend the 'moduleName' define is placed at the beginning of every file for use in mcode.log() and mcode.exp().
+* This allows the module to continue to log source code origin even after 'webpack' processing.
+
+<p align="left"><img src=".\.github\images\mcode-exp-debug0.png" width="720" title="Code to see params/call..."></p>
+
 * Code to log parameters and call stack before the actual exception...
 
 <p align="left"><img src=".\.github\images\mcode-exp-debug1.png" width="720" title="Code to see params/call..."></p>
@@ -109,6 +119,16 @@ can place an 'exception' log statement on entry and you'll get the display shown
 
 <p align="left"><img src=".\.github\images\mcode-exp-debug2.png" width="720" title="Params/Call Stack..."></p>
 
+
+### Throwing 'Error' object and logging support...
+
+The **mcode.exp()** function recognizes and logs the standard 'Error Object' created and thrown to a base condition handler.
+
+<p align="left"><img src=".\.github\images\mcode-exp-throw1.png" width="720" title="Throw Error logging..."></p>
+
+<p align="left"><img src=".\.github\images\mcode-exp-throw2.png" width="720" title="Throw Error logging..."></p>
+
+<p align="left"><img src=".\.github\images\mcode-exp-throw3.png" width="720" title="Throw Error logging..."></p>
 
 
 ## Included Functions
@@ -177,6 +197,10 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.0.7
+    * Changed the [mcode] identification in the left margin to dim cyan--like the data labels--to focus on App content, not the package.
+* 0.0.6
+    * in mcode.exp() recognize 'Error()' objects and log appropriately.
 * 0.0.5
     * Reset terminal VT video after an Exception.
 * 0.0.4
