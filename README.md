@@ -139,7 +139,13 @@ These are the functions we want at the ready in any module for development and d
 |--------------------|-------------------------------------------------------------|---------------------------|
 | **vt**             | The definition of standard VT52,100,200 display codes       | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
 | **log**            | Logs a standardized message into the console with objects   | mcode.log('message' or object, 'module name', 'severity')
+| **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
+| **warn**           | Short call form of 'mcode.log(msg, src, 'warn');            | mcode.warn('message' or object, 'module name')
+| **error**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.error('message' or object, 'module name')
+| **done**           | Short call form of 'mcode.log(msg, src, 'success');         | mcode.done('message' or object, 'module name')
+| **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
 | **exp**            | Logs a standardized exception with a collapsible stack dump | mcode.exp('message' or object, 'module name', 'exp text')
+| **fnc**            | Logs a standardized function call with a trace dump | mcode.fnc('message' or object, 'module name')
 | **logify**         | Converts a message or JSON into text appropriate for log    | mcode.logify('object or JSON string')
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.           | mcode.simplify('object or JSON string')
 | **logifyObject**   | Converts a message or JSON into text appropriate for log    | mcode.logifyObject('object')
@@ -197,6 +203,10 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.0.9
+    * Added short call forms of 'info()', 'warn()', 'error()', 'crash()', and 'debug()'.
+* 0.0.8
+    * Added fnc() function trace logger.
 * 0.0.7
     * Changed the [mcode] identification in the left margin to dim cyan--like the data labels--to focus on App content, not the package.
 * 0.0.6

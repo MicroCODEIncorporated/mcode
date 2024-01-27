@@ -279,12 +279,14 @@ const mcode = {
         switch (severity)
         {
             case 'i':
+            case 'inf':
             case 'info':
                 sevText = 'info';
                 sevColor += vt.info;
                 entry += ` i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'w':
+            case 'wrn':
             case 'warn':
             case 'warning':
                 sevText = 'warn';
@@ -292,24 +294,30 @@ const mcode = {
                 entry += ` ! ｢mcode｣: ⚠️ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'e':
+            case 'err':
             case 'error':
                 sevText = 'error';
                 sevColor += vt.errr;
                 entry += ` x ｢mcode｣: ❌ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'x':
+            case 'exp':
+            case 'crash':
             case 'exception':
                 sevText = 'exception';
                 sevColor += vt.dead;
                 entry += ` * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 's':
+            case 'ack':
+            case 'done':
             case 'success':
                 sevText = 'success';
                 sevColor += vt.good;
                 entry += ` ✓ ｢mcode｣: ✅ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'd':
+            case 'dbg':
             case 'debug':
                 sevText = 'debug';
                 sevColor += vt.dbug;
@@ -356,16 +364,24 @@ const mcode = {
         return status;  // for caller to use as needed
     },
 
+    // convient abbreviations of all the logged severities...
+    info: function (message, source) {mcode.log(message, source, 'info');},
+    warn: function (message, source) {mcode.log(message, source, 'warn');},
+    error: function (message, source) {mcode.log(message, source, 'error');},
+    error: function (message, source, error) {mcode.log(message, source, 'error', error);},
+    crash: function (message, source) {mcode.log(message, source, 'exception');},
+    done: function (message, source) {mcode.log(message, source, 'success');},
+    debug: function (message, source) {mcode.log(message, source, 'debug');},
+
     /**
      * @func exp
      * @memberof mcode
-     * @desc Exceptions to the Console in a standardized format.
+     * @desc logs an exception to the Console in a standardized format and a stack dump.
      * @api public
      * @param {object} message pre-formatted message to be logged.
      * @param {string} source where the message orginated.
      * @param {string} exception the underlying exception message that was caught.
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
-     *
      */
     exp: function (message, source, exception)
     {
@@ -434,6 +450,54 @@ const mcode = {
 
             return `${message} ${exception}`;  // for caller to return
         }
+    },
+
+    /**
+     * @func fnc
+     * @memberof mcode
+     * @desc logs 'function call' showing call patterns to the Console in a standardized format.
+     * @api public
+     * @param {object} message pre-formatted message to be logged.
+     * @param {string} source where the message orginated.
+     * @returns nothing.
+     *
+     */
+    fnc: function (message, source)
+    {
+        let vt = mcode.vt;
+
+        let entry = "";
+        let logifiedMessage = "";
+
+        if (mcode.isObject(message))
+        {
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
+        }
+        else if (mcode.isJson(message))
+        {
+            logifiedMessage = "\n" + mcode.logify(message);
+        }
+        else
+        {
+            logifiedMessage = message;
+        }
+
+        const moduleName = source.split('.')[0].toUpperCase();
+
+        let sevColor = vt.reset;
+        sevColor += vt.info;
+
+        // Function calls are always logged as 'Info'
+        entry +=
+            `${vt.reset}${vt.dim}++\n` +
+            `${vt.reset}${vt.dim} * ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+            `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
+            `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
+            `${vt.reset}${vt.dim}  severity: ${sevColor}info${sevColor}`;
+
+        console.log(entry);
+        console.trace('function call stack...');
+        console.log(`${vt.dim}--${vt.reset}`);
     },
 
     /**
