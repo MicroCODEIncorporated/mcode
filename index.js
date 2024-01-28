@@ -73,6 +73,11 @@
  *
  *
  *
+ * NOTE: This module follow's MicroCODE's JavaScript Style Guide and Template JS file, see:
+ *
+ *       o  https://github.com/MicroCODEIncorporated/JavaScriptSG
+ *       o  https://github.com/MicroCODEIncorporated/TemplatesJS
+ *
  */
 
 // #endregion
@@ -195,8 +200,8 @@ const mcode = {
             cold: "\x1b[34m",  // blue
             dead: "\x1b[35m",  // magenta
             hmmm: "\x1b[36m",  // cyan
-            info: "\x1b[37m",  // white
-            dbug: "\x1b[35m",  // Bright Magenta
+            info: "\x1b[30m",  // black
+            dbug: "\x1b[30m",  // black
         */
         // - colors on BLACK background, i.e.: for 'Dark Mode' Console
         // custom event colors
@@ -207,7 +212,7 @@ const mcode = {
         dead: "\x1b[95m",  // magenta
         hmmm: "\x1b[96m",  // cyan
         info: "\x1b[97m",  // white
-        dbug: "\x1b[94m",  // Bright Magenta
+        dbug: "\x1b[97m",  // white
 
         // custom JSON colors
         key: "\x1b[96m",  // cyan - key name

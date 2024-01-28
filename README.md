@@ -1,4 +1,4 @@
-# MicroCODE's 'mcode' package
+# MicroCODE's 'mcode-log' package
 A public NPM Package of our internal logging tools for Frontend and Backend JavaScript NodeJS projects.
 
 This is extremely an 'light weight' package with *zero dependencies*.
@@ -145,7 +145,7 @@ These are the functions we want at the ready in any module for development and d
 | **done**           | Short call form of 'mcode.log(msg, src, 'success');         | mcode.done('message' or object, 'module name')
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
 | **exp**            | Logs a standardized exception with a collapsible stack dump | mcode.exp('message' or object, 'module name', 'exp text')
-| **fnc**            | Logs a standardized function call with a trace dump | mcode.fnc('message' or object, 'module name')
+| **fnc**            | Logs a standardized function call with a trace dump         | mcode.fnc('message' or object, 'module name')
 | **logify**         | Converts a message or JSON into text appropriate for log    | mcode.logify('object or JSON string')
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.           | mcode.simplify('object or JSON string')
 | **logifyObject**   | Converts a message or JSON into text appropriate for log    | mcode.logifyObject('object')
@@ -203,6 +203,8 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.1.0
+    *Prpearation for NPM publish, named changed to "mcode-log", minor color changes.
 * 0.0.9
     * Added short call forms of 'info()', 'warn()', 'error()', 'crash()', and 'debug()'.
 * 0.0.8
