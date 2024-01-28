@@ -156,7 +156,7 @@ These are the functions we want at the ready in any module for development and d
 | **isObject**       | Checks the type of an Object for Object.                    | mcode.isObject(objectName)
 | **isNumber**       | Checks the type of an Object for Number.                    | mcode.isNumber(102022 or numberName)
 | **isJson**         | Checks the type of an Object for JSON.                      | mcode.isJson('JSON text' or objectName)
-| **timeStamp**      | Returns - YYYY-MM-DD Day HH:MM:SS.mmm UTC                   | mcode.timeStamp() --> 2024-01-22 Mon 15:23:42.790 UTC
+| **timeStamp**      | Returns - YYYY-MMM-DD Day HH:MM:SS.mmm UTC                  | mcode.timeStamp() --> 2024-Jan-22 Mon 15:23:42.790 UTC
 
 
 ### Documentation
