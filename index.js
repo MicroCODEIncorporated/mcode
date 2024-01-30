@@ -456,6 +456,12 @@ const mcode = {
         // created a simplified exception message for the log entry...
         const loggedException = ' exception: ' + mcode.simplify(logifiedException);
 
+        // if 'loggedException' contains a stack trace, log it as an 'exception w/stack'
+        if (loggedException.includes('Error:') && loggedException.includes('at '))
+        {
+            isExpObject = true;
+        }
+
         if (isExpObject)
         {
             entry1 +=
@@ -469,7 +475,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}--${vt.reset}`;
 
             console.log(entry1);
-            console.log(logifiedException);
+            console.log(`${vt.reset}` + logifiedException);
             console.log(entry2);
 
             return `${message} ${exception}`;  // for caller to return
