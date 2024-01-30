@@ -1,7 +1,7 @@
 # MicroCODE's 'mcode-log' package
 A public NPM Package of our internal logging tools for Frontend and Backend JavaScript NodeJS projects.
 
-This is extremely an 'light weight' package with *zero dependencies*.
+This is an extremely 'light weight' package with *zero dependencies*.
 
 Identical logging on both...
 
@@ -14,8 +14,8 @@ Identical logging on both...
 This is our internal logging code. It replaces the use of "console.log()" with "mcode.log()"
 and "console.error()" with "mcode.exp()".
 
-* **mcode.log()** - provides an ultra-consistent function for logging events into any console, with severity.
-* **mcode.exp()** - provides an ultra-consistent function for logging exceptions (with a stack dump) into any console.
+* **mcode.log()** - provides an consistent function for logging events into any console, with severity.
+* **mcode.exp()** - provides an consistent function for logging exceptions (with a stack dump or new trace) into any console.
 * ...and supporting / related functions, see table further on.
 
 
@@ -30,18 +30,35 @@ and "console.error()" with "mcode.exp()".
 3) Jest.JS - our preferred JavaScript testing framework
 
 
+## Log Event Severities
+
+This is an example of each **mcode.log()** and **mcode.exp()** event severity supported by the package...
+
+* JavaScript calls... (see **mcode-log-examples.js**)
+
+<p align="left"><img src=".\.github\images\mcode-log-calls.png" width="720" title="Call examples..."></p>
+
+* Example of the differing severities in the console output...
+
+<p align="left"><img src=".\.github\images\mcode-log-severity.png" width="720" title="Event Severities..."></p>
+
+* Example of typical app logging...
+
+<p align="left"><img src=".\.github\images\mcode-log-examples.png" width="720" title="Differentiating Modules..."></p>
+
+
 ## mcode.log() vs. console.log()
 
 Why did we write this package? We were unhappy with the limitations of console.log() and the lack of a common
 way to log events with:
 
-1) timestamps,
-2) source code origin, and
-3) standardized severity marking.
+1) Time stamps.
+2) Source code origin.
+3) Standardized severity marking.
 4) We also wanted our app events to stand out, and not to get confused with events coming out of other packages into the console.
-5) We wanted to use our own Object parsing / display to control what is shown from within teh Object...
+5) We wanted to use our own Object parsing / display to control what is shown from within the Object...
 
-This was also our first public npm package, published selfishly, to allow use to use it everywhere with a simple:
+This was also our first public npm package, published selfishly, to allow us to use it everywhere with a simple require:
 
 ```
 // MicroCODE: define this module's name for  our 'mcode' package
@@ -63,23 +80,6 @@ const mcode = require('mcode-log');
 <p align="left"><img src=".\.github\images\mcode-log-complex2.png" width="720" title="MCODE Object 2..."></p>
 
 
-### Log Event Severities
-
-This is an example of each **mcode.log()** and **mcode.exp()** event severity supported by the package...
-
-* JavaScript calls...
-
-<p align="left"><img src=".\.github\images\mcode-log-calls.png" width="720" title="Call examples..."></p>
-
-* Example of the differing severities in the console output...
-
-<p align="left"><img src=".\.github\images\mcode-log-severity.png" width="720" title="Event Severities..."></p>
-
-* Example of typical app logging...
-
-<p align="left"><img src=".\.github\images\mcode-log-examples.png" width="720" title="Differentiating Modules..."></p>
-
-
 ## Development
 
 * When using mcode.log() for temporary output during development use a severity of 'debug'.
@@ -97,18 +97,20 @@ npm install mcode-log
 
 This package includes a simple test/demog module: **index.test.js**. running it direclty will show you all the 'log' and 'exp' formatting that occurs into the console and the recursive destruction of objects when they are logged.
 
-* From the package directory...
+* From your project directory...
 ```
-node mcode-log-examples
+node .\node_modules\mcode-log\examples
 ```
 ...you should see the 'severities' example shown earlier in this README.
 
 * To test with **JEST**:
+* From the **mcode-log** package directory...
 ```
+npm install --save-dev jest
 npm test
 ```
 
-* View of the JEST tests in teh console...
+* A view of the JEST tests in the console...
 
 <p align="left"><img src=".\.github\images\mcode-log-jest.png" width="720" title="Jest Results..."></p>
 
@@ -134,7 +136,7 @@ npm test
 If you'd like see the values of any parameter--and the call stack that got you to a specific function--you
 can place an 'exception' log statement on entry and you'll get the display shown below...
 
-* Code import 'mcode' and define 'moduleName'...
+* Code import 'mcode' and define '**moduleName**'...
 * We recommend the 'moduleName' define is placed at the beginning of every file for use in mcode.log() and mcode.exp().
 * This allows the module to continue to log source code origin even after 'webpack' processing.
 
@@ -187,25 +189,32 @@ These are the functions we want at the ready in any module for development and d
 | **isObject**       | Checks the type of an Object for Object.                    | mcode.isObject(objectName)
 | **isNumber**       | Checks the type of an Object for Number.                    | mcode.isNumber(102022 or numberName)
 | **isJson**         | Checks the type of an Object for JSON.                      | mcode.isJson('JSON text' or objectName)
+| **isDate**         | Checks the type of an Object for DATE.                      | mcode.isDate(timestamp)
+| **isTimeStamp**    | Checks the type of an Object for TIME STAMP.                | mcode.isTimeStamp(timestamp)
 | **timeStamp**      | Returns - YYYY-MMM-DD Day HH:MM:SS.mmm UTC                  | mcode.timeStamp() --> 2024-Jan-22 Mon 15:23:42.790 UTC
 
 
 ### Documentation
 
-* This entire project is documented with JSDocs
+* This entire project is documented with **JSDocs**
 
 * To install JSDocs use...
 ```
-npm install -g jsdoc
+npm install --save-dev jsdoc
 ```
 * Configure JSDoc processing in...
 ```
-.jsdoc.conf.json
+jsdoc.conf.json
 ```
 * To regenerate the JSDocs from all source code use (from project root directory)...
 ```
 jsdoc -c .jsdoc.conf.json
 ```
+
+...then open ./docs/index.html
+
+<p align="left"><img src=".\.github\images\mcode-log-jsdocs.png" width="720" title="JSDocs..."></p>
+
 
 ## Help
 
@@ -234,7 +243,7 @@ Contributors names and contact info...
 
 ## Version History
 
-* 0.1.0
+* 0.1.0 - 0.1.4
     * Preparation for NPM publish, named changed to "mcode-log", minor color changes.
 * 0.0.9
     * Added short call forms of 'info()', 'warn()', 'error()', 'crash()', and 'debug()'.
@@ -257,6 +266,8 @@ Contributors names and contact info...
 
 ## Future Development
 
+* 0.0.*
+    * ESM and CJS packaging.
 * 0.0.*
     * Any additional core code we development for general JavaScript MERN coding, debug, and support.
 
