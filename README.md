@@ -21,9 +21,13 @@ and "console.error()" with "mcode.exp()".
 
 ## Dependencies
 
-* NO DIRECT DEPENDENCIES.
-* Node.JS - standard environment
-* JSDocs - our preferred JavaScript documentation system
+* **Production**
+1) _None_
+
+* **Development**
+1) Node.JS - standard runtime environment
+2) JSDocs - our preferred JavaScript documentation system
+3) Jest.JS - our preferred JavaScript testing framework
 
 
 ## mcode.log() vs. console.log()
@@ -34,13 +38,19 @@ way to log events with:
 1) timestamps,
 2) source code origin, and
 3) standardized severity marking.
-4) We also wanted our app events to stand out, and not to get confused with events coming out of other packages into a console.
+4) We also wanted our app events to stand out, and not to get confused with events coming out of other packages into the console.
 5) We wanted to use our own Object parsing / display to control what is shown from within teh Object...
+
+This was also our first public npm package, published selfishly, to allow use to use it everywhere with a simple:
+
+```
+// MicroCODE: define this module's name for  our 'mcode' package
+const moduleName = 'server.js';
+const mcode = require('mcode-log');
+```
 * **mcode.log()** shows a pure data view of an object, parsing the methods and functions out of the view.
 * **console.log()** shows a complex object filled with all methods, prototypes, and data mixed, and it must be 'drilled' to get to the data of interest while debugging.
 
-
-<p align="left"><img src=".\.github\images\mcode-log-object.png" width="720" title="Complex Objects..."></p>
 
 * An example of important object state information hidden by **console.log()**...
 
@@ -80,8 +90,29 @@ This is an example of each **mcode.log()** and **mcode.exp()** event severity su
 
 * Use "npm install" to load all recreated dependencies
 ```
-npm install mcode
+npm install mcode-log
 ```
+
+### Testing
+
+This package includes a simple test/demog module: **index.test.js**. running it direclty will show you all the 'log' and 'exp' formatting that occurs into the console and the recursive destruction of objects when they are logged.
+
+* From the package directory...
+```
+node mcode-log-examples
+```
+...you should see the 'severities' example shown earlier in this README.
+
+* To test with **JEST**:
+```
+npm test
+```
+
+* View of the JEST tests in teh console...
+
+<p align="left"><img src=".\.github\images\mcode-log-jest.png" width="720" title="Jest Results..."></p>
+
+
 
 ### Examples
 
@@ -114,7 +145,7 @@ can place an 'exception' log statement on entry and you'll get the display shown
 <p align="left"><img src=".\.github\images\mcode-exp-debug1.png" width="720" title="Code to see params/call..."></p>
 
 * View of mcode.exp() in the console, and the handled exception (in a higher module) of the thrown exception.
-* **Note**: The actual call stack if lost in the 'Higher Order Function' that is catching exception by default
+* **Note**: The actual call stack is lost in the 'Higher Order Function' that is catching exception by default
         but it is present if the 'preemptive' logging for debug in the local function...
 
 <p align="left"><img src=".\.github\images\mcode-exp-debug2.png" width="720" title="Params/Call Stack..."></p>
@@ -178,7 +209,7 @@ jsdoc -c .jsdoc.conf.json
 
 ## Help
 
-Contact Timothy McGuire, tmcguire@mcode.com.
+Contact Timothy McGuire, support@mcode.com.
 
 
 ## Terminology
