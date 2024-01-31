@@ -193,7 +193,7 @@ These are the functions we want at the ready in any module for development and d
 | **isDate**         | Checks the type of an Object for DATE.                      | mcode.isDate(timestamp)
 | **isTimeStamp**    | Checks the type of an Object for TIME STAMP.                | mcode.isTimeStamp(timestamp)
 | **timeStamp**      | Returns - YYYY-MMM-DD Day HH:MM:SS.mmm UTC                  | mcode.timeStamp() --> 2024-Jan-22 Mon 15:23:42.790 UTC
-
+| **getEnvVariable** | Safely retrieves a 'process.env' variable is available.     | mcode.getEnvVariable('varName', 'defaultValue')
 
 ### Documentation
 
