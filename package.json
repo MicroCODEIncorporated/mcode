@@ -17,7 +17,9 @@
     "Backend",
     "Events",
     "Severity",
-    "Objects"
+    "Objects",
+    "Builder",
+    "MicroCODE"
   ],
   "author": "Timothy McGuire",
   "company": "MicroCODE, Inc.",

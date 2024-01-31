@@ -1,5 +1,5 @@
-// MicroCODE: define this module's name for  our 'mcode' package
-const moduleName = 'index.test.js';
+// MicroCODE: define this module's name for  our 'mcode-log' package
+const moduleName = 'examples.js';
 const mcode = require('./index.js');
 
 // test/demo code for mcode-log package...

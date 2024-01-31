@@ -32,7 +32,7 @@ and "console.error()" with "mcode.exp()".
 
 ## Log Event Severities
 
-This is an example of each **mcode.log()** and **mcode.exp()** event severity supported by the package...
+This is an example of each **mcode.log()**, **mcode.warn(),** and **mcode.exp()** event severity supported by the package...
 
 * JavaScript calls... (see **mcode-log-examples.js**)
 
@@ -88,7 +88,7 @@ const mcode = require('mcode-log');
 
 ### Installing
 
-* Use "npm install" to load all recreated dependencies
+* Use "npm install" to load the package, it can be used 'stand-alone'...
 ```
 npm install mcode-log
 ```
@@ -170,6 +170,7 @@ These are the functions we want at the ready in any module for development and d
 
 | Function	         | Description                                                 | Usage                     |
 |--------------------|-------------------------------------------------------------|---------------------------|
+| **ready**          | Logs 'mcode-log' with version #, mode, and theme            | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
 | **vt**             | The definition of standard VT52,100,200 display codes       | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
 | **log**            | Logs a standardized message into the console with objects   | mcode.log('message' or object, 'module name', 'severity')
 | **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
