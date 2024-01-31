@@ -247,6 +247,16 @@ const mcode = {
         mcode.log(`MicroCODE ${moduleName} v${packageJson.version} is loaded, mode: ${mode}, theme: ${theme}.`, moduleName, 'success');
     },
 
+    // convient abbreviations of all the logged severities...
+    info: function (message, source) {mcode.log(message, source, 'info');},
+    warn: function (message, source) {mcode.log(message, source, 'warn');},
+    error: function (message, source) {mcode.log(message, source, 'error');},
+    error: function (message, source, error) {mcode.log(message, source, 'error', error);},
+    crash: function (message, source) {mcode.log(message, source, 'exception');},
+    done: function (message, source) {mcode.log(message, source, 'success');},
+    debug: function (message, source) {mcode.log(message, source, 'debug');},
+    success: function (message, source) {mcode.log(message, source, 'success');},
+
     /**
      * @func log
      * @memberof mcode
@@ -392,15 +402,6 @@ const mcode = {
 
         return status;  // for caller to use as needed
     },
-
-    // convient abbreviations of all the logged severities...
-    info: function (message, source) {mcode.log(message, source, 'info');},
-    warn: function (message, source) {mcode.log(message, source, 'warn');},
-    error: function (message, source) {mcode.log(message, source, 'error');},
-    error: function (message, source, error) {mcode.log(message, source, 'error', error);},
-    crash: function (message, source) {mcode.log(message, source, 'exception');},
-    done: function (message, source) {mcode.log(message, source, 'success');},
-    debug: function (message, source) {mcode.log(message, source, 'debug');},
 
     /**
      * @func exp
