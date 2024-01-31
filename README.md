@@ -276,3 +276,11 @@ Contributors names and contact info...
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
+
+
+## MicroCODE Mantra
+
+Our slogan mark, distilled from over three decades of developing, testing, installing, and supporting 24x7x365
+manufacturing applications...
+
+<p align="left"><img src=".\.github\images\hail-caesar.png" width="720" title="Hail Caesar!"></p>
