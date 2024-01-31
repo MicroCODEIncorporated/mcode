@@ -96,13 +96,24 @@
 
 // #region  C O N S T A N T S, F U N C T I O N S – P U B L I C
 
-const theme = mcode.getEnvVariable('THEME','dark'); // default to dark mode
-const mode = mcode.getEnvVariable('NODE_ENV', 'development'); // default to development mode
-
-const packageJson = require('./package.json');
-
 // @ts-ignore TS6133 - standard module definition for 'debug' logging
 const moduleName = 'mcode-log.js';
+
+// define local copy of 'getEnvVariable()' for use before 'mcode' is loaded
+// this same function is available in 'mcode-env.js' but we need it here without that package
+function getEnvVariable(key, defaultValue)
+{
+    if (typeof process !== 'undefined' && process.env && key in process.env)
+    {
+        return process.env[key];
+    }
+    return defaultValue;
+};
+
+const theme = getEnvVariable('THEME', 'dark'); // default to dark mode
+const mode = getEnvVariable('NODE_ENV', 'development'); // default to development mode
+
+const packageJson = require('./package.json');
 
 /**
  * @namespace mcode
@@ -1355,24 +1366,6 @@ const mcode = {
             return `${year}-${month}-${day} ${dayofweek} ${hours}:${minutes}:${seconds}.${ms} UTC`;
         }
     },
-
-    /**
-     * @func getEnvVariable
-     * @memberof mcode
-     * @desc Safely gets an environment variable value, or returns a default value if not found or 'process' is not defined.
-     * This supports common code that runs in both NodeJS and the browser.
-     * @param {string} key
-     * @param {any} defaultValue
-     * @returns {any} the value of the environment variable, or the default value if not found.
-     */
-    getEnvVariable: function (key, defaultValue)
-    {
-        if ((typeof process !== 'undefined') && process.env && key in process.env)
-        {
-            return process.env[key];
-        }
-        return defaultValue;
-    }
 };
 
 // #endregion
