@@ -244,6 +244,8 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.1.6
+    * Added 'getEnvVariable()' for safely get values in Server and Browser.
 * 0.1.5
     * Updated README, uninstalled JSDocs and Jest for publsihing.
 * 0.1.0 - 0.1.4
