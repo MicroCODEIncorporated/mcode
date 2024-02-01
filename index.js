@@ -238,16 +238,6 @@ const mcode = {
     },
 
     /**
-     * @func ready
-     * @memberof mcode
-     * @desc Logs a message to the Console when the module is loaded to show version.
-     */
-    ready: function ()
-    {
-        mcode.log(`MicroCODE ${moduleName} v${packageJson.version} is loaded, mode: ${mode}, theme: ${theme}.`, moduleName, 'success');
-    },
-
-    /**
      * @func log
      * @memberof mcode
      * @desc Logs App Events to the Console in a standardized format.
@@ -402,6 +392,16 @@ const mcode = {
     done: function (message, source) {mcode.log(message, source, 'success');},
     debug: function (message, source) {mcode.log(message, source, 'debug');},
     success: function (message, source) {mcode.log(message, source, 'success');},
+
+    /**
+     * @func ready
+     * @memberof mcode
+     * @desc Logs a message to the Console when the module is loaded to show version.
+     */
+    ready: function ()
+    {
+        mcode.log(`MicroCODE ${moduleName} v${packageJson.version} is loaded, mode: ${mode}, theme: ${theme}.`, moduleName, 'success');
+    },
 
     /**
      * @func exp
