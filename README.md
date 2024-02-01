@@ -243,6 +243,8 @@ Contributors names and contact info...
 
 ## Version History
 
+* 0.1.13
+    * Changed export to the Univeral Module Defintion (UMD) pattern.
 * 0.1.8 - 0.1.12
     * Correcting 'mcode.done()' logging as 'error', function ordering in index.js.
 * 0.1.6 - 0.1.7
@@ -272,8 +274,6 @@ Contributors names and contact info...
 
 ## Future Development
 
-* 0.0.*
-    * ESM and CJS packaging.
 * 0.0.*
     * Any additional core code we development for general JavaScript MERN coding, debug, and support.
 

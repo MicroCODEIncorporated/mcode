@@ -70,6 +70,8 @@
  *  03-Dec-2023   TJM-MCODE  {0008}   Don't log 'debug' messages in staging or production mode.
  *  21-Jan-2024   TJM-MCODE  {0009}   Converted to a single ES6 Module (ESM) for use in both
  *                                    Frontend/Client and Backend/Server as a NodeJS package.
+ *  01-Feb-2024   TJM-MCODE  {0010}   Changed to the Universal Module Definition (UMD) pattern to support AMD,
+ *                                    CommonJS/Node.js, and browser global in our exported module.
  *
  *
  *
@@ -78,8 +80,11 @@
  *       o  https://github.com/MicroCODEIncorporated/JavaScriptSG
  *       o  https://github.com/MicroCODEIncorporated/TemplatesJS
  *
+ * ...be sure to check out the CTRL-SHIFT+K, +L, +J keybaord shortcuts in Visual Studio Code
+ *    for taking advance of the #regions in this file and our templates.
+ *
+ *
  */
-
 // #endregion
 
 // #region  I M P O R T S
@@ -98,11 +103,21 @@ const packageJson = require('./package.json');
 
 // #region  C O N S T A N T S, F U N C T I O N S – P U B L I C
 
+// MicroCODE: define this module's name for our 'mcode-log' package
 const moduleName = 'mcode-log.js';
 
-// define local copy of 'getEnvVariable()' for use before 'mcode' is loaded
+// define local copy of 'getEnvVar()' for use before 'mcode' is loaded
 // this same function is available in 'mcode-env.js' but we need it here without that package
-function getEnvVariable(key, defaultValue)
+
+/**
+ * @function getEnvVar
+ * @memberof mcode
+ * @desc a private helper function that returns the value of an environment variable, or a default value if not found.
+ * @param {any} key the name of the environment variable to get.
+ * @param {any} defaultValue the default value to return if the environment variable is not found.
+ * @returns {any} the value of the environment variable, or the default value if not found.
+ */
+function getEnvVar(key, defaultValue)
 {
     if (typeof process !== 'undefined' && process.env && key in process.env)
     {
@@ -111,8 +126,8 @@ function getEnvVariable(key, defaultValue)
     return defaultValue;
 };
 
-const theme = getEnvVariable('THEME', 'dark'); // default to dark mode
-const mode = getEnvVariable('NODE_ENV', 'development'); // default to development mode
+const theme = getEnvVar('THEME', 'dark'); // default to dark mode
+const mode = getEnvVar('NODE_ENV', 'development'); // default to development mode
 
 /**
  * @namespace mcode
@@ -1372,17 +1387,46 @@ const mcode = {
 
 // #region  M E T H O D - E X P O R T S
 
-// Export as Common JS (CJS) code -- NOTE: Build as CommonJS Module for NodeJS Version v16.7.0
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
-{
-    // In a Node.js environment export mcode directly
-    module.exports = mcode;
-}
-else
-{
-    // In a browser environment, attach mcode to the window object
-    window.mcode = mcode;
-}
+// Immediately Invoked Function Expression (IIFE) invoked on 'this' which
+// represents the global object(window in a browser, global in Node.js).
+// This IIFE returns the 'mcode' object to be assigned to the global object.
+// The Universal Module Definition (UMD) pattern supports Asynchronous Module Definition (AMD),
+// CommonJS / Node.js, and Browser 'global' usage.
+(
+    /**
+     * @function (IIFE)
+     * @description Universal Module Definition (UMD) to support AMD, CommonJS/Node.js, and browser global
+     * @param {any} root the global object (window, self, global, etc.) being updated.
+     * @param {any} factory a function that returns the exports of the module. This function is invoked in
+     * the context of the global object when the module is loaded. The return value of this function is used
+     * as the exported value of the module when it's not being used with AMD or Node.js module systems.
+     * This function is where you define what your module exports.
+     */
+    function (root, factory)
+    {
+        if (typeof define === 'function' && define.amd)
+        {
+            // AMD. Register as an anonymous module.
+            define([], factory);
+        }
+        else if (typeof module === 'object' && module.exports)
+        {
+            // Node. Does not work with strict CommonJS, but
+            // only CommonJS-like environments that support module.exports, like Node.
+            module.exports = factory();
+        }
+        else
+        {
+            // Browser globals (root is 'window')
+            root.mcode = factory();
+        }
+
+    }(  // root: the global object (window, self, global, etc.)
+        (typeof self !== 'undefined') ? self : this,
+
+        // factory: a function that returns the exports of the module
+        function () {return mcode;})
+);
 
 // #endregion
 

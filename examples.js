@@ -60,5 +60,5 @@ mcode.debug(`This is an DEBUG log event`, moduleName);
 // Log 'mcode' code as an object in a warning log event...
 mcode.warn(mcode, moduleName);
 
-// Log PROCESS_ENV as an object in a warning log event... HUGE!
+// Log PROCESS_ENV as an object in a warning log event... HUGE, try it and see...
 //* mcode.warn(process, moduleName);
