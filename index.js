@@ -84,6 +84,8 @@
 
 // #region  I M P O R T S
 
+const packageJson = require('./package.json');
+
 // #endregion
 
 // #region  T Y P E S
@@ -96,7 +98,6 @@
 
 // #region  C O N S T A N T S, F U N C T I O N S – P U B L I C
 
-// @ts-ignore TS6133 - standard module definition for 'debug' logging
 const moduleName = 'mcode-log.js';
 
 // define local copy of 'getEnvVariable()' for use before 'mcode' is loaded
@@ -112,8 +113,6 @@ function getEnvVariable(key, defaultValue)
 
 const theme = getEnvVariable('THEME', 'dark'); // default to dark mode
 const mode = getEnvVariable('NODE_ENV', 'development'); // default to development mode
-
-const packageJson = require('./package.json');
 
 /**
  * @namespace mcode
