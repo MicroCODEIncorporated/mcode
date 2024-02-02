@@ -11,8 +11,8 @@ Identical logging on both...
 
 ## Description
 
-This is our internal logging code. It replaces the use of "console.log()" with "mcode.log()"
-and "console.error()" with "mcode.exp()".
+This is our internal logging code. It replaces the use of "console.log()", "console.warn", and "console.error()"
+with "mcode.log()", "mcode.warn()", "mcode.error()", "mcode.exp()", and others that have __severity built into the call__.
 
 * **mcode.log()** - provides an consistent function for logging events into any console, with severity.
 * **mcode.exp()** - provides an consistent function for logging exceptions (with a stack dump or new trace) into any console.
@@ -115,7 +115,6 @@ npm test
 <p align="left"><img src=".\.github\images\mcode-log-jest.png" width="720" title="Jest Results..."></p>
 
 
-
 ### Examples
 
 * View of mcode.log() in a Browser...
@@ -170,20 +169,20 @@ These are the functions we want at the ready in any module for development and d
 
 | Function	         | Description                                                 | Usage                     |
 |--------------------|-------------------------------------------------------------|---------------------------|
-| **ready**          | Logs 'mcode-log' with version #, mode, and theme            | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
-| **vt**             | The definition of standard VT52,100,200 display codes       | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
-| **log**            | Logs a standardized message into the console with objects   | mcode.log('message' or object, 'module name', 'severity')
+| **ready**          | Logs 'mcode-log' with version #, mode, and theme.           | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
+| **vt**             | The definition of standard VT52,100,200 display codes.      | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
+| **log**            | Logs a standardized message into the console with objects.  | mcode.log('message' or object, 'module name', 'severity')
 | **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
 | **warn**           | Short call form of 'mcode.log(msg, src, 'warn');            | mcode.warn('message' or object, 'module name')
 | **error**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.error('message' or object, 'module name')
 | **done**           | Short call form of 'mcode.log(msg, src, 'success');         | mcode.done('message' or object, 'module name')
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
-| **exp**            | Logs a standardized exception with a collapsible stack dump | mcode.exp('message' or object, 'module name', 'exp text')
-| **fnc**            | Logs a standardized function call with a trace dump         | mcode.fnc('message' or object, 'module name')
-| **logify**         | Converts a message or JSON into text appropriate for log    | mcode.logify('object or JSON string')
+| **exp**            | Logs a standardized exception with a collapsible stack dump.| mcode.exp('message' or object, 'module name', 'exp text')
+| **fnc**            | Logs a standardized function call with a trace dump.        | mcode.fnc('message' or object, 'module name')
+| **logify**         | Converts a message or JSON into text appropriate for log.   | mcode.logify('object or JSON string')
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.           | mcode.simplify('object or JSON string')
-| **logifyObject**   | Converts a message or JSON into text appropriate for log    | mcode.logifyObject('object')
-| **simplifyObject** | Object to string less BRACES, BRACKETS, QUOTES, etc.        | mcode.simplifyObject('object')
+| **logifyObject**   | Converts an Object into text appropriate for log.           | mcode.logifyObject('object')
+| **simplifyObject** | Converts an Object to string less BRACES, BRACKETS, etc.    | mcode.simplifyObject('object')
 | **listifyArray**   | Converts an array of text items into a HTML or JSX List.    | mcode.listifyArray(array, 'html' or 'jsx');
 | **extractId**      | Extracts the first alpha-numberic ID Field from a string.   | mcode.extractId("EP_**GPT13TZ1**_20231115_0800.L5K")
 | **isString**       | Checks the type of an Object for String.                    | mcode.isString('stringToTest')
@@ -196,19 +195,26 @@ These are the functions we want at the ready in any module for development and d
 
 ### Documentation
 
-* This entire project is documented with **JSDocs**
+We believe is explicit code documentation, for other users, and for our 'future selves'.<br>
+JSDocs is a standardized system for documenting functions and data structures that produces three (3) primary outputs:
 
-* To install JSDocs use...
+1) Inline documentation for the coder.
+2) Intellisense popup documentation for the coder for every function.
+3) External 'reference manual' documentation for your entire code base, if used consistently.
+
+* This entire project--like all our projects--is documented with **JSDocs**.
+
+* To install JSDocs use, get to a terminal session in the project folder...
 ```
 npm install --save-dev jsdoc
 ```
 * Configure JSDoc processing in...
 ```
-jsdoc.conf.json
+jsdoc.json
 ```
-* To regenerate the JSDocs from all source code use (from project root directory)...
+* To regenerate the JSDocs from all source code, use the following command (from the project root directory)...
 ```
-jsdoc -c .jsdoc.conf.json
+jsdoc -c .jsdoc.json
 ```
 
 ...then open ./docs/index.html
@@ -226,23 +232,26 @@ Contact Timothy McGuire, support@mcode.com.
 | Word or Acronym	| Description/Definition                                |
 |-------------------|-------------------------------------------------------|
 |  **NPM**	        | Node Package Manager, actually “Node PM”, “Node pkgmakeinst” a system to deploy, install, and maintain NodeJS Apps. (PM was a BASH utility).
-|  **NVM**	        | Node Version Manager, a tool that support changing NodeJS versions.
+|  **NVM**	        | Node Version Manager, a tool that supports changing NodeJS versions.
 |  **MERN**         | MongoDB, Express, React, Node JS.
 |  **MongoDB**      | A ‘NoSQL’ database designed for Cloud applications, also referred to as a ‘Document Store’.
 |  **Express**      | Express is *not* a database but rather an ‘extensible routing language’ for communication between a Client and a Server.
 |  **React**        | A Web UI development system, a JavaScript library developed by Facebook and made public—and Open Source—since 2013.
-|  **Node JS**      | A development stack that executes from a local file store—on a local Server—instead of from a network of |  **JSDocs**           | A toolset to automatically generate API-style documentation from source tagging.
+|  **Node JS**      | A development stack that executes from a local file store—on a local Server—instead of from a network of servers.
+|  **JSDocs**       | A toolset to automatically generate API-style documentation from source code tagging.
 
 
 ## Authors
 
-Contributors names and contact info...
+Contributor's names and contact info...
 
-* Timothy J McGuire [@TimothyMcGuire](https://twitter.com/TimothyMcGuire)
+* Timothy McGuire [@TimothyMcGuire](https://twitter.com/TimothyMcGuire) - Founder, President-CEO of MicroCODE, Inc. a software and controls engineering company in Detroit, Michigan USA.
 
 
 ## Version History
 
+* 0.1.14
+    * Improved README examples, corrected typos.
 * 0.1.13
     * Changed export to the Univeral Module Defintion (UMD) pattern.
 * 0.1.8 - 0.1.12
@@ -285,7 +294,11 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ## MicroCODE Mantra
 
-Our slogan mark, distilled from over three decades of developing, testing, installing, and supporting 24x7x365
-manufacturing applications...
+MicroCODE, Inc. was founded in 1987 as a controls engineering and software development company.<br>
+We specialize in manufacturing and quality control applications that must run 24x7x365 for years at a time.
+
+Our slogan, distilled from over three decades of developing, testing, installing, and supporting 24x7x365
+manufacturing applications, is..
+
 
 <p align="left"><img src=".\.github\images\hail-caesar.png" width="720" title="Hail Caesar!"></p>
