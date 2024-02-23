@@ -1070,6 +1070,16 @@ const mcode = {
             }
         };
 
+        // if the object appears to be JavaScript code, do not logify it, just return it as a string
+        if (objectToLogify.startsWith('function')
+         || objectToLogify.startsWith('class')
+         || objectToLogify.contains('async')
+         || objectToLogify.contains('await')
+         || objectToLogify.contains('=>'))
+        {
+            return objectToLogify;
+        }
+
         // stringify the object, recursively
         return recursiveStringify(objectToLogify);
     },

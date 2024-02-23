@@ -275,6 +275,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.1.17
+    * Add exceptions for functions in 'logifyObject()'.
 * 0.1.16
     * Removed the stripping of {}[]()<> from Objects logged to console.
 * 0.1.15
