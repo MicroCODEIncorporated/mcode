@@ -390,7 +390,7 @@ const mcode = {
             `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}\n` +
             `${vt.reset}${vt.dim}--${vt.reset}`;
 
-        //* console.group(); -- not required, our formatted sets this apart
+        //* console.group(); -- not required, our formatting sets this apart
         console.log(entry1);
         if (logifiedError) {console.log(`${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.simplify(logifiedError)}`);}
         console.log(entry2);
@@ -503,7 +503,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/stack${sevColor}\n` +
                 `${vt.reset}${vt.dim}--${vt.reset}`;
 
-            //* console.group(); -- not required, our formatted sets this apart
+            //* console.group(); -- not required, our formatting sets this apart
             console.log(entry1);
             console.log(`${vt.reset}` + logifiedException);
             console.log(entry2);
@@ -523,7 +523,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/trace${sevColor}\n` +
                 `${vt.reset}${vt.dim}--${vt.reset}`;
 
-            //* console.group(); -- not required, our formatted sets this apart
+            //* console.group(); -- not required, our formatting sets this apart
             console.log(entry1);
             console.trace('call stack...');
             console.log(entry2);
@@ -579,7 +579,7 @@ const mcode = {
             `${vt.reset}${vt.dim}  severity: ${sevColor}trace\n` +
             `${vt.reset}${vt.dim}--${vt.reset}`;
 
-        //* console.group(); -- not required, our formatted sets this apart
+        //* console.group(); -- not required, our formatting sets this apart
         console.log(entry1);
         console.trace('function call stack...');
         console.log(entry2);
