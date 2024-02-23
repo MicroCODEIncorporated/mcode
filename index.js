@@ -293,7 +293,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(message))
         {
-            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
+            logifiedMessage = "\n" + mcode.logifyObject(message);
         }
         else if (mcode.isJson(message))
         {
@@ -371,7 +371,7 @@ const mcode = {
         {
             if (mcode.isObject(error))
             {
-                logifiedError = mcode.logify(mcode.logifyObject(error));
+                logifiedError = mcode.logifyObject(error);
             }
             else if (mcode.isJson(error))
             {
@@ -441,7 +441,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(message))
         {
-            logifiedMessage = mcode.logify(mcode.logifyObject(message));
+            logifiedMessage = mcode.logifyObject(message);
         }
         else if (mcode.isJson(message))
         {
@@ -553,7 +553,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(message))
         {
-            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
+            logifiedMessage = "\n" + mcode.logifyObject(message);
         }
         else if (mcode.isJson(message))
         {

@@ -275,6 +275,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.1.16
+    * Removed the stripping of {}[]()<> from Objects logged to console.
 * 0.1.15
     * Tried 'group/groupend' - did not like results, updated documentation.
 * 0.1.14
