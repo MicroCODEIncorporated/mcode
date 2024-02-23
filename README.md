@@ -110,6 +110,16 @@ npm install --save-dev jest
 npm test
 ```
 
+* To test local modifications to the package...
+* From the **mcode-log** package directory, create a symlink (symbolic link)...
+```
+npm link
+```
+* In folder of the Project using the modified package, reference the local package via the symlink...
+```
+npm link mcode-log
+```
+
 * A view of the JEST tests in the console...
 
 <p align="left"><img src=".\.github\images\mcode-log-jest.png" width="720" title="Jest Results..."></p>
@@ -152,6 +162,21 @@ can place an 'exception' log statement on entry and you'll get the display shown
 <p align="left"><img src=".\.github\images\mcode-exp-debug2.png" width="720" title="Params/Call Stack..."></p>
 
 
+### Examining passed parameters...
+
+Examining all inputs passed to a function in a single debug statement...
+
+```
+exports.create = async function ({name, description, plcmodel, account_id, user_id})
+{
+    mcode.debug({name, description, plcmodel, account_id, user_id}, moduleName);
+
+    // create a new plc_program...
+```
+
+<p align="left"><img src=".\.github\images\mcode-log-params.png" width="720" title="Code to see params/call..."></p>
+
+
 ### Throwing 'Error' object and logging support...
 
 The **mcode.exp()** function recognizes and logs the standard 'Error Object' created and thrown to a base condition handler.
@@ -169,8 +194,8 @@ These are the functions we want at the ready in any module for development and d
 
 | Function	         | Description                                                 | Usage                     |
 |--------------------|-------------------------------------------------------------|---------------------------|
-| **ready**          | Logs 'mcode-log' with version #, mode, and theme.           | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
-| **vt**             | The definition of standard VT52,100,200 display codes.      | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
+| **ready**          | Logs 'mcode-log' with version #, mode, and theme.           | mcode.ready()
+| **vt**             | The definition of standard VT52/100/200 display codes.      | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
 | **log**            | Logs a standardized message into the console with objects.  | mcode.log('message' or object, 'module name', 'severity')
 | **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
 | **warn**           | Short call form of 'mcode.log(msg, src, 'warn');            | mcode.warn('message' or object, 'module name')
@@ -250,6 +275,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.1.15
+    * , updated documentation.
 * 0.1.14
     * Improved README examples, corrected typos.
 * 0.1.13

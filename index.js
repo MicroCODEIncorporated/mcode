@@ -284,7 +284,7 @@ const mcode = {
         let status = `${severity}: ${message}`;
         let logifiedMessage = "";
 
-        // do not log 'debug' messages in staging or production mode - {0010}
+        // do not log 'debug' messages in staging or production mode - {0008}
         if ((severity === 'debug') && (mode === 'production'))
         {
             return status;
@@ -390,9 +390,11 @@ const mcode = {
             `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}\n` +
             `${vt.reset}${vt.dim}--${vt.reset}`;
 
+        //* console.group(); -- not required, our formatted sets this apart
         console.log(entry1);
         if (logifiedError) {console.log(`${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.simplify(logifiedError)}`);}
         console.log(entry2);
+        //* console.groupEnd();
 
         return status;  // for caller to use as needed
     },
@@ -501,9 +503,11 @@ const mcode = {
                 `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/stack${sevColor}\n` +
                 `${vt.reset}${vt.dim}--${vt.reset}`;
 
+            //* console.group(); -- not required, our formatted sets this apart
             console.log(entry1);
             console.log(`${vt.reset}` + logifiedException);
             console.log(entry2);
+            //* console.groupEnd();
 
             return `${message} ${exception}`;  // for caller to return
         }
@@ -519,9 +523,11 @@ const mcode = {
                 `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/trace${sevColor}\n` +
                 `${vt.reset}${vt.dim}--${vt.reset}`;
 
+            //* console.group(); -- not required, our formatted sets this apart
             console.log(entry1);
             console.trace('call stack...');
             console.log(entry2);
+            //* console.groupEnd();
 
             return `${message} ${exception}`;  // for caller to return
         }
@@ -566,16 +572,18 @@ const mcode = {
         // Function calls are always logged as 'Info'
         entry1 +=
             `${vt.reset}${vt.dim}++\n` +
-            `${vt.reset}${vt.dim} * ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'${vt.reset}${vt.gray}`;
+            `${vt.reset}${vt.dim} µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'${vt.reset}${vt.gray}`;
         entry2 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
             `${vt.reset}${vt.dim}  severity: ${sevColor}trace\n` +
             `${vt.reset}${vt.dim}--${vt.reset}`;
 
+        //* console.group(); -- not required, our formatted sets this apart
         console.log(entry1);
         console.trace('function call stack...');
         console.log(entry2);
+        //* console.groupEnd();
     },
 
     /**
@@ -1391,7 +1399,7 @@ const mcode = {
 // represents the global object(window in a browser, global in Node.js).
 // This IIFE returns the 'mcode' object to be assigned to the global object.
 // The Universal Module Definition (UMD) pattern supports Asynchronous Module Definition (AMD),
-// CommonJS / Node.js, and Browser 'global' usage.
+// CommonJS / Node.js, and Browser 'global' usage. {0010}
 (
     /**
      * @function (IIFE)
@@ -1411,13 +1419,13 @@ const mcode = {
         }
         else if (typeof module === 'object' && module.exports)
         {
-            // Node. Does not work with strict CommonJS, but
+            // NODE. Does not work with strict CommonJS, but
             // only CommonJS-like environments that support module.exports, like Node.
             module.exports = factory();
         }
         else
         {
-            // Browser globals (root is 'window')
+            // BROWSER. Window globals (root is 'window').
             root.mcode = factory();
         }
 
