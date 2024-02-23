@@ -276,7 +276,7 @@ Contributor's names and contact info...
 ## Version History
 
 * 0.1.15
-    * , updated documentation.
+    * Tried 'group/groupend' - did not like results, updated documentation.
 * 0.1.14
     * Improved README examples, corrected typos.
 * 0.1.13
