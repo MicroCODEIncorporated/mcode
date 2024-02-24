@@ -29,6 +29,7 @@ mcode.log(`This is an ERROR log OBJECT`, moduleName, 'error', errorObject);
 mcode.log(`This is an SUCCESS log event`, moduleName, 'success');
 mcode.log(`This is an DEBUG log event`, moduleName, 'debug');
 mcode.log(`This is an UNKNOWN log event`, moduleName, 'unknown');
+
 mcode.log(`This is an EXCEPTION 'log' event`, moduleName, 'exception');
 mcode.log(`This is an EXCEPTION 'log' JSON`, moduleName, 'exception', exceptionJson);
 mcode.log(`This is an EXCEPTION 'log' OBJECT`, moduleName, 'exception', exceptionObject);
@@ -58,7 +59,7 @@ mcode.done(`This is an SUCCESS log event`, moduleName);
 mcode.debug(`This is an DEBUG log event`, moduleName);
 
 // Log 'mcode' code as an object in a warning log event...
-mcode.warn(mcode, moduleName);
+mcode.info(mcode.fnc, moduleName);
 
 // Log PROCESS_ENV as an object in a warning log event... HUGE, try it and see...
-//* mcode.warn(process, moduleName);
+mcode.fnc(process, moduleName);

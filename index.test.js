@@ -131,7 +131,7 @@ describe('mcode.error3', () =>
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")]),
                 expect.arrayContaining([expect.stringContaining("error:")]),
-                expect.arrayContaining([expect.stringContaining("message: 'Please enter the correct login details'")])
+                expect.arrayContaining([expect.stringContaining("message: Please enter the correct login details")])
             ])
         );
 
@@ -312,7 +312,7 @@ describe('mcode.fnc', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.fnc(`This is a FUNCTION call trace`, moduleName);
+        mcode.fnc(`This is a FUNCTION call trace, mcode.fnc(): ${mcode.fnc}`, moduleName);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -449,7 +449,7 @@ describe('mcode.error3', () =>
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")]),
                 expect.arrayContaining([expect.stringContaining("error:")]),
-                expect.arrayContaining([expect.stringContaining("message: 'Please enter the correct login details'")])
+                expect.arrayContaining([expect.stringContaining("message: Please enter the correct login details")])
             ])
         );
 

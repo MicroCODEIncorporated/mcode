@@ -241,7 +241,7 @@ const mcode = {
         warn: (theme === 'dark') ? "\x1b[93m" : "\x1b[33m",  // yellow
         cold: (theme === 'dark') ? "\x1b[94m" : "\x1b[34m",  // blue
         dead: (theme === 'dark') ? "\x1b[95m" : "\x1b[35m",  // magenta
-        hmmm: (theme === 'dark') ? "\x1b[96m" : "\x1b[36m",  // cyan
+        code: (theme === 'dark') ? "\x1b[96m" : "\x1b[36m",  // cyan
         info: (theme === 'dark') ? "\x1b[97m" : "\x1b[37m",  // white
         dbug: (theme === 'dark') ? "\x1b[97m" : "\x1b[37m",  // white
 
@@ -281,6 +281,7 @@ const mcode = {
         let vt = mcode.vt;
         let entry1 = "";
         let entry2 = "";
+        let entry3 = "";
         let status = `${severity}: ${message}`;
         let logifiedMessage = "";
 
@@ -293,11 +294,11 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(message))
         {
-            logifiedMessage = "\n" + mcode.logifyObject(message);
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
         else if (mcode.isJson(message))
         {
-            logifiedMessage = "\n" + mcode.logify(message);
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
         else
         {
@@ -361,10 +362,11 @@ const mcode = {
             case '?':
             default:
                 sevText = 'undefined';
-                sevColor += vt.hmmm;
+                sevColor += vt.code;
                 entry1 += ` ? ｢mcode｣: ❓ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
         }
+        entry1 += '\n';
 
         let logifiedError = false;
         if (error)
@@ -375,7 +377,7 @@ const mcode = {
             }
             else if (mcode.isJson(error))
             {
-                logifiedError = mcode.logify(error);
+                logifiedError = mcode.logifyObject(error);
             }
             else
             {
@@ -384,17 +386,18 @@ const mcode = {
             status += ` ERROR: ${mcode.simplify(logifiedError)}`;
         }
 
-        entry2 +=
+        if (logifiedError)
+        {
+            entry2 += `${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.simplify(logifiedError)}\n`;
+        }
+
+        entry3 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-            `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}\n` +
-            `${vt.reset}${vt.dim}--${vt.reset}`;
+            `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}${vt.reset}\n` +
+            `${vt.reset}${vt.dim}--${vt.reset}\n`;
 
-        //* console.group(); -- not required, our formatting sets this apart
-        console.log(entry1);
-        if (logifiedError) {console.log(`${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.simplify(logifiedError)}`);}
-        console.log(entry2);
-        //* console.groupEnd();
+        console.log(entry1 + entry2 + entry3);
 
         return status;  // for caller to use as needed
     },
@@ -434,6 +437,7 @@ const mcode = {
         let vt = mcode.vt;
         let entry1 = "";
         let entry2 = "";
+        let entry3 = "";
         let logifiedMessage = "";
         let logifiedException = "";
         let isExpObject = false;
@@ -441,11 +445,11 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(message))
         {
-            logifiedMessage = mcode.logifyObject(message);
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
         else if (mcode.isJson(message))
         {
-            logifiedMessage = mcode.logify(message);
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
         else
         {
@@ -470,7 +474,7 @@ const mcode = {
         }
         else if (mcode.isJson(exception))
         {
-            logifiedException = mcode.logify(exception);
+            logifiedException = mcode.logifyObject(exception);
         }
         else
         {
@@ -496,18 +500,15 @@ const mcode = {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
-                `${vt.reset}${vt.dim}${sevColor} exception: This is an actual exception and its inner data as passed.`;
-            entry2 +=
+                `${vt.reset}${vt.dim}${sevColor} exception: This is an actual exception with its inner data as passed.\n`;
+            entry2 += `${vt.reset}` + logifiedException + `\n`;
+            entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-                `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/stack${sevColor}\n` +
-                `${vt.reset}${vt.dim}--${vt.reset}`;
+                `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/stack${vt.reset}\n` +
+                `${vt.reset}${vt.dim}--${vt.reset}\n`;
 
-            //* console.group(); -- not required, our formatting sets this apart
-            console.log(entry1);
-            console.log(`${vt.reset}` + logifiedException);
-            console.log(entry2);
-            //* console.groupEnd();
+            console.log(entry1 + entry2 + entry3);
 
             return `${message} ${exception}`;  // for caller to return
         }
@@ -516,18 +517,15 @@ const mcode = {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
-                `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}`;
-            entry2 +=
+                `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
+            entry2 += `call stack: ${new Error().stack}\n`;
+            entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-                `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/trace${sevColor}\n` +
-                `${vt.reset}${vt.dim}--${vt.reset}`;
+                `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/trace${vt.reset}\n` +
+                `${vt.reset}${vt.dim}--${vt.reset}\n`;
 
-            //* console.group(); -- not required, our formatting sets this apart
-            console.log(entry1);
-            console.trace('call stack...');
-            console.log(entry2);
-            //* console.groupEnd();
+            console.log(entry1 + entry2 + entry3);
 
             return `${message} ${exception}`;  // for caller to return
         }
@@ -548,16 +546,17 @@ const mcode = {
         let vt = mcode.vt;
         let entry1 = "";
         let entry2 = "";
+        let entry3 = "";
         let logifiedMessage = "";
 
         // flatten the message object to strings for logging...
         if (mcode.isObject(message))
         {
-            logifiedMessage = "\n" + mcode.logifyObject(message);
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
         else if (mcode.isJson(message))
         {
-            logifiedMessage = "\n" + mcode.logify(message);
+            logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
         else
         {
@@ -567,23 +566,20 @@ const mcode = {
         const moduleName = source.split('.')[0].toUpperCase();
 
         let sevColor = vt.reset;
-        sevColor += vt.info;
+        sevColor += vt.code;
 
         // Function calls are always logged as 'Info'
         entry1 +=
             `${vt.reset}${vt.dim}++\n` +
-            `${vt.reset}${vt.dim} µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'${vt.reset}${vt.gray}`;
-        entry2 +=
+            `${vt.reset}${vt.dim} µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'${vt.reset}${vt.gray}\n`;
+        entry2 += `call stack: ${new Error().stack}\n`;
+        entry3 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
-            `${vt.reset}${vt.dim}  severity: ${sevColor}trace\n` +
-            `${vt.reset}${vt.dim}--${vt.reset}`;
+            `${vt.reset}${vt.dim}  severity: ${sevColor}trace${vt.reset}\n` +
+            `${vt.reset}${vt.dim}--${vt.reset}\n`;
 
-        //* console.group(); -- not required, our formatting sets this apart
-        console.log(entry1);
-        console.trace('function call stack...');
-        console.log(entry2);
-        //* console.groupEnd();
+        console.log(entry1 + entry2 + entry3);
     },
 
     /**
@@ -716,7 +712,7 @@ const mcode = {
         let tabStop = 0;  // indent level for formatting
         let lineEmpty = true;  // controls indent() output
 
-        // helper function to remove surrounding " " from key names only.
+        // ƒ to remove surrounding " " from key names only.
         let keyPairs = (jsonString) =>
         {
             // loop backward through the string, building a new copy, remove " " from key names
@@ -784,7 +780,7 @@ const mcode = {
             return newString;
         };
 
-        // helper function to indent the JSON
+        // ƒ to indent the JSON
         let indent = () =>
         {
             let newline = '';
@@ -800,7 +796,7 @@ const mcode = {
             return newline;
         };
 
-        // helper function to check for alpha-numeric characters
+        // ƒ to check for alpha-numeric characters
         let isKeyChar = (c) =>
         {
             return (c === '_') || (c === '$') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
@@ -954,7 +950,7 @@ const mcode = {
      */
     logifyObject: function (objectToLogify, parentObjects = [''])
     {
-        // Helper function to check for and handle circular references
+        // ƒ to check for and handle circular references
         const isCyclic = (member) =>
         {
             if (parentObjects.includes(member))
@@ -964,7 +960,7 @@ const mcode = {
             return false;
         };
 
-        // Helper function to handle non-object types
+        // ƒ to handle non-object types
         const handleNonObject = (value) =>
         {
             if (typeof value === 'string')
@@ -1001,7 +997,7 @@ const mcode = {
             return String(value);
         };
 
-        // helper function to recursively stringify an object
+        // ƒ to recursively stringify an object
         const recursiveStringify = (currentObject) =>
         {
             // Handle non-object types
@@ -1042,20 +1038,24 @@ const mcode = {
             let result;
             if (Array.isArray(currentObject))
             {
+                // ƒ to handle array members
                 result = currentObject.map((item) => recursiveStringify(item)).join(",");
+
                 parentObjects.pop();
+
                 return `[${result}]`;
             }
             else
             {
+                // ƒ to handle object members
                 result = Object.keys(currentObject).map((key) =>
                 {
                     let value = currentObject[key];
 
                     // Skip functions, symbols, and undefined properties
                     if (typeof value === 'function'
-                        || typeof value === 'symbol'
-                        || typeof value === 'undefined')
+                     || typeof value === 'symbol'
+                     || typeof value === 'undefined')
                     {
                         return `"${key}":${handleNonObject(value)}`;
                     }
@@ -1069,16 +1069,6 @@ const mcode = {
                 return `{${result}}`;
             }
         };
-
-        // if the object appears to be JavaScript code, do not logify it, just return it as a string
-        if (objectToLogify.startsWith('function')
-         || objectToLogify.startsWith('class')
-         || objectToLogify.contains('async')
-         || objectToLogify.contains('await')
-         || objectToLogify.contains('=>'))
-        {
-            return objectToLogify;
-        }
 
         // stringify the object, recursively
         return recursiveStringify(objectToLogify);
@@ -1104,7 +1094,7 @@ const mcode = {
 
             arrayToListify.forEach(element =>
             {
-                // convert array element to text, simplify for display, and add to LIST...
+                // ƒ to convert array element to text, simplify for display, and add to LIST...
                 listifiedText += `<li className="list-group-item" key="${keyIndex++}">${mcode.simplifyObject(element)}</li>`;
             });
 
@@ -1114,7 +1104,7 @@ const mcode = {
         {
             arrayToListify.forEach(element =>
             {
-                // convert array element to text, simplify for display, and add to LIST...
+                // ƒ to convert array element to text, simplify for display, and add to LIST...
                 listifiedText += `<li class="list-group-item" key="${keyIndex++}">${mcode.simplifyObject(element)}</li>`;
             });
         }
@@ -1175,7 +1165,7 @@ const mcode = {
         let hasNumbers = false;
         let si = 0;
 
-        // helper function to check for upper case letter
+        // ƒ to check for upper case letter
         const isUpper = (objectName, i) =>
         {
             // if 'i' is outside 'objectName' return false
@@ -1361,7 +1351,7 @@ const mcode = {
         const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-        // make sure all fields are fixed length with leading zeros
+        // ƒ to make sure all fields are fixed length with leading zeros
         const leadingZeros = (number, length) =>
         {
             let numberField = '' + number;

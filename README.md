@@ -275,6 +275,9 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.1.18
+    * Corrected logging for JSON and Objects, updates Test Cases, and documentation.
+    * Implemented native 'grouping' via concatenated log lines.
 * 0.1.17
     * Add exceptions for functions in 'logifyObject()'.
 * 0.1.16
