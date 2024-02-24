@@ -275,6 +275,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.0
+    * Removed extra blank lines between log entries, sync'ed package versions to v0.2.0
 * 0.1.18
     * Corrected logging for JSON and Objects, updates Test Cases, and documentation.
     * Implemented native 'grouping' via concatenated log lines.

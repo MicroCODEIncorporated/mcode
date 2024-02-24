@@ -395,7 +395,7 @@ const mcode = {
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
             `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}${vt.reset}\n` +
-            `${vt.reset}${vt.dim}--${vt.reset}\n`;
+            `${vt.reset}${vt.dim}--${vt.reset}`;
 
         console.log(entry1 + entry2 + entry3);
 
@@ -506,7 +506,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
                 `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/stack${vt.reset}\n` +
-                `${vt.reset}${vt.dim}--${vt.reset}\n`;
+                `${vt.reset}${vt.dim}--${vt.reset}`;
 
             console.log(entry1 + entry2 + entry3);
 
@@ -523,7 +523,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
                 `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/trace${vt.reset}\n` +
-                `${vt.reset}${vt.dim}--${vt.reset}\n`;
+                `${vt.reset}${vt.dim}--${vt.reset}`;
 
             console.log(entry1 + entry2 + entry3);
 
@@ -577,7 +577,7 @@ const mcode = {
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
             `${vt.reset}${vt.dim}  severity: ${sevColor}trace${vt.reset}\n` +
-            `${vt.reset}${vt.dim}--${vt.reset}\n`;
+            `${vt.reset}${vt.dim}--${vt.reset}`;
 
         console.log(entry1 + entry2 + entry3);
     },

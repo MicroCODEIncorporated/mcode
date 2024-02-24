@@ -62,4 +62,4 @@ mcode.debug(`This is an DEBUG log event`, moduleName);
 mcode.info(mcode.fnc, moduleName);
 
 // Log PROCESS_ENV as an object in a warning log event... HUGE, try it and see...
-mcode.fnc(process, moduleName);
+// mcode.fnc(process, moduleName);
