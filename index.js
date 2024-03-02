@@ -263,18 +263,7 @@ const mcode = {
      * @returns {string} "{severity}: {message}" for display in UI.
      *
      * @example
-     * From our other MicroCODE Apps:
-     ++
-       Message: 'Station SYNCHRONIZED to new Job from TRACKING IMAGE'
-
-           Class: JobIdZone                                  Audience: Operator
-          Object: 8                                         Condition: Takt=[0%]  Memory in use=[1,659,216.00]
-           Event: 14                                         Severity: Confirmation
-         Targets: AppLog, AppBanner, AppDatabase, AppSound
-
-           Event: (see 'Message:' above)                      Time: Tuesday, August 10, 2021 06:57:47.623 AM
-           Class: MicroCODE.AppBanner                         Type: App.Information
-    --
+     *      mcode.log('This is a test message.', 'myModule', 'info');
      */
     log: function (message, source, severity, error = null)
     {
@@ -307,10 +296,10 @@ const mcode = {
 
         const moduleName = source.split('.')[0].toUpperCase();
 
-        entry1 += (vt.reset + vt.dim + '++\n' + vt.reset + vt.dim);
-
         let sevColor = vt.reset;
         let sevText = severity;
+
+        entry1 += (vt.reset + vt.dim + '++\n' + vt.reset + vt.dim);
 
         switch (severity)
         {
@@ -334,7 +323,7 @@ const mcode = {
             case 'error':
                 sevText = 'error';
                 sevColor += vt.errr;
-                entry1 += ` x ｢mcode｣: ❌ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` x ｢mcode｣: ⛔ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 'x':
             case 'exp':
@@ -342,7 +331,7 @@ const mcode = {
             case 'exception':
                 sevText = 'exception';
                 sevColor += vt.dead;
-                entry1 += ` * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` * ｢mcode｣: 🟣 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
                 break;
             case 's':
             case 'ack':
@@ -402,7 +391,59 @@ const mcode = {
         return status;  // for caller to use as needed
     },
 
-    // convient abbreviations of all the logged severities...
+    /**
+     * @func logobj
+     * @memberof mcode
+     * @desc Logs a labeled Object to the Console in a standardized format.
+     * @api public
+     * @param {string} objName the name of the Object and/or a message to precede it in the log.
+     * @param {object} obj javaScript Object to log.
+     * @param {string} source where the Object orginated.
+     *
+     * @example
+     *            mcode.obj('myObject', myObject, 'myModule');
+     */
+    logobj: function (objName, obj, source)
+    {
+        let vt = mcode.vt;
+        let entry1 = "";
+        let entry2 = "";
+        let entry3 = "";
+        let logifiedMessage = "";
+
+        // flatten the message object to strings for logging...
+        if (mcode.isObject(obj))
+        {
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+        }
+        else if (mcode.isJson(obj))
+        {
+            logifiedMessage = `JSON\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+        }
+        else
+        {
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}: ` + obj;
+        }
+
+        const moduleName = source.split('.')[0].toUpperCase();
+
+        let sevColor = vt.reset;
+        let sevText = 'info';
+        sevColor += vt.info;
+
+        entry1 +=
+            `${vt.reset}${vt.dim}++\n` +
+            `${vt.reset}${vt.dim} i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${logifiedMessage}'\n`;
+        entry3 +=
+            `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
+            `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
+            `${vt.reset}${vt.dim}  severity: ${vt.reset}${sevColor}${sevText}${vt.reset}\n` +
+            `${vt.reset}${vt.dim}--${vt.reset}`;
+
+        console.log(entry1 + entry2 + entry3);
+    },
+
+    // convenient abbreviations of all the logged severities...
     info: function (message, source) {mcode.log(message, source, 'info');},
     warn: function (message, source) {mcode.log(message, source, 'warn');},
     error: function (message, source) {mcode.log(message, source, 'error');},
@@ -500,7 +541,115 @@ const mcode = {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
-                `${vt.reset}${vt.dim}${sevColor} exception: This is an actual exception with its inner data as passed.\n`;
+                `${vt.reset}${vt.dim}${sevColor} EXCEPTION:\n`;
+            entry2 += `${vt.reset}` + logifiedException + `\n`;
+            entry3 +=
+                `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
+                `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
+                `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/stack${vt.reset}\n` +
+                `${vt.reset}${vt.dim}--${vt.reset}`;
+
+            console.log(entry1 + entry2 + entry3);
+
+            return `${message} ${exception}`;  // for caller to return
+        }
+        else
+        {
+            entry1 +=
+                `${vt.reset}${vt.dim}++\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
+            entry2 += `call stack: ${new Error().stack}\n`;
+            entry3 +=
+                `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
+                `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
+                `${vt.reset}${vt.dim}  severity: ${sevColor}exception w/trace${vt.reset}\n` +
+                `${vt.reset}${vt.dim}--${vt.reset}`;
+
+            console.log(entry1 + entry2 + entry3);
+
+            return `${message} ${exception}`;  // for caller to return
+        }
+    },
+
+    /**
+     * @func expobj
+     * @memberof mcode
+     * @desc Logs a labeled Object to the Console in a standardized format, with an associated exception and stack dump.
+     * @api public
+     * @param {string} objName the name of the Object and/or a message to precede it in the log.
+     * @param {object} obj javaScript Object to log.
+     * @param {string} source where the Object orginated.
+     * @param {string} exception the underlying exception message that was caught.
+     * @returns {string} "message: {message} - exception: {exception}" for display in UI.
+     *
+     * @example
+     *            mcode.obj('myObject', myObject, 'myModule', exp);  // from within a 'catch (exp)' block
+     */
+    expobj: function (objName, obj, source, exception)
+    {
+        let vt = mcode.vt;
+        let entry1 = "";
+        let entry2 = "";
+        let entry3 = "";
+        let logifiedMessage = "";
+
+        // flatten the message object to strings for logging...
+        if (mcode.isObject(obj))
+        {
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+        }
+        else if (mcode.isJson(obj))
+        {
+            logifiedMessage = `JSON\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+        }
+        else
+        {
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}: ` + obj;
+        }
+
+        // flatten the exception object to strings for logging...
+        if (mcode.isObject(exception))
+        {
+            isExpObject = true;
+            if (exception.stack)
+            {
+                const stackTrace = mcode.logify(mcode.logifyObject(exception.stack));
+
+                // remove leading and trailing quotes from the stack trace...
+                logifiedException = `${vt.gray}` + stackTrace.substring(1, stackTrace.length - 1);
+            }
+            else
+            {
+                logifiedException = `${vt.reset}` + mcode.logify(mcode.logifyObject(exception));
+            }
+        }
+        else if (mcode.isJson(exception))
+        {
+            logifiedException = mcode.logifyObject(exception);
+        }
+        else
+        {
+            logifiedException = exception;
+        }
+
+        const moduleName = source.split('.')[0].toUpperCase();
+
+        // created a simplified exception message for the log entry...
+        const loggedException = ' exception: ' + mcode.simplify(logifiedException);
+
+        // if 'loggedException' contains a stack trace, log it as an 'exception w/stack'
+        if (loggedException.includes('Error:') && loggedException.includes('at '))
+        {
+            isExpObject = true;
+        }
+
+        if (isExpObject)
+        {
+            entry1 +=
+                `${vt.reset}${vt.dim}++\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim}${sevColor} EXCEPTION:\n`;
             entry2 += `${vt.reset}` + logifiedException + `\n`;
             entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
@@ -796,10 +945,10 @@ const mcode = {
             return newline;
         };
 
-        // ƒ to check for alpha-numeric characters
+        // ƒ to check for alpha-numeric characters -- [2024-03-02:TJM] added '.' to allow for floating point numbers
         let isKeyChar = (c) =>
         {
-            return (c === '_') || (c === '$') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+            return (c === '_') || (c === '$') || (c === '.') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
         };
 
         // process the JSON string...

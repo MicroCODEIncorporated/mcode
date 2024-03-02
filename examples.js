@@ -17,6 +17,19 @@ const exceptionObject =
     timestamp: new Date()
 };
 
+// to test 'logobj()' an Object
+const dataObject =
+{
+    userName: 'John Doe',
+    companyName: 'MicroCODE, Inc.',
+    author: false,
+    age: 23.5,
+    birthDate: new Date('1988-08-21'),
+};
+
+// to test logobj() with JSON
+const jsonString = '{ "userName": "Jason Smith", "companyName": "GitHub", "author": true, "age": 28.0, "birthDate": "1998-01-11" }';
+
 // version display...
 mcode.ready();
 
@@ -63,3 +76,9 @@ mcode.info(mcode.fnc, moduleName);
 
 // Log PROCESS_ENV as an object in a warning log event... HUGE, try it and see...
 // mcode.fnc(process, moduleName);
+
+// Log 'dataObject' as an object in a warning log event...
+mcode.logobj("dataObject", dataObject, moduleName);
+mcode.logobj("moduleName", moduleName, moduleName);
+mcode.logobj("mcode.fnc", mcode.fnc, moduleName);
+mcode.logobj("jsonString", jsonString, moduleName);

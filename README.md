@@ -197,6 +197,7 @@ These are the functions we want at the ready in any module for development and d
 | **ready**          | Logs 'mcode-log' with version #, mode, and theme.           | mcode.ready()
 | **vt**             | The definition of standard VT52/100/200 display codes.      | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
 | **log**            | Logs a standardized message into the console with objects.  | mcode.log('message' or object, 'module name', 'severity')
+| **logobj**         | Logs an object of any kind into the console with a name.    | mcode.logobj('object name', object, 'module name')
 | **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
 | **warn**           | Short call form of 'mcode.log(msg, src, 'warn');            | mcode.warn('message' or object, 'module name')
 | **error**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.error('message' or object, 'module name')
@@ -275,6 +276,11 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.1
+    * Added a new method 'logobj()' to log an object like 'info()' but added an explicit argument to display the object's name.
+    * Added documentation for 'logobj()', EXAMPLEs, and JEST tests; and updated README images.
+    * Corrected the logging of Floating Point numbers in Objects.
+    * Minor adjustments to the emojis used for severity, I returned to ⛔ for 'error' instead of ❌, and 🟣 now represents 'exception' severity, and 🟪 an actual exception.
 * 0.2.0
     * Removed extra blank lines between log entries, sync'ed package versions to v0.2.0
 * 0.1.18

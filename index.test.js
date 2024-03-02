@@ -11,6 +11,19 @@ const errorObject =
 
 const exceptionObject = '{ Exception: "This is an exception, it can be whatever is presented in by the catch clause. }"';
 
+// to test 'logobj()' an Object
+const dataObject =
+{
+    userName: 'John Doe',
+    companyName: 'MicroCODE, Inc.',
+    author: false,
+    age: 23.5,
+    birthDate: new Date('1988-08-21'),
+};
+
+// to test logobj() with JSON
+const jsonString = '{ "userName": "Jason Smith", "companyName": "GitHub", "author": true, "age": 28.0, "birthDate": "1998-01-11" }';
+
 // INFO Test
 describe('mcode.info', () =>
 {
@@ -498,6 +511,104 @@ describe('mcode.debug', () =>
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
                 expect.arrayContaining([expect.stringContaining("debug")]),
+                expect.arrayContaining([expect.stringContaining("[INDEX]")]),
+                expect.arrayContaining([expect.stringContaining("index.test.js")])
+            ])
+        );
+
+        // Restore the original console.log function
+        consoleSpy.mockRestore();
+    });
+});
+
+// LOGOBJ Tests
+describe('mcode.logobj', () =>
+{
+    it('mcode.logobj() should output a named *object* to the console.', () =>
+    {
+        // Create a spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log');
+
+        // Call the function that should log the object
+        mcode.logobj(`dataObject`, dataObject, moduleName);
+
+        // Check that console.log was called with the expected message
+        expect(consoleSpy.mock.calls).toEqual(
+            expect.arrayContaining([
+                expect.arrayContaining([expect.stringContaining("OBJECT")]),
+                expect.arrayContaining([expect.stringContaining("dataObject:")]),
+                expect.arrayContaining([expect.stringContaining("[INDEX]")]),
+                expect.arrayContaining([expect.stringContaining("index.test.js")])
+            ])
+        );
+
+        // Restore the original console.log function
+        consoleSpy.mockRestore();
+    });
+});
+describe('mcode.logobj', () =>
+{
+    it('mcode.logobj() should output a named *function* to the console.', () =>
+    {
+        // Create a spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log');
+
+        // Call the function that should log the object
+        mcode.logobj(`mcode.logobj`, mcode.logobj, moduleName);
+
+        // Check that console.log was called with the expected message
+        expect(consoleSpy.mock.calls).toEqual(
+            expect.arrayContaining([
+                expect.arrayContaining([expect.stringContaining("FUNCTION")]),
+                expect.arrayContaining([expect.stringContaining("mcode.logobj:")]),
+                expect.arrayContaining([expect.stringContaining("[INDEX]")]),
+                expect.arrayContaining([expect.stringContaining("index.test.js")])
+            ])
+        );
+
+        // Restore the original console.log function
+        consoleSpy.mockRestore();
+    });
+});
+describe('mcode.logobj', () =>
+{
+    it('mcode.logobj() should output a named *json* to the console.', () =>
+    {
+        // Create a spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log');
+
+        // Call the function that should log the object
+        mcode.logobj(`jsonString`, jsonString, moduleName);
+
+        // Check that console.log was called with the expected message
+        expect(consoleSpy.mock.calls).toEqual(
+            expect.arrayContaining([
+                expect.arrayContaining([expect.stringContaining("JSON")]),
+                expect.arrayContaining([expect.stringContaining("jsonString:")]),
+                expect.arrayContaining([expect.stringContaining("[INDEX]")]),
+                expect.arrayContaining([expect.stringContaining("index.test.js")])
+            ])
+        );
+
+        // Restore the original console.log function
+        consoleSpy.mockRestore();
+    });
+});
+describe('mcode.logobj', () =>
+{
+    it('mcode.logobj() should output a named *string* to the console.', () =>
+    {
+        // Create a spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log');
+
+        // Call the function that should log the object
+        mcode.logobj(`moduleName`, moduleName, moduleName);
+
+        // Check that console.log was called with the expected message
+        expect(consoleSpy.mock.calls).toEqual(
+            expect.arrayContaining([
+                expect.arrayContaining([expect.stringContaining("STRING")]),
+                expect.arrayContaining([expect.stringContaining("moduleName:")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
             ])
