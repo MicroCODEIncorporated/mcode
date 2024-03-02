@@ -618,3 +618,39 @@ describe('mcode.logobj', () =>
         consoleSpy.mockRestore();
     });
 });
+
+// EXPOBJ Tests
+describe('mcode.expobj', () =>
+{
+    it('mcode.expobj() should output an *exception* message with an *object* to the console.', () =>
+    {
+        // Create a spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log');
+
+        // Call the function that should log the message
+        try
+        {
+            throw new Error('This is an an actual EXCEPTION');
+        }
+        catch (exp)
+        {
+            mcode.expobj(`dataObject`, dataObject, moduleName, exp);
+        }
+
+        // Check that console.log was called with the expected message
+        expect(consoleSpy.mock.calls).toEqual(
+            expect.arrayContaining([
+                expect.arrayContaining([expect.stringContaining("exception w/stack")]),
+                expect.arrayContaining([expect.stringContaining("[INDEX]")]),
+                expect.arrayContaining([expect.stringContaining("index.test.js")]),
+                expect.arrayContaining([expect.stringContaining("EXCEPTION:")]),
+                expect.arrayContaining([expect.stringContaining(" at ")]),
+                expect.arrayContaining([expect.stringContaining("dataObject:")]),
+                expect.arrayContaining([expect.stringContaining("userName: ")])
+            ])
+        );
+
+        // Restore the original console.log function
+        consoleSpy.mockRestore();
+    });
+});

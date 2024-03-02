@@ -82,3 +82,12 @@ mcode.logobj("dataObject", dataObject, moduleName);
 mcode.logobj("moduleName", moduleName, moduleName);
 mcode.logobj("mcode.fnc", mcode.fnc, moduleName);
 mcode.logobj("jsonString", jsonString, moduleName);
+
+try
+{
+    throw new Error('This is an an actual EXCEPTION OBJECT, with a DATA OBJECT attached to it.');
+}
+catch (exp)
+{
+    mcode.expobj(`dataObject`, dataObject, moduleName, exp);
+}

@@ -203,7 +203,8 @@ These are the functions we want at the ready in any module for development and d
 | **error**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.error('message' or object, 'module name')
 | **done**           | Short call form of 'mcode.log(msg, src, 'success');         | mcode.done('message' or object, 'module name')
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
-| **exp**            | Logs a standardized exception with a collapsible stack dump.| mcode.exp('message' or object, 'module name', 'exp text')
+| **exp**            | Logs a standardized exception with a collapsible stack dump.| mcode.exp('message' or object, 'module name', 'exp object')
+| **expobj**         | Logs standardized exception with an object and stack dump.  | mcode.expobj('object name', object, 'module name', 'exp object')
 | **fnc**            | Logs a standardized function call with a trace dump.        | mcode.fnc('message' or object, 'module name')
 | **logify**         | Converts a message or JSON into text appropriate for log.   | mcode.logify('object or JSON string')
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.           | mcode.simplify('object or JSON string')
@@ -276,6 +277,9 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.2
+    * Added a new method 'expobj()' similar to 'logobj()' to log a labeled Object during an exception.
+    * Added documentation for 'expobj()', EXAMPLEs, and JEST tests; and updated README images.
 * 0.2.1
     * Added a new method 'logobj()' to log an object like 'info()' but added an explicit argument to display the object's name.
     * Added documentation for 'logobj()', EXAMPLEs, and JEST tests; and updated README images.

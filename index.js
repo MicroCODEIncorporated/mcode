@@ -635,6 +635,9 @@ const mcode = {
 
         const moduleName = source.split('.')[0].toUpperCase();
 
+        let sevColor = vt.reset;
+        sevColor += vt.dead;
+
         // created a simplified exception message for the log entry...
         const loggedException = ' exception: ' + mcode.simplify(logifiedException);
 
@@ -659,7 +662,7 @@ const mcode = {
 
             console.log(entry1 + entry2 + entry3);
 
-            return `${message} ${exception}`;  // for caller to return
+            return `Object: ${objName} ${exception}`;  // for caller to return
         }
         else
         {
@@ -676,7 +679,7 @@ const mcode = {
 
             console.log(entry1 + entry2 + entry3);
 
-            return `${message} ${exception}`;  // for caller to return
+            return `Object: ${objName} ${exception}`;  // for caller to return
         }
     },
 
