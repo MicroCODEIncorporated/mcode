@@ -72,6 +72,9 @@
  *                                    Frontend/Client and Backend/Server as a NodeJS package.
  *  01-Feb-2024   TJM-MCODE  {0010}   Changed to the Universal Module Definition (UMD) pattern to support AMD,
  *                                    CommonJS/Node.js, and browser global in our exported module.
+ *  02-Mar-2024   TJM-MCODE  {0011}   Added 'logobj()', 'expobj()', 'isFunction()', 'hexify()', 'octify()', and 'colorizeLines()'
+ *                                    all in the pursuit of a more complete and consistent logging and debugging experience,
+ *                                    in both the Console, NPM, and the Browser's DevTools.
  *
  *
  *
@@ -289,6 +292,10 @@ const mcode = {
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
+        else if (mcode.isFunction(message))
+        {
+            logifiedMessage = "\n" + `${message}`;
+        }
         else
         {
             logifiedMessage = message;
@@ -308,7 +315,7 @@ const mcode = {
             case 'info':
                 sevText = 'info';
                 sevColor += vt.info;
-                entry1 += ` i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'w':
             case 'wrn':
@@ -316,14 +323,14 @@ const mcode = {
             case 'warning':
                 sevText = 'warn';
                 sevColor += vt.warn;
-                entry1 += ` ! ｢mcode｣: ⚠️ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` ! ｢mcode｣: ⚠️ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'e':
             case 'err':
             case 'error':
                 sevText = 'error';
                 sevColor += vt.errr;
-                entry1 += ` x ｢mcode｣: ⛔ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` x ｢mcode｣: ⛔ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'x':
             case 'exp':
@@ -331,7 +338,7 @@ const mcode = {
             case 'exception':
                 sevText = 'exception';
                 sevColor += vt.dead;
-                entry1 += ` * ｢mcode｣: 🟣 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` * ｢mcode｣: 🟣 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 's':
             case 'ack':
@@ -339,20 +346,20 @@ const mcode = {
             case 'success':
                 sevText = 'success';
                 sevColor += vt.good;
-                entry1 += ` ✓ ｢mcode｣: ✅ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` ✓ ｢mcode｣: ✅ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'd':
             case 'dbg':
             case 'debug':
                 sevText = 'debug';
                 sevColor += vt.dbug;
-                entry1 += ` µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case '?':
             default:
                 sevText = 'undefined';
                 sevColor += vt.code;
-                entry1 += ` ? ｢mcode｣: ❓ ${sevColor}[${moduleName}] '${logifiedMessage}'`;
+                entry1 += ` ? ｢mcode｣: ❓ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
         }
         entry1 += '\n';
@@ -377,7 +384,9 @@ const mcode = {
 
         if (logifiedError)
         {
-            entry2 += `${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.simplify(logifiedError)}\n`;
+            logifiedError = mcode.colorizeLines(logifiedError, sevColor);
+
+            entry2 += `${vt.reset}${vt.dim}     error: ${vt.reset}${sevColor}${mcode.colorizeLines(mcode.simplify(logifiedError), sevColor)}\n`;
         }
 
         entry3 +=
@@ -414,15 +423,15 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(obj))
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
         else if (mcode.isJson(obj))
         {
-            logifiedMessage = `JSON\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `JSON\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
         else
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}: ` + obj;
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}: ${vt.info}` + obj;
         }
 
         const moduleName = source.split('.')[0].toUpperCase();
@@ -433,7 +442,7 @@ const mcode = {
 
         entry1 +=
             `${vt.reset}${vt.dim}++\n` +
-            `${vt.reset}${vt.dim} i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${logifiedMessage}'\n`;
+            `${vt.reset}${vt.dim} i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'\n`;
         entry3 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
@@ -501,25 +510,33 @@ const mcode = {
         if (mcode.isObject(exception))
         {
             isExpObject = true;
+
             if (exception.stack)
             {
-                const stackTrace = mcode.logify(mcode.logifyObject(exception.stack));
+                //* ...taking the stack throygh 'logify()' treats "\n" as a new line, it not needed here
+                //* const stackTrace = mcode.logify(mcode.logifyObject(exception.stack));
+                const stackTrace = mcode.logifyObject(exception.stack);
 
-                // remove leading and trailing quotes from the stack trace...
-                logifiedException = `${vt.gray}` + stackTrace.substring(1, stackTrace.length - 1);
+                // remove leading and trailing quotes from the stack trace and show gray...
+                logifiedException = `${vt.reset}${vt.gray}` + stackTrace.substring(1, stackTrace.length - 1);
+                logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
             }
             else
             {
-                logifiedException = `${vt.reset}` + mcode.logify(mcode.logifyObject(exception));
+                // treat as an Object, not a stack trace and show in default colors...
+                logifiedException = `${vt.reset}` + mcode.colorizeLines( mcode.logify(mcode.logifyObject(exception)), vt.code);
             }
         }
         else if (mcode.isJson(exception))
         {
-            logifiedException = mcode.logifyObject(exception);
+            // treat as JSON, not a stack trace and show in default colors...
+            logifiedException = `${vt.reset}` + mcode.colorizeLines(mcode.logifyObject(exception), vt.code);
         }
         else
         {
-            logifiedException = exception;
+            // treat as a string, not a stack trace or object and show in gray...
+            logifiedException = `${vt.reset}${vt.gray}` + exception;
+            logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
         }
 
         const moduleName = source.split('.')[0].toUpperCase();
@@ -528,7 +545,7 @@ const mcode = {
         sevColor += vt.dead;
 
         // created a simplified exception message for the log entry...
-        const loggedException = ' exception: ' + mcode.simplify(logifiedException);
+        const loggedException = ' exception: ' + mcode.colorizeLines(mcode.simplify(logifiedException), vt.dead);
 
         // if 'loggedException' contains a stack trace, log it as an 'exception w/stack'
         if (loggedException.includes('Error:') && loggedException.includes('at '))
@@ -541,8 +558,8 @@ const mcode = {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
-                `${vt.reset}${vt.dim}${sevColor} EXCEPTION:\n`;
-            entry2 += `${vt.reset}` + logifiedException + `\n`;
+                `${vt.reset}${vt.dim}${sevColor} exception:\n`;
+            entry2 += logifiedException + `\n`;
             entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
@@ -559,7 +576,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
-            entry2 += `call stack: ${new Error().stack}\n`;
+            entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
             entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
@@ -597,40 +614,42 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isObject(obj))
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
         else if (mcode.isJson(obj))
         {
-            logifiedMessage = `JSON\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `JSON\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
         else
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n\n${vt.code}${objName}: ` + obj;
+            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}: ` + obj;
         }
 
         // flatten the exception object to strings for logging...
         if (mcode.isObject(exception))
         {
             isExpObject = true;
+
             if (exception.stack)
             {
                 const stackTrace = mcode.logify(mcode.logifyObject(exception.stack));
 
                 // remove leading and trailing quotes from the stack trace...
                 logifiedException = `${vt.gray}` + stackTrace.substring(1, stackTrace.length - 1);
+                logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
             }
             else
             {
-                logifiedException = `${vt.reset}` + mcode.logify(mcode.logifyObject(exception));
+                logifiedException = `${vt.reset}` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(exception)), vt.code);
             }
         }
         else if (mcode.isJson(exception))
         {
-            logifiedException = mcode.logifyObject(exception);
+            logifiedException = mcode.colorizeLines(mcode.logifyObject(exception), vt.code);
         }
         else
         {
-            logifiedException = exception;
+            logifiedException = mcode.colorizeLines(exception, vt.gray);
         }
 
         const moduleName = source.split('.')[0].toUpperCase();
@@ -639,7 +658,7 @@ const mcode = {
         sevColor += vt.dead;
 
         // created a simplified exception message for the log entry...
-        const loggedException = ' exception: ' + mcode.simplify(logifiedException);
+        const loggedException = 'EXCEPTION: ' + mcode.simplify(logifiedException);
 
         // if 'loggedException' contains a stack trace, log it as an 'exception w/stack'
         if (loggedException.includes('Error:') && loggedException.includes('at '))
@@ -652,7 +671,7 @@ const mcode = {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
-                `${vt.reset}${vt.dim}${sevColor} EXCEPTION:\n`;
+                `${vt.reset}${vt.dim}${sevColor}EXCEPTION:\n`;
             entry2 += `${vt.reset}` + logifiedException + `\n`;
             entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
@@ -670,7 +689,7 @@ const mcode = {
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
-            entry2 += `call stack: ${new Error().stack}\n`;
+            entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
             entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
                 `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
@@ -724,7 +743,7 @@ const mcode = {
         entry1 +=
             `${vt.reset}${vt.dim}++\n` +
             `${vt.reset}${vt.dim} µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'${vt.reset}${vt.gray}\n`;
-        entry2 += `call stack: ${new Error().stack}\n`;
+        entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
         entry3 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
@@ -1265,6 +1284,69 @@ const mcode = {
     },
 
     /**
+     * @func octify
+     * @memberof mcode
+     * @desc Converts a string to an octal string.
+     * @api public
+     * @param {string} text - The string to be converted to an octal string of bytes.
+     * @returns {string} The octal string.
+     * @example
+     *           mcode.octify('Hello, World!');  // returns: "110 145 154 154 157 54 40 127 157 162 154 144 41"
+     */
+    octify(text)
+    {
+        const buffer = Buffer.from(text, 'utf8');
+
+        // Convert each byte to its octal representation
+        const octArray = [...buffer].map((byte) => byte.toString(8).padStart(3, '0'));
+
+        // Join the octal values into a string separated by spaces
+        return octArray.join(' ');
+    },
+
+    /**
+     * @func hexify
+     * @memberof mcode
+     * @desc Converts a string to a hexadecinal string of bytes.
+     * @api public
+     * @param {string} text the string to be converted to a hex string.
+     * @returns {string} the hex string.
+     * @example
+     *           mcode.hexify('Hello, World!');  // returns: "48 65 6c 6c 6f 2c 20 57 6f 72 6c 64 21"
+     */
+    hexify(text)
+    {
+        const buffer = Buffer.from(text, 'utf8');
+        const hex = buffer.toString('hex');
+
+        // Format the hex string into groups of 2 characters (1 byte)
+        return hex.match(/.{1,2}/g).join(' ');
+    },
+
+    /**
+     * @func colorizeLines
+     * @memberof mcode
+     * @desc Colorizes each line of a string using VT escape sequences.
+     * @api public
+     * @param {string} inputLines the string to be colorized.
+     * @param {string} vtColor the VT escape sequence to use for colorizing the lines.
+     * @returns {string} the colorized string.
+     * @example
+     *          mcode.colorizeLines('Hello, World!\nIThis is fun!', mcode.vt.red);  // returns: "\u001b[31mHello, World!\u001b[31mThis is fun!"
+     */
+    colorizeLines(inputLines, vtColor)
+    {
+        // Split the input string into lines
+        const lineArray = inputLines.split('\n');
+
+        // Apply the color to each line
+        const outputLines = lineArray.map(line => `${vtColor}${line}`);
+
+        // Rejoin the colorized lines into a single string
+        return outputLines.join('\n');
+    },
+
+    /**
      * @func extractId
      * @memberof mcode
      * @desc Extracts an alpha-numberic ID Field from a string, intended to be a unique portion of a common string.
@@ -1401,6 +1483,21 @@ const mcode = {
         if (mcode.isString(jsObject)) return false;
 
         return typeof jsObject === 'object' && jsObject !== null && !Array.isArray(jsObject) && typeof jsObject !== 'function';
+    },
+
+    /**
+     * @method isFunction
+     * @memberof mcode
+     * @desc Checks whether or not a string is a JS Function.
+     * @api public
+     * @param {object} jsObject string to be tested
+     * @returns {boolean} a value indicating whether or not the string is a JS Function.
+     */
+    isFunction: function (jsObject)
+    {
+        if (mcode.isString(jsObject)) return false;
+
+        return typeof jsObject === 'function';
     },
 
     /**

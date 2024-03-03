@@ -211,9 +211,13 @@ These are the functions we want at the ready in any module for development and d
 | **logifyObject**   | Converts an Object into text appropriate for log.           | mcode.logifyObject('object')
 | **simplifyObject** | Converts an Object to string less BRACES, BRACKETS, etc.    | mcode.simplifyObject('object')
 | **listifyArray**   | Converts an array of text items into a HTML or JSX List.    | mcode.listifyArray(array, 'html' or 'jsx');
+| **colorizeLines**  | Prefixes every line of a message with an VT color for log.  | mcode.colorizeLines('message', vt.<color>);
+| **octify**         | Converts a string into octal bytes for log.                 | mcode.octify(stringToExamine)
+| **hexify**         | Converts a string into hexadecimal bytes for log.           | mcode.hexify(stringToExamine)
 | **extractId**      | Extracts the first alpha-numberic ID Field from a string.   | mcode.extractId("EP_**GPT13TZ1**_20231115_0800.L5K")
 | **isString**       | Checks the type of an Object for String.                    | mcode.isString('stringToTest')
 | **isObject**       | Checks the type of an Object for Object.                    | mcode.isObject(objectName)
+| **isFunction**     | Checks the type of an Object for Function.                  | mcode.isFunction(objectName)
 | **isNumber**       | Checks the type of an Object for Number.                    | mcode.isNumber(102022 or numberName)
 | **isJson**         | Checks the type of an Object for JSON.                      | mcode.isJson('JSON text' or objectName)
 | **isDate**         | Checks the type of an Object for DATE.                      | mcode.isDate(timestamp)
@@ -277,6 +281,11 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.4
+    * Added 'isFunction()', 'octify()', and 'colorizeLines()'.
+    * Corrected long-standing issue of losing colorization on multi-line messages when executed within a larger logging environment.
+* 0.2.3
+    * Added 'hexify()' for debugging logging or data issues.
 * 0.2.2
     * Added a new method 'expobj()' similar to 'logobj()' to log a labeled Object during an exception.
     * Added documentation for 'expobj()', EXAMPLEs, and JEST tests; and updated README images.

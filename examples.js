@@ -56,7 +56,16 @@ try
 }
 catch (exp)
 {
-    mcode.exp(`This is an EXCEPTION 'exp' OBJECT`, moduleName, exp);
+    mcode.exp(`This is an actual EXCEPTION 'exp' OBJECT`, moduleName, exp);
+}
+
+try
+{
+    let x = x_undefined;
+}
+catch (exp)
+{
+    mcode.exp(`This is an UNDEFINED EXCEPTION 'exp' OBJECT`, moduleName, exp);
 }
 
 // special 'trace' log event for debugging...
