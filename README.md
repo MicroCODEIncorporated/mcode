@@ -217,6 +217,7 @@ These are the functions we want at the ready in any module for development and d
 | **extractId**      | Extracts the first alpha-numberic ID Field from a string.   | mcode.extractId("EP_**GPT13TZ1**_20231115_0800.L5K")
 | **isString**       | Checks the type of an Object for String.                    | mcode.isString('stringToTest')
 | **isObject**       | Checks the type of an Object for Object.                    | mcode.isObject(objectName)
+| **isArray**        | Checks the type of an Object for Array.                     | mcode.isArray(arrayName)
 | **isFunction**     | Checks the type of an Object for Function.                  | mcode.isFunction(objectName)
 | **isNumber**       | Checks the type of an Object for Number.                    | mcode.isNumber(102022 or numberName)
 | **isJson**         | Checks the type of an Object for JSON.                      | mcode.isJson('JSON text' or objectName)
@@ -281,6 +282,10 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.5
+    * Added 'isArray()' for detecting object arrays.
+    * Added the detection and proper logging of arrays to 'logobj()', 'expobj()', and the other logging functions.
+    * Updated documentation for all 'isType()' functions for consistency.
 * 0.2.4
     * Added 'isFunction()', 'octify()', and 'colorizeLines()'.
     * Corrected long-standing issue of losing colorization on multi-line messages when executed within a larger logging environment.

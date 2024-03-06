@@ -21,6 +21,15 @@ const dataObject =
     birthDate: new Date('1988-08-21'),
 };
 
+const objectArray = [
+    {name: 'John Doe', company: 'MicroCODE, Inc.', employee: false, age: 23.5, termination: new Date('1988-07-01')},
+    {name: 'Jane Doe', company: 'MicroCODE, Inc.', employee: false, age: 21, termination: new Date('1981-01-21')},
+    {name: 'Bob Doe', company: 'MicroCODE, Inc.', employee: true, age: 34, termination: ''},
+    {name: 'Sam Doe', company: 'MicroCODE, Inc.', employee: false, age: 17.8, termination: new Date('2000-05-07')},
+    {name: 'Robert Doe', company: 'MicroCODE, Inc.', employee: false, age: 61, termination: new Date('2010-11-30')},
+    {name: 'Suzy Doe', company: 'MicroCODE, Inc.', employee: false, age: 55, termination: new Date('1982-03-22')},
+];
+
 // to test logobj() with JSON
 const jsonString = '{ "userName": "Jason Smith", "companyName": "GitHub", "author": true, "age": 28.0, "birthDate": "1998-01-11" }';
 
@@ -609,6 +618,31 @@ describe('mcode.logobj', () =>
             expect.arrayContaining([
                 expect.arrayContaining([expect.stringContaining("STRING")]),
                 expect.arrayContaining([expect.stringContaining("moduleName:")]),
+                expect.arrayContaining([expect.stringContaining("[INDEX]")]),
+                expect.arrayContaining([expect.stringContaining("index.test.js")])
+            ])
+        );
+
+        // Restore the original console.log function
+        consoleSpy.mockRestore();
+    });
+});
+describe('mcode.logobj', () =>
+{
+    it('mcode.logobj() should output a named *array* to the console.', () =>
+    {
+        // Create a spy on console.log
+        const consoleSpy = jest.spyOn(console, 'log');
+
+        // Call the function that should log the object
+        mcode.logobj(`objectArray`, objectArray, moduleName);
+
+        // Check that console.log was called with the expected message
+        expect(consoleSpy.mock.calls).toEqual(
+            expect.arrayContaining([
+                expect.arrayContaining([expect.stringContaining("ARRAY")]),
+                expect.arrayContaining([expect.stringContaining("objectArray:")]),
+                expect.arrayContaining([expect.stringContaining("},")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
             ])

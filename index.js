@@ -284,7 +284,19 @@ const mcode = {
         }
 
         // flatten the message object to strings for logging...
-        if (mcode.isObject(message))
+        if (mcode.isArray(message))
+        {
+            logifiedMessage += `ARRAY\n${vt.code}[\n`;
+
+            // loop through the array and log each element...
+            message.forEach(element =>
+            {
+                logifiedMessage += mcode.colorizeLines(mcode.logify(mcode.logifyObject(element)), vt.code);
+                logifiedMessage += ',\n';
+            });
+            logifiedMessage += ']';
+        }
+        else if (mcode.isObject(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
@@ -421,7 +433,18 @@ const mcode = {
         let logifiedMessage = "";
 
         // flatten the message object to strings for logging...
-        if (mcode.isObject(obj))
+        if (mcode.isArray(obj))
+        {
+            logifiedMessage += `ARRAY\n${vt.code}${objName}: \n[\n`;
+
+            // loop through the array and log each element...
+            obj.forEach(element => {
+                logifiedMessage += mcode.colorizeLines(mcode.logify(mcode.logifyObject(element)), vt.code);
+                logifiedMessage += ',\n';
+            });
+            logifiedMessage += ']';
+        }
+        else if (mcode.isObject(obj))
         {
             logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
@@ -612,7 +635,19 @@ const mcode = {
         let logifiedMessage = "";
 
         // flatten the message object to strings for logging...
-        if (mcode.isObject(obj))
+        if (mcode.isArray(obj))
+        {
+            logifiedMessage += `ARRAY\n${vt.code}${objName}: \n[\n`;
+
+            // loop through the array and log each element...
+            obj.forEach(element =>
+            {
+                logifiedMessage += mcode.colorizeLines(mcode.logify(mcode.logifyObject(element)), vt.code);
+                logifiedMessage += ',\n';
+            });
+            logifiedMessage += ']';
+        }
+        else if (mcode.isObject(obj))
         {
             logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
@@ -1460,23 +1495,23 @@ const mcode = {
     /**
      * @func isString
      * @memberof mcode
-     * @desc Checks the type of an Object for String.
+     * @desc Checks whether or not a object is a JS String.
      * @api public
-     * @param {object} object to be tested
-     * @returns {boolean} a value indicating whether or not the object is a string
+     * @param {object} jsObject JavaScript object to be tested
+     * @returns {boolean} a value indicating whether or not the object is a STRING.
      */
-    isString: function (object)
+    isString: function (jsObject)
     {
-        return Object.prototype.toString.call(object) === '[object String]';
+        return Object.prototype.toString.call(jsObject) === '[object String]';
     },
 
     /**
      * @method isObject
      * @memberof mcode
-     * @desc Checks whether or not a string is a JS Object.
+     * @desc Checks whether or not a object is a JS Object.
      * @api public
-     * @param {object} jsObject string to be tested
-     * @returns {boolean} a value indicating whether or not the string is a JS Object.
+     * @param {object} jsObject JavaScript object to be tested
+     * @returns {boolean} a value indicating whether or not the object is an OBJECT.
      */
     isObject: function (jsObject)
     {
@@ -1486,12 +1521,25 @@ const mcode = {
     },
 
     /**
+     * @method isArray
+     * @memberof mcode
+     * @desc Checks whether or not an object is a JS Array.
+     * @api public
+     * @param {object} jsObject JavaScript object to be tested
+     * @returns {boolean} a value indicating whether or not the object is an ARRAY.
+     */
+    isArray: function (jsObject)
+    {
+        return Array.isArray(jsObject);
+    },
+
+    /**
      * @method isFunction
      * @memberof mcode
-     * @desc Checks whether or not a string is a JS Function.
+     * @desc Checks whether or not an object is a JS Function.
      * @api public
-     * @param {object} jsObject string to be tested
-     * @returns {boolean} a value indicating whether or not the string is a JS Function.
+     * @param {object} jsObject JavaScript object to be tested
+     * @returns {boolean} a value indicating whether or not the object is a FUNCTION.
      */
     isFunction: function (jsObject)
     {
@@ -1503,10 +1551,10 @@ const mcode = {
     /**
      * @func isNumber
      * @memberof mcode
-     * @desc Checks for NaN.
+     * @desc Checks whether or not an object is a JS Number.
      * @api public
      * @param {any} numberToCheck as a number of some type
-     * @returns {boolean} a value indicating whether or not it is NaN.
+     * @returns {boolean} a value indicating whether or not the object is NaN.
      */
     isNumber: function (numberToCheck)
     {
@@ -1521,7 +1569,7 @@ const mcode = {
      * @desc Checks a string for embedded JSON data.
      * @api public
      * @param {object} object string to be tested
-     * @returns {boolean} a value indicating whether or not the object contains a JSON string
+     * @returns {boolean} a value indicating whether or not the object is a JSON string.
      */
     isJson: function (object)
     {
@@ -1550,10 +1598,10 @@ const mcode = {
     /**
      * @func isUndefined
      * @memberof mcode
-     * @desc Checks for undefined.
+     * @desc Checks whether or not an object is a 'undefined'.
      * @api public
      * @param {any} objectToCheck as a variable of some type
-     * @returns {boolean} a value indicating whether or not it is UNDEFINED.
+     * @returns {boolean} a value indicating whether or not the object is UNDEFINED.
      */
     isUndefined: function (objectToCheck)
     {
@@ -1564,9 +1612,9 @@ const mcode = {
     /**
      * @func isDate
      * @memberof mcode
-     * @desc Checks for Date.
+     * @desc Checks whether or not an object is a JS Date.
      * @param {object} objectToCheck
-     * @returns {boolean} a value indicating whether or not it is DATE.
+     * @returns {boolean} a value indicating whether or not the object is a DATE.
      */
     isDate: function (objectToCheck)
     {
@@ -1577,9 +1625,9 @@ const mcode = {
     /**
      * @func isTimeStampe
      * @memberof mcode
-     * @desc Checks for Date, i.e.: TimeStamp.
+     * @desc Checks whether or not an object is a Timestampe, i.e.: a JS Date.
      * @param {object} objectToCheck
-     * @returns {boolean} a value indicating whether or not it is TIEMSTAMP.
+     * @returns {boolean} a value indicating whether or not the object is a TIMESTAMP.
      */
     isTimeStamp: function (objectToCheck)
     {
