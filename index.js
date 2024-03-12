@@ -313,7 +313,7 @@ const mcode = {
             logifiedMessage = message;
         }
 
-        const moduleName = source.split('.')[0].toUpperCase();
+        const appModule = source.split('.')[0].toUpperCase();
 
         let sevColor = vt.reset;
         let sevText = severity;
@@ -327,7 +327,7 @@ const mcode = {
             case 'info':
                 sevText = 'info';
                 sevColor += vt.info;
-                entry1 += ` i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` i ｢mcode｣: 📣 ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'w':
             case 'wrn':
@@ -335,14 +335,14 @@ const mcode = {
             case 'warning':
                 sevText = 'warn';
                 sevColor += vt.warn;
-                entry1 += ` ! ｢mcode｣: ⚠️ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` ! ｢mcode｣: ⚠️ ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'e':
             case 'err':
             case 'error':
                 sevText = 'error';
                 sevColor += vt.errr;
-                entry1 += ` x ｢mcode｣: ⛔ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` x ｢mcode｣: ⛔ ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'x':
             case 'exp':
@@ -350,7 +350,7 @@ const mcode = {
             case 'exception':
                 sevText = 'exception';
                 sevColor += vt.dead;
-                entry1 += ` * ｢mcode｣: 🟣 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` * ｢mcode｣: 🟣 ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 's':
             case 'ack':
@@ -358,20 +358,20 @@ const mcode = {
             case 'success':
                 sevText = 'success';
                 sevColor += vt.good;
-                entry1 += ` ✓ ｢mcode｣: ✅ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` ✓ ｢mcode｣: ✅ ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case 'd':
             case 'dbg':
             case 'debug':
                 sevText = 'debug';
                 sevColor += vt.dbug;
-                entry1 += ` µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` µ ｢mcode｣: 🔍 ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
             case '?':
             default:
                 sevText = 'undefined';
                 sevColor += vt.code;
-                entry1 += ` ? ｢mcode｣: ❓ ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
+                entry1 += ` ? ｢mcode｣: ❓ ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'`;
                 break;
         }
         entry1 += '\n';
@@ -424,7 +424,7 @@ const mcode = {
      * @example
      *            mcode.obj('myObject', myObject, 'myModule');
      */
-    logobj: function (objName, obj, source)
+    logobj: function (objName, obj, source = "<undefined>.js")
     {
         let vt = mcode.vt;
         let entry1 = "";
@@ -457,7 +457,7 @@ const mcode = {
             logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}: ${vt.info}` + obj;
         }
 
-        const moduleName = source.split('.')[0].toUpperCase();
+        const appModule = source.split('.')[0].toUpperCase();
 
         let sevColor = vt.reset;
         let sevText = 'info';
@@ -465,7 +465,7 @@ const mcode = {
 
         entry1 +=
             `${vt.reset}${vt.dim}++\n` +
-            `${vt.reset}${vt.dim} i ｢mcode｣: 📣 ${sevColor}[${moduleName}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'\n`;
+            `${vt.reset}${vt.dim} i ｢mcode｣: 📣 ${sevColor}[${appModule}] '${mcode.colorizeLines(logifiedMessage, sevColor)}'\n`;
         entry3 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
             `${vt.reset}${vt.dim}      from: ${vt.reset}${source}` +
@@ -562,7 +562,7 @@ const mcode = {
             logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
         }
 
-        const moduleName = source.split('.')[0].toUpperCase();
+        const appModule = source.split('.')[0].toUpperCase();
 
         let sevColor = vt.reset;
         sevColor += vt.dead;
@@ -580,7 +580,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor} exception:\n`;
             entry2 += logifiedException + `\n`;
             entry3 +=
@@ -597,7 +597,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
             entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
             entry3 +=
@@ -687,7 +687,7 @@ const mcode = {
             logifiedException = mcode.colorizeLines(exception, vt.gray);
         }
 
-        const moduleName = source.split('.')[0].toUpperCase();
+        const appModule = source.split('.')[0].toUpperCase();
 
         let sevColor = vt.reset;
         sevColor += vt.dead;
@@ -705,7 +705,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}EXCEPTION:\n`;
             entry2 += `${vt.reset}` + logifiedException + `\n`;
             entry3 +=
@@ -722,7 +722,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${moduleName}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
             entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
             entry3 +=
@@ -769,7 +769,7 @@ const mcode = {
             logifiedMessage = message;
         }
 
-        const moduleName = source.split('.')[0].toUpperCase();
+        const appModule = source.split('.')[0].toUpperCase();
 
         let sevColor = vt.reset;
         sevColor += vt.code;
@@ -777,7 +777,7 @@ const mcode = {
         // Function calls are always logged as 'Info'
         entry1 +=
             `${vt.reset}${vt.dim}++\n` +
-            `${vt.reset}${vt.dim} µ ｢mcode｣: 🔍 ${sevColor}[${moduleName}] '${logifiedMessage}'${vt.reset}${vt.gray}\n`;
+            `${vt.reset}${vt.dim} µ ｢mcode｣: 🔍 ${sevColor}[${appModule}] '${logifiedMessage}'${vt.reset}${vt.gray}\n`;
         entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
         entry3 +=
             `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
@@ -1169,6 +1169,10 @@ const mcode = {
         // ƒ to handle non-object types
         const handleNonObject = (value) =>
         {
+            if (value === null)
+            {
+                return `"null"`;
+            }
             if (typeof value === 'string')
             {
                 // detect JSON objects that have been escaped and convert them back to JSON
@@ -1261,7 +1265,8 @@ const mcode = {
                     // Skip functions, symbols, and undefined properties
                     if (typeof value === 'function'
                      || typeof value === 'symbol'
-                     || typeof value === 'undefined')
+                     || typeof value === 'undefined'
+                     || typeof value === 'null')
                     {
                         return `"${key}":${handleNonObject(value)}`;
                     }
