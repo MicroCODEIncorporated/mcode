@@ -282,8 +282,10 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.7
+    * Added recognition of Number and Boolean in logifyObject().HandleNonObject() and added default "unknown".
 * 0.2.6
-    * Added recognition of NULL in logifyObject(), this was causing an infinite loop.
+    * Added recognition of NULL in logifyObject().
 * 0.2.5
     * Added 'isArray()' for detecting object arrays.
     * Added the detection and proper logging of arrays to 'logobj()', 'expobj()', and the other logging functions.

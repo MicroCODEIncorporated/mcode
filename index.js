@@ -1169,7 +1169,7 @@ const mcode = {
         // ƒ to handle non-object types
         const handleNonObject = (value) =>
         {
-            if (value === null)
+            if (typeof value === 'null')
             {
                 return `"null"`;
             }
@@ -1203,8 +1203,16 @@ const mcode = {
             {
                 return value.toString();
             }
+            if (typeof value === 'number')
+            {
+                return value.toString();
+            }
+            if (typeof value === 'boolean')
+            {
+                return value.toString();
+            }
 
-            return String(value);
+            return "<unknown>";
         };
 
         // ƒ to recursively stringify an object
