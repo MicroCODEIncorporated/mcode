@@ -205,7 +205,7 @@ These are the functions we want at the ready in any module for development and d
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
 | **exp**            | Logs a standardized exception with a collapsible stack dump.| mcode.exp('message' or object, 'module name', 'exp object')
 | **expobj**         | Logs standardized exception with an object and stack dump.  | mcode.expobj('object name', object, 'module name', 'exp object')
-| **fnc**            | Logs a standardized function call with a trace dump.        | mcode.fnc('message' or object, 'module name')
+| **trace**          | Logs a standardized function call with a trace dump.        | mcode.trace('message' or object, 'module name')
 | **logify**         | Converts a message or JSON into text appropriate for log.   | mcode.logify('object or JSON string')
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.           | mcode.simplify('object or JSON string')
 | **logifyObject**   | Converts an Object into text appropriate for log.           | mcode.logifyObject('object')
@@ -282,6 +282,10 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.2.9
+    * Renamed fnc() to trace() - the more appropriate name for debugging.
+* 0.2.8
+    * Corrected check for null when logging non-object data types.
 * 0.2.7
     * Added recognition of Number and Boolean in logifyObject().HandleNonObject() and added default "unknown".
 * 0.2.6
@@ -329,7 +333,7 @@ Contributor's names and contact info...
 * 0.0.9
     * Added short call forms of 'info()', 'warn()', 'error()', 'crash()', and 'debug()'.
 * 0.0.8
-    * Added fnc() function trace logger.
+    * Added trace() function trace logger.
 * 0.0.7
     * Changed the [mcode] identification in the left margin to dim cyan--like the data labels--to focus on App content, not the package.
 * 0.0.6

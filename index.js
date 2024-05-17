@@ -438,7 +438,8 @@ const mcode = {
             logifiedMessage += `ARRAY\n${vt.code}${objName}: \n[\n`;
 
             // loop through the array and log each element...
-            obj.forEach(element => {
+            obj.forEach(element =>
+            {
                 logifiedMessage += mcode.colorizeLines(mcode.logify(mcode.logifyObject(element)), vt.code);
                 logifiedMessage += ',\n';
             });
@@ -547,7 +548,7 @@ const mcode = {
             else
             {
                 // treat as an Object, not a stack trace and show in default colors...
-                logifiedException = `${vt.reset}` + mcode.colorizeLines( mcode.logify(mcode.logifyObject(exception)), vt.code);
+                logifiedException = `${vt.reset}` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(exception)), vt.code);
             }
         }
         else if (mcode.isJson(exception))
@@ -738,7 +739,7 @@ const mcode = {
     },
 
     /**
-     * @func fnc
+     * @func trace
      * @memberof mcode
      * @desc logs 'function call' showing call patterns to the Console in a standardized format.
      * @api public
@@ -747,7 +748,7 @@ const mcode = {
      * @returns nothing.
      *
      */
-    fnc: function (message, source)
+    trace: function (message, source)
     {
         let vt = mcode.vt;
         let entry1 = "";
@@ -1169,9 +1170,9 @@ const mcode = {
         // ƒ to handle non-object types
         const handleNonObject = (value) =>
         {
-            if (typeof value === 'null')
+            if (value === null)
             {
-                return `"null"`;
+                return `null`;
             }
             if (typeof value === 'string')
             {
@@ -1195,10 +1196,6 @@ const mcode = {
             {
                 return '"<symbol>"';
             }
-            if (typeof value === 'undefined')
-            {
-                return '"<undefined>"';
-            }
             if (typeof value === 'bigint')
             {
                 return value.toString();
@@ -1210,6 +1207,10 @@ const mcode = {
             if (typeof value === 'boolean')
             {
                 return value.toString();
+            }
+            if (typeof value === 'undefined')
+            {
+                return '"<undefined>"';
             }
 
             return "<unknown>";
@@ -1272,9 +1273,9 @@ const mcode = {
 
                     // Skip functions, symbols, and undefined properties
                     if (typeof value === 'function'
-                     || typeof value === 'symbol'
-                     || typeof value === 'undefined'
-                     || typeof value === 'null')
+                        || typeof value === 'symbol'
+                        || typeof value === 'undefined'
+                        || typeof value === 'null')
                     {
                         return `"${key}":${handleNonObject(value)}`;
                     }
@@ -1636,7 +1637,7 @@ const mcode = {
     },
 
     /**
-     * @func isTimeStampe
+     * @func isTimeStamp
      * @memberof mcode
      * @desc Checks whether or not an object is a Timestampe, i.e.: a JS Date.
      * @param {object} objectToCheck

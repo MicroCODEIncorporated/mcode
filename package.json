@@ -1,34 +1,34 @@
 {
-  "name": "mcode-log",
-  "version": "0.2.7",
-  "description": "A stand-alone package of core code for logging and debugging.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MicroCODEIncorporated/mcode-log.git"
-  },
-  "keywords": [
-    "Console",
-    "Logging",
-    "Frontend",
-    "Backend",
-    "Events",
-    "Severity",
-    "Objects",
-    "Builder",
-    "MicroCODE"
-  ],
-  "author": "Timothy McGuire",
-  "company": "MicroCODE, Inc.",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/MicroCODEIncorporated/mcode-log/issues"
-  },
-  "homepage": "https://github.com/MicroCODEIncorporated/mcode-log#readme",
-  "devDependencies": {
-    "jest": "^29.7.0"
-  }
+    "name": "mcode-log",
+    "version": "0.2.9",
+    "description": "A stand-alone package of core code for logging and debugging.",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MicroCODEIncorporated/mcode-log.git"
+    },
+    "keywords": [
+        "Console",
+        "Logging",
+        "Frontend",
+        "Backend",
+        "Events",
+        "Severity",
+        "Objects",
+        "Builder",
+        "MicroCODE"
+    ],
+    "author": "Timothy McGuire",
+    "company": "MicroCODE, Inc.",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/MicroCODEIncorporated/mcode-log/issues"
+    },
+    "homepage": "https://github.com/MicroCODEIncorporated/mcode-log#readme",
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
 }

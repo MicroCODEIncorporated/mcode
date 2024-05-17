@@ -10,7 +10,7 @@ const errorObject =
 };
 
 const exceptionJson = '{ "message": "This is an exception JSON, it can be whatever is presented in by the log call.",' +
-                      '"timestamp": "2019-01-01T00:00:00.000Z" }';
+    '"timestamp": "2019-01-01T00:00:00.000Z" }';
 const exceptionObject =
 {
     message: "This is an exception OBJECT, it can be whatever is presented in by the log call.",
@@ -25,12 +25,13 @@ const dataObject =
     author: false,
     age: 23.5,
     birthDate: new Date('1988-08-21'),
+    optionalData: null
 };
 
 const objectArray = [
     {name: 'John Doe', company: 'MicroCODE, Inc.', employee: false, age: 23.5, termination: new Date('1988-07-01')},
     {name: 'Jane Doe', company: 'MicroCODE, Inc.', employee: false, age: 21, termination: new Date('1981-01-21')},
-    {name: 'Bob Doe', company: 'MicroCODE, Inc.', employee: true, age: 34, termination:''},
+    {name: 'Bob Doe', company: 'MicroCODE, Inc.', employee: true, age: 34, termination: ''},
     {name: 'Sam Doe', company: 'MicroCODE, Inc.', employee: false, age: 17.8, termination: new Date('2000-05-07')},
     {name: 'Robert Doe', company: 'MicroCODE, Inc.', employee: false, age: 61, termination: new Date('2010-11-30')},
     {name: 'Suzy Doe', company: 'MicroCODE, Inc.', employee: false, age: 55, termination: new Date('1982-03-22')},
