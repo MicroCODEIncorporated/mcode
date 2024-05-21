@@ -422,7 +422,7 @@ const mcode = {
      * @param {string} source where the Object orginated.
      *
      * @example
-     *            mcode.obj('myObject', myObject, 'myModule');
+     *            mcode.logobj('myObject', myObject, 'myModule');
      */
     logobj: function (objName, obj, source = "<undefined>.js")
     {
@@ -625,7 +625,7 @@ const mcode = {
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
      *
      * @example
-     *            mcode.obj('myObject', myObject, 'myModule', exp);  // from within a 'catch (exp)' block
+     *            mcode.expobj('myObject', myObject, 'myModule', exp);  // from within a 'catch (exp)' block
      */
     expobj: function (objName, obj, source, exception)
     {
