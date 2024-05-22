@@ -79,7 +79,7 @@ catch (exp)
 }
 
 // special 'trace' log event for debugging...
-mcode.fnc(`This is a FUNCTION call trace`, moduleName);
+mcode.trace(`This is a FUNCTION call trace`, moduleName);
 
 // mcode.'severity'() short form...
 mcode.info(`This is an INFO log event`, moduleName);
@@ -91,15 +91,15 @@ mcode.done(`This is an SUCCESS log event`, moduleName);
 mcode.debug(`This is an DEBUG log event`, moduleName);
 
 // Log 'mcode' code as an object in a warning log event...
-mcode.info(mcode.fnc, moduleName);
+mcode.info(mcode.trace, moduleName);
 
 // Log PROCESS_ENV as an object in a warning log event... HUGE, try it and see...
-// mcode.fnc(process, moduleName);
+// mcode.trace(process, moduleName);
 
 // Log 'dataObject' as an object in a warning log event...
 mcode.logobj("dataObject", dataObject, moduleName);
 mcode.logobj("moduleName", moduleName, moduleName);
-mcode.logobj("mcode.fnc", mcode.fnc, moduleName);
+mcode.logobj("mcode.trace", mcode.trace, moduleName);
 mcode.logobj("jsonString", jsonString, moduleName);
 mcode.logobj("objectArray", objectArray, moduleName);
 

@@ -325,16 +325,16 @@ describe('mcode.exception3', () =>
     });
 });
 
-// FNC Test
-describe('mcode.fnc', () =>
+// TRACE Test
+describe('mcode.trace', () =>
 {
-    it('mcode.fnc() should output an *trace* message to the console.', () =>
+    it('mcode.trace() should output an *trace* message to the console.', () =>
     {
         // Create a spy on console.log
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.fnc(`This is a FUNCTION call trace, mcode.fnc(): ${mcode.fnc}`, moduleName);
+        mcode.trace(`This is a FUNCTION call trace, mcode.trace(): ${mcode.trace}`, moduleName);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(

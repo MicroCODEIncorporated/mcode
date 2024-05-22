@@ -95,7 +95,7 @@ npm install mcode-log
 
 ### Testing
 
-This package includes a simple test/demog module: **index.test.js**. running it direclty will show you all the 'log' and 'exp' formatting that occurs into the console and the recursive destruction of objects when they are logged.
+This package includes a simple test/demo module: **index.test.js**. running it direclty will show you all the 'log' and 'exp' formatting that occurs into the console and the recursive destruction of objects when they are logged.
 
 * From your project directory...
 ```
@@ -197,14 +197,14 @@ These are the functions we want at the ready in any module for development and d
 | **ready**          | Logs 'mcode-log' with version #, mode, and theme.           | mcode.ready()
 | **vt**             | The definition of standard VT52/100/200 display codes.      | mcode.vt.dim, mcode.vt.bright, mcode.vt.fg.red, mcode.vt.bg.white, etc.
 | **log**            | Logs a standardized message into the console with objects.  | mcode.log('message' or object, 'module name', 'severity')
-| **logobj**         | Logs an object of any kind into the console with a name.    | mcode.logobj('object name', object, 'module name')
+| **log, logobj**    | Logs an object of any kind into the console with a name.    | mcode.logobj('object name', object, 'module name')
 | **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
 | **warn**           | Short call form of 'mcode.log(msg, src, 'warn');            | mcode.warn('message' or object, 'module name')
 | **error**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.error('message' or object, 'module name')
 | **done**           | Short call form of 'mcode.log(msg, src, 'success');         | mcode.done('message' or object, 'module name')
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
 | **exp**            | Logs a standardized exception with a collapsible stack dump.| mcode.exp('message' or object, 'module name', 'exp object')
-| **expobj**         | Logs standardized exception with an object and stack dump.  | mcode.expobj('object name', object, 'module name', 'exp object')
+| **exp, expobj**    | Logs standardized exception with an object and stack dump.  | mcode.expobj('object name', object, 'module name', 'exp object')
 | **trace**          | Logs a standardized function call with a trace dump.        | mcode.trace('message' or object, 'module name')
 | **logify**         | Converts a message or JSON into text appropriate for log.   | mcode.logify('object or JSON string')
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.           | mcode.simplify('object or JSON string')
@@ -282,6 +282,10 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.3.0
+    * Updated log() and exp() to automatically perform logobj() and expobj() if passed anything other than
+      an JavaScript or TypeScript file name as the 2nd parameter (source).
+    * Removed JEST from the NPM package, only needed for testing, instructions to install are included.
 * 0.2.9
     * Renamed fnc() to trace() - the more appropriate name for debugging.
 * 0.2.8

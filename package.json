@@ -1,6 +1,6 @@
 {
     "name": "mcode-log",
-    "version": "0.2.9",
+    "version": "0.3.0",
     "description": "A stand-alone package of core code for logging and debugging.",
     "main": "index.js",
     "scripts": {
@@ -27,8 +27,5 @@
     "bugs": {
         "url": "https://github.com/MicroCODEIncorporated/mcode-log/issues"
     },
-    "homepage": "https://github.com/MicroCODEIncorporated/mcode-log#readme",
-    "devDependencies": {
-        "jest": "^29.7.0"
-    }
+    "homepage": "https://github.com/MicroCODEIncorporated/mcode-log#readme"
 }

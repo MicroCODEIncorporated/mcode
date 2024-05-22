@@ -267,9 +267,16 @@ const mcode = {
      *
      * @example
      *      mcode.log('This is a test message.', 'myModule', 'info');
+     *      mcode.log('object', object, 'myModule);
      */
-    log: function (message, source, severity, error = null)
+    log: function (message, source, severity = 'debug', error = null)
     {
+        // if 'source' is not a string containing ".js" or ".ts", log it as an object...
+        if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
+        {
+            return mcode.logobj(objName = message, obj = source, source = severity);
+        }
+
         let vt = mcode.vt;
         let entry1 = "";
         let entry2 = "";
@@ -423,6 +430,7 @@ const mcode = {
      *
      * @example
      *            mcode.logobj('myObject', myObject, 'myModule');
+     *            mcode.obj('myObject', myObject, 'myModule');
      */
     logobj: function (objName, obj, source = "<undefined>.js")
     {
@@ -435,7 +443,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isArray(obj))
         {
-            logifiedMessage += `ARRAY\n${vt.code}${objName}: \n[\n`;
+            logifiedMessage += `Log ARRAY...\n\n${vt.code}${objName}: \n[\n`;
 
             // loop through the array and log each element...
             obj.forEach(element =>
@@ -447,15 +455,15 @@ const mcode = {
         }
         else if (mcode.isObject(obj))
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
+            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
         else if (mcode.isJson(obj))
         {
-            logifiedMessage = `JSON\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
+            logifiedMessage = `Log JSON...\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
         else
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}: ${vt.info}` + obj;
+            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}: ${vt.info}` + obj;
         }
 
         const appModule = source.split('.')[0].toUpperCase();
@@ -506,8 +514,14 @@ const mcode = {
      * @param {string} exception the underlying exception message that was caught.
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
      */
-    exp: function (message, source, exception)
+    exp: function (message, source, exception, exp = {})
     {
+        // if 'source' is not a string containing ".js" or ".ts", log it as an object...
+        if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
+        {
+            return mcode.expobj(objName = message, obj = source, source = exception, exception = exp);
+        }
+
         let vt = mcode.vt;
         let entry1 = "";
         let entry2 = "";
@@ -638,7 +652,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isArray(obj))
         {
-            logifiedMessage += `ARRAY\n${vt.code}${objName}: \n[\n`;
+            logifiedMessage += `Log ARRAY...\n\n${vt.code}${objName}: \n[\n`;
 
             // loop through the array and log each element...
             obj.forEach(element =>
@@ -650,15 +664,15 @@ const mcode = {
         }
         else if (mcode.isObject(obj))
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
         else if (mcode.isJson(obj))
         {
-            logifiedMessage = `JSON\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `Log JSON...\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
         else
         {
-            logifiedMessage = `${(typeof obj).toUpperCase()}\n${vt.code}${objName}: ` + obj;
+            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}: ` + obj;
         }
 
         // flatten the exception object to strings for logging...
