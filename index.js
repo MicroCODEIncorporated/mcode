@@ -274,7 +274,7 @@ const mcode = {
         // if 'source' is not a string containing ".js" or ".ts", log it as an object...
         if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
         {
-            return mcode.logobj(objName = message, obj = source, source = severity);
+            return mcode.logobj(message, source, severity);
         }
 
         let vt = mcode.vt;
@@ -519,7 +519,7 @@ const mcode = {
         // if 'source' is not a string containing ".js" or ".ts", log it as an object...
         if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
         {
-            return mcode.expobj(objName = message, obj = source, source = exception, exception = exp);
+            return mcode.expobj(message, source, exception, exp);
         }
 
         let vt = mcode.vt;

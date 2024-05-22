@@ -282,6 +282,9 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.3.1
+    * Corrected the parma remapping of log() and exp() for logobj() and expobj(), passed tests and
+      then failed in a real project during execution.
 * 0.3.0
     * Updated log() and exp() to automatically perform logobj() and expobj() if passed anything other than
       an JavaScript or TypeScript file name as the 2nd parameter (source).
