@@ -201,6 +201,8 @@ These are the functions we want at the ready in any module for development and d
 | **info**           | Short call form of 'mcode.log(msg, src, 'info');            | mcode.info('message' or object, 'module name')
 | **warn**           | Short call form of 'mcode.log(msg, src, 'warn');            | mcode.warn('message' or object, 'module name')
 | **error**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.error('message' or object, 'module name')
+| **crash**          | Short call form of 'mcode.log(msg, src, 'error');           | mcode.crash('message' or object, 'module name')
+| **success**        | Short call form of 'mcode.log(msg, src, 'success');         | mcode.success('message' or object, 'module name')
 | **done**           | Short call form of 'mcode.log(msg, src, 'success');         | mcode.done('message' or object, 'module name')
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');           | mcode.debug('message' or object, 'module name')
 | **exp**            | Logs a standardized exception with a collapsible stack dump.| mcode.exp('message' or object, 'module name', 'exp object')
