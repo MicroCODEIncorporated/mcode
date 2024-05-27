@@ -511,8 +511,8 @@ const mcode = {
      * @api public
      * @param {object} message pre-formatted message to be logged.
      * @param {string} source where the message orginated.
-     * @param {string} exception the underlying exception message that was caught.
-     * @param {string} exp the underlying exception object/trace that was caught.
+     * @param {string} exception the underlying exception object/trace that was caught.
+     * @param {string} exp the underlying exception object/trace that was caught... if 'source' is an object to log.
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
      */
     exp: function (message, source, exception, exp = {})
