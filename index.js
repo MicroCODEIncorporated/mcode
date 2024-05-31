@@ -320,7 +320,7 @@ const mcode = {
             logifiedMessage = message;
         }
 
-        const appModule = source.split('.')[0].toUpperCase();
+        const appModule = source.split(/[\.,:;!?\s]+/)[0].toUpperCase();
 
         let sevColor = vt.reset;
         let sevText = severity;
@@ -443,7 +443,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isArray(obj))
         {
-            logifiedMessage += `Log ARRAY...\n\n${vt.code}${objName}: \n[\n`;
+            logifiedMessage += `{array}\n\n${vt.code}${objName}: \n[\n`;
 
             // loop through the array and log each element...
             obj.forEach(element =>
@@ -455,18 +455,18 @@ const mcode = {
         }
         else if (mcode.isObject(obj))
         {
-            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
+            logifiedMessage = `{${(typeof obj)}}\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
         else if (mcode.isJson(obj))
         {
-            logifiedMessage = `Log JSON...\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
+            logifiedMessage = `{json}\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
         else
         {
-            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}: ${vt.info}` + obj;
+            logifiedMessage = `{${(typeof obj)}}\n\n${vt.code}${objName}: ${vt.info}` + obj;
         }
 
-        const appModule = source.split('.')[0].toUpperCase();
+        const appModule = source.split(/[\.,:;!?\s]+/)[0].toUpperCase();
 
         let sevColor = vt.reset;
         let sevText = 'info';
@@ -517,8 +517,8 @@ const mcode = {
      */
     exp: function (message, source, exception, exp = {})
     {
-        // if 'source' is not a string containing ".js" or ".ts", log it as an object...
-        if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
+        // if 'source' is not a string containing ".js" or ".ts" (or an API Route), log it as an object...
+        if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts') && !source.includes(`/`)))
         {
             return mcode.expobj(message, source, exception, exp);
         }
@@ -578,7 +578,7 @@ const mcode = {
             logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
         }
 
-        const appModule = source.split('.')[0].toUpperCase();
+        const appModule = source.split(/[\.,:;!?\s]+/)[0].toUpperCase();
 
         let sevColor = vt.reset;
         sevColor += vt.dead;
@@ -653,7 +653,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isArray(obj))
         {
-            logifiedMessage += `Log ARRAY...\n\n${vt.code}${objName}: \n[\n`;
+            logifiedMessage += `{array}\n\n${vt.code}${objName}: \n[\n`;
 
             // loop through the array and log each element...
             obj.forEach(element =>
@@ -665,15 +665,15 @@ const mcode = {
         }
         else if (mcode.isObject(obj))
         {
-            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `{${(typeof obj)}}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
         else if (mcode.isJson(obj))
         {
-            logifiedMessage = `Log JSON...\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
+            logifiedMessage = `{json}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
         else
         {
-            logifiedMessage = `Log ${(typeof obj).toUpperCase()}...\n\n${vt.code}${objName}: ` + obj;
+            logifiedMessage = `{${(typeof obj)}}\n\n${vt.code}${objName}: ` + obj;
         }
 
         // flatten the exception object to strings for logging...
@@ -703,7 +703,7 @@ const mcode = {
             logifiedException = mcode.colorizeLines(exception, vt.gray);
         }
 
-        const appModule = source.split('.')[0].toUpperCase();
+        const appModule = source.split(/[\.,:;!?\s]+/)[0].toUpperCase();
 
         let sevColor = vt.reset;
         sevColor += vt.dead;
@@ -715,6 +715,7 @@ const mcode = {
         if (loggedException.includes('Error:') && loggedException.includes('at '))
         {
             isExpObject = true;
+            source = 'exception';
         }
 
         if (isExpObject)
@@ -785,7 +786,7 @@ const mcode = {
             logifiedMessage = message;
         }
 
-        const appModule = source.split('.')[0].toUpperCase();
+        const appModule = source.split(/[\.,:;!?\s]+/)[0].toUpperCase();
 
         let sevColor = vt.reset;
         sevColor += vt.code;

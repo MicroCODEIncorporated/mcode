@@ -284,9 +284,15 @@ Contributor's names and contact info...
 
 ## Version History
 
-* 0.3.1
-    * Corrected the parma remapping of log() and exp() for logobj() and expobj(), passed tests and
-      then failed in a real project during execution.
+* 0.3.4, 0.3.5, 0.3.6
+    * Minor adjustments to {type} logging and 'from:' statement on exceptions
+    * Handle API Routes in the determination of logging exception objects.
+* 0.3.3
+    * Updated how teh leading 'module' name is extracted for logging (Now most punctuation and white space is used
+      versus a '.' alone. This was needed for propelry logging exception headers.
+    * Simplfied how 'logobj()' or 'log()' indicate datatype, from 'Log STRING...' to '{string}'
+* 0.3.2
+    * Corrected documentation and object presentation
 * 0.3.0
     * Updated log() and exp() to automatically perform logobj() and expobj() if passed anything other than
       an JavaScript or TypeScript file name as the 2nd parameter (source).
@@ -362,6 +368,8 @@ Contributor's names and contact info...
 
 * 0.0.*
     * Any additional core code we development for general JavaScript MERN coding, debug, and support.
+    * Handle identifying passed object string vs. true objects in req/res data.
+      Currenlty makes object strings look like true objects, nice but, can be deceiving during debug.
 
 
 ## License
