@@ -284,6 +284,9 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.3.7
+    * Corrected the logging of exception stacks (/node_modules) were being converted into newline characters
+      because of bad processing.
 * 0.3.4, 0.3.5, 0.3.6
     * Minor adjustments to {type} logging and 'from:' statement on exceptions
     * Handle API Routes in the determination of logging exception objects.
@@ -369,7 +372,7 @@ Contributor's names and contact info...
 * 0.0.*
     * Any additional core code we development for general JavaScript MERN coding, debug, and support.
     * Handle identifying passed object string vs. true objects in req/res data.
-      Currenlty makes object strings look like true objects, nice but, can be deceiving during debug.
+      Currently makes object strings look like true objects, nice but, can be deceiving during debug.
 
 
 ## License

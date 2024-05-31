@@ -249,9 +249,9 @@ const mcode = {
         dbug: (theme === 'dark') ? "\x1b[97m" : "\x1b[37m",  // white
 
         // custom JSON colors -- see 'logify()' for use
-        key: "\x1b[96m",  // key name
-        value: "\x1b[93m",  // number, boolean, null
-        string: "\x1b[94m",  // special value
+        key: "\x1b[96m",  // key name - CYAN
+        value: "\x1b[93m",  // number, boolean, null - YELLOW
+        string: "\x1b[94m",  // string value - BLUE
     },
 
     /**
@@ -293,7 +293,7 @@ const mcode = {
         // flatten the message object to strings for logging...
         if (mcode.isArray(message))
         {
-            logifiedMessage += `ARRAY\n${vt.code}[\n`;
+            logifiedMessage += `{array}\n${vt.code}[\n`;
 
             // loop through the array and log each element...
             message.forEach(element =>
@@ -512,15 +512,15 @@ const mcode = {
      * @param {object} message pre-formatted message to be logged.
      * @param {string} source where the message orginated.
      * @param {string} exception the underlying exception object/trace that was caught.
-     * @param {string} exp the underlying exception object/trace that was caught... if 'source' is an object to log.
+     * @param {string} exptrace the underlying exception object/trace that was caught... if 'source' is an object to log.
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
      */
-    exp: function (message, source, exception, exp = {})
+    exp: function (message, source, exception, exptrace = {})
     {
         // if 'source' is not a string containing ".js" or ".ts" (or an API Route), log it as an object...
         if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts') && !source.includes(`/`)))
         {
-            return mcode.expobj(message, source, exception, exp);
+            return mcode.expobj(message, source, exception, exptrace);
         }
 
         let vt = mcode.vt;
@@ -552,13 +552,8 @@ const mcode = {
 
             if (exception.stack)
             {
-                //* ...taking the stack throygh 'logify()' treats "\n" as a new line, it not needed here
-                //* const stackTrace = mcode.logify(mcode.logifyObject(exception.stack));
-                const stackTrace = mcode.logifyObject(exception.stack);
-
-                // remove leading and trailing quotes from the stack trace and show gray...
-                logifiedException = `${vt.reset}${vt.gray}` + stackTrace.substring(1, stackTrace.length - 1);
-                logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
+                // colorized the passed the stack trace...
+                logifiedException = mcode.colorizeLines(exception.stack, vt.gray);
             }
             else
             {
@@ -640,7 +635,7 @@ const mcode = {
      * @returns {string} "message: {message} - exception: {exception}" for display in UI.
      *
      * @example
-     *            mcode.expobj('myObject', myObject, 'myModule', exp);  // from within a 'catch (exp)' block
+     *            mcode.expobj('myObject', myObject, 'myModule', err);  // from within a 'catch (err)' block
      */
     expobj: function (objName, obj, source, exception)
     {
@@ -648,7 +643,7 @@ const mcode = {
         let entry1 = "";
         let entry2 = "";
         let entry3 = "";
-        let logifiedMessage = "";
+        var logifiedMessage = "";
 
         // flatten the message object to strings for logging...
         if (mcode.isArray(obj))
@@ -683,11 +678,8 @@ const mcode = {
 
             if (exception.stack)
             {
-                const stackTrace = mcode.logify(mcode.logifyObject(exception.stack));
-
-                // remove leading and trailing quotes from the stack trace...
-                logifiedException = `${vt.gray}` + stackTrace.substring(1, stackTrace.length - 1);
-                logifiedException = mcode.colorizeLines(logifiedException, vt.gray);
+                // colorized the passed the stack trace...
+                logifiedException = mcode.colorizeLines(exception.stack, vt.gray);
             }
             else
             {
@@ -709,13 +701,13 @@ const mcode = {
         sevColor += vt.dead;
 
         // created a simplified exception message for the log entry...
-        const loggedException = 'EXCEPTION: ' + mcode.simplify(logifiedException);
+        const loggedException = 'exception: ' + mcode.simplify(logifiedException);
 
         // if 'loggedException' contains a stack trace, log it as an 'exception w/stack'
         if (loggedException.includes('Error:') && loggedException.includes('at '))
         {
             isExpObject = true;
-            source = 'exception';
+            source = `${sevColor}exception${vt.reset}`;
         }
 
         if (isExpObject)
@@ -723,7 +715,7 @@ const mcode = {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
                 `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
-                `${vt.reset}${vt.dim}${sevColor}EXCEPTION:\n`;
+                `${vt.reset}${vt.dim}${sevColor}exception:\n`;
             entry2 += `${vt.reset}` + logifiedException + `\n`;
             entry3 +=
                 `${vt.reset}${vt.dim}      time: ${vt.reset}${mcode.timeStamp()}` +
