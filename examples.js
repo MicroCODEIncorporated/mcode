@@ -1,5 +1,5 @@
 // MicroCODE: define this module's name for  our 'mcode-log' package
-const moduleName = 'examples.js';
+const MODULE_NAME = 'examples.js';
 const mcode = require('./index.js');
 
 // test/demo code for mcode-log package...
@@ -44,21 +44,21 @@ const jsonString = '{ "userName": "Jason Smith", "companyName": "GitHub", "autho
 mcode.ready();
 
 // mcode.log() form...
-mcode.log(`This is an INFO log event`, moduleName, 'info');
-mcode.log(`This is an WARNING log event`, moduleName, 'warning');
-mcode.log(`This is an ERROR log event`, moduleName, 'error');
-mcode.log(`This is an ERROR log event`, moduleName, 'error', 'ERR=this is the optional error message');
-mcode.log(`This is an ERROR log OBJECT`, moduleName, 'error', errorObject);
-mcode.log(`This is an SUCCESS log event`, moduleName, 'success');
-mcode.log(`This is an DEBUG log event`, moduleName, 'debug');
-mcode.log(`This is an UNKNOWN log event`, moduleName, 'unknown');
+mcode.log(`This is an INFO log event`, MODULE_NAME, 'info');
+mcode.log(`This is an WARNING log event`, MODULE_NAME, 'warning');
+mcode.log(`This is an ERROR log event`, MODULE_NAME, 'error');
+mcode.log(`This is an ERROR log event`, MODULE_NAME, 'error', 'ERR=this is the optional error message');
+mcode.log(`This is an ERROR log OBJECT`, MODULE_NAME, 'error', errorObject);
+mcode.log(`This is an SUCCESS log event`, MODULE_NAME, 'success');
+mcode.log(`This is an DEBUG log event`, MODULE_NAME, 'debug');
+mcode.log(`This is an UNKNOWN log event`, MODULE_NAME, 'unknown');
 
-mcode.log(`This is an EXCEPTION 'log' event`, moduleName, 'exception');
-mcode.log(`This is an EXCEPTION 'log' JSON`, moduleName, 'exception', exceptionJson);
-mcode.log(`This is an EXCEPTION 'log' OBJECT`, moduleName, 'exception', exceptionObject);
+mcode.log(`This is an EXCEPTION 'log' event`, MODULE_NAME, 'exception');
+mcode.log(`This is an EXCEPTION 'log' JSON`, MODULE_NAME, 'exception', exceptionJson);
+mcode.log(`This is an EXCEPTION 'log' OBJECT`, MODULE_NAME, 'exception', exceptionObject);
 
-mcode.exp(`This is an EXCEPTION 'exp' JSON`, moduleName, exceptionJson);
-mcode.exp(`This is an EXCEPTION 'exp' OBJECT`, moduleName, exceptionObject);
+mcode.exp(`This is an EXCEPTION 'exp' JSON`, MODULE_NAME, exceptionJson);
+mcode.exp(`This is an EXCEPTION 'exp' OBJECT`, MODULE_NAME, exceptionObject);
 
 try
 {
@@ -66,7 +66,7 @@ try
 }
 catch (exp)
 {
-    mcode.exp(`This is an actual EXCEPTION 'exp' OBJECT`, moduleName, exp);
+    mcode.exp(`This is an actual EXCEPTION 'exp' OBJECT`, MODULE_NAME, exp);
 }
 
 try
@@ -75,33 +75,33 @@ try
 }
 catch (exp)
 {
-    mcode.exp(`This is an UNDEFINED EXCEPTION 'exp' OBJECT`, moduleName, exp);
+    mcode.exp(`This is an UNDEFINED EXCEPTION 'exp' OBJECT`, MODULE_NAME, exp);
 }
 
 // special 'trace' log event for debugging...
-mcode.trace(`This is a FUNCTION call trace`, moduleName);
+mcode.trace(`This is a FUNCTION call trace`, MODULE_NAME);
 
 // mcode.'severity'() short form...
-mcode.info(`This is an INFO log event`, moduleName);
-mcode.warn(`This is an WARNING log event`, moduleName);
-mcode.error(`This is an ERROR log event`, moduleName);
-mcode.error(`This is an ERROR log event`, moduleName, 'ERR=this is the optional error message');
-mcode.error(`This is an ERROR log OBJECT`, moduleName, errorObject);
-mcode.done(`This is an SUCCESS log event`, moduleName);
-mcode.debug(`This is an DEBUG log event`, moduleName);
+mcode.info(`This is an INFO log event`, MODULE_NAME);
+mcode.warn(`This is an WARNING log event`, MODULE_NAME);
+mcode.error(`This is an ERROR log event`, MODULE_NAME);
+mcode.error(`This is an ERROR log event`, MODULE_NAME, 'ERR=this is the optional error message');
+mcode.error(`This is an ERROR log OBJECT`, MODULE_NAME, errorObject);
+mcode.done(`This is an SUCCESS log event`, MODULE_NAME);
+mcode.debug(`This is an DEBUG log event`, MODULE_NAME);
 
 // Log 'mcode' code as an object in a warning log event...
-mcode.info(mcode.trace, moduleName);
+mcode.info(mcode.trace, MODULE_NAME);
 
 // Log PROCESS_ENV as an object in a warning log event... HUGE, try it and see...
-// mcode.trace(process, moduleName);
+// mcode.trace(process, MODULE_NAME);
 
 // Log 'dataObject' as an object in a warning log event...
-mcode.logobj("dataObject", dataObject, moduleName);
-mcode.logobj("moduleName", moduleName, moduleName);
-mcode.logobj("mcode.trace", mcode.trace, moduleName);
-mcode.logobj("jsonString", jsonString, moduleName);
-mcode.logobj("objectArray", objectArray, moduleName);
+mcode.logobj("dataObject", dataObject, MODULE_NAME);
+mcode.logobj("MODULE_NAME", MODULE_NAME, MODULE_NAME);
+mcode.logobj("mcode.trace", mcode.trace, MODULE_NAME);
+mcode.logobj("jsonString", jsonString, MODULE_NAME);
+mcode.logobj("objectArray", objectArray, MODULE_NAME);
 
 try
 {
@@ -109,6 +109,6 @@ try
 }
 catch (exp)
 {
-    mcode.expobj(`dataObject`, dataObject, moduleName, exp);
-    mcode.expobj(`objectArray`, objectArray, moduleName, exp);
+    mcode.expobj(`dataObject`, dataObject, MODULE_NAME, exp);
+    mcode.expobj(`objectArray`, objectArray, MODULE_NAME, exp);
 }

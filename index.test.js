@@ -1,5 +1,5 @@
 // MicroCODE: define this module's name for  our 'mcode' package
-const moduleName = 'index.test.js';
+const MODULE_NAME = 'index.test.js';
 const mcode = require('./index.js');
 
 // test/demo code for mcode-log package...
@@ -42,7 +42,7 @@ describe('mcode.info', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an INFO log event`, moduleName, 'info');
+        mcode.log(`This is an INFO log event`, MODULE_NAME, 'info');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -67,7 +67,7 @@ describe('mcode.warn', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an WARNING log event`, moduleName, 'warning');
+        mcode.log(`This is an WARNING log event`, MODULE_NAME, 'warning');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -92,7 +92,7 @@ describe('mcode.error1', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an ERROR log event`, moduleName, 'error');
+        mcode.log(`This is an ERROR log event`, MODULE_NAME, 'error');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -117,7 +117,7 @@ describe('mcode.error2', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an ERROR log event`, moduleName, 'error', 'ERR=this is the optional error message');
+        mcode.log(`This is an ERROR log event`, MODULE_NAME, 'error', 'ERR=this is the optional error message');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -144,7 +144,7 @@ describe('mcode.error3', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an ERROR log object`, moduleName, 'error', errorObject);
+        mcode.log(`This is an ERROR log object`, MODULE_NAME, 'error', errorObject);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -171,7 +171,7 @@ describe('mcode.success', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an SUCCESS log event`, moduleName, 'success');
+        mcode.log(`This is an SUCCESS log event`, MODULE_NAME, 'success');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -196,7 +196,7 @@ describe('mcode.debug', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an DEBUG log event`, moduleName, 'debug');
+        mcode.log(`This is an DEBUG log event`, MODULE_NAME, 'debug');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -221,7 +221,7 @@ describe('mcode.unknown', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an UNKNOWN log event`, moduleName, 'unknown');
+        mcode.log(`This is an UNKNOWN log event`, MODULE_NAME, 'unknown');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -247,7 +247,7 @@ describe('mcode.exception1', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.log(`This is an EXCEPTION log event`, moduleName, 'exception');
+        mcode.log(`This is an EXCEPTION log event`, MODULE_NAME, 'exception');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -272,7 +272,7 @@ describe('mcode.exception2', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.exp(`This is an EXCEPTION logged object`, moduleName, exceptionObject);
+        mcode.exp(`This is an EXCEPTION logged object`, MODULE_NAME, exceptionObject);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -305,7 +305,7 @@ describe('mcode.exception3', () =>
         }
         catch (exp)
         {
-            mcode.exp(`This is an EXCEPTION 'exp' object`, moduleName, exp);
+            mcode.exp(`This is an EXCEPTION 'exp' object`, MODULE_NAME, exp);
         }
 
         // Check that console.log was called with the expected message
@@ -334,7 +334,7 @@ describe('mcode.trace', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.trace(`This is a FUNCTION call trace, mcode.trace(): ${mcode.trace}`, moduleName);
+        mcode.trace(`This is a FUNCTION call trace, mcode.trace(): ${mcode.trace}`, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -360,7 +360,7 @@ describe('mcode.info', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.info(`This is an INFO log event`, moduleName);
+        mcode.info(`This is an INFO log event`, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -385,7 +385,7 @@ describe('mcode.warn', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.warn(`This is an WARNING log event`, moduleName);
+        mcode.warn(`This is an WARNING log event`, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -410,7 +410,7 @@ describe('mcode.error1', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.error(`This is an ERROR log event`, moduleName);
+        mcode.error(`This is an ERROR log event`, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -435,7 +435,7 @@ describe('mcode.error2', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.error(`This is an ERROR log event`, moduleName, 'ERR=this is the optional error message');
+        mcode.error(`This is an ERROR log event`, MODULE_NAME, 'ERR=this is the optional error message');
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -462,7 +462,7 @@ describe('mcode.error3', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.error(`This is an ERROR log object`, moduleName, errorObject);
+        mcode.error(`This is an ERROR log object`, MODULE_NAME, errorObject);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -489,7 +489,7 @@ describe('mcode.success', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.done(`This is an SUCCESS log event`, moduleName);
+        mcode.done(`This is an SUCCESS log event`, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -514,7 +514,7 @@ describe('mcode.debug', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the message
-        mcode.debug(`This is an DEBUG log event`, moduleName);
+        mcode.debug(`This is an DEBUG log event`, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -539,7 +539,7 @@ describe('mcode.logobj', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the object
-        mcode.logobj(`dataObject`, dataObject, moduleName);
+        mcode.logobj(`dataObject`, dataObject, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -563,7 +563,7 @@ describe('mcode.logobj', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the object
-        mcode.logobj(`mcode.logobj`, mcode.logobj, moduleName);
+        mcode.logobj(`mcode.logobj`, mcode.logobj, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -587,7 +587,7 @@ describe('mcode.logobj', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the object
-        mcode.logobj(`jsonString`, jsonString, moduleName);
+        mcode.logobj(`jsonString`, jsonString, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -611,13 +611,13 @@ describe('mcode.logobj', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the object
-        mcode.logobj(`moduleName`, moduleName, moduleName);
+        mcode.logobj(`MODULE_NAME`, MODULE_NAME, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
                 expect.arrayContaining([expect.stringContaining("STRING")]),
-                expect.arrayContaining([expect.stringContaining("moduleName:")]),
+                expect.arrayContaining([expect.stringContaining("MODULE_NAME:")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
             ])
@@ -635,7 +635,7 @@ describe('mcode.logobj', () =>
         const consoleSpy = jest.spyOn(console, 'log');
 
         // Call the function that should log the object
-        mcode.logobj(`objectArray`, objectArray, moduleName);
+        mcode.logobj(`objectArray`, objectArray, MODULE_NAME);
 
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
@@ -668,7 +668,7 @@ describe('mcode.expobj', () =>
         }
         catch (exp)
         {
-            mcode.expobj(`dataObject`, dataObject, moduleName, exp);
+            mcode.expobj(`dataObject`, dataObject, MODULE_NAME, exp);
         }
 
         // Check that console.log was called with the expected message
