@@ -75,6 +75,7 @@
  *  02-Mar-2024   TJM-MCODE  {0011}   Added 'logobj()', 'expobj()', 'isFunction()', 'hexify()', 'octify()', and 'colorizeLines()'
  *                                    all in the pursuit of a more complete and consistent logging and debugging experience,
  *                                    in both the Console, NPM, and the Browser's DevTools.
+ *  06-Jul-2024   TJM-MCODE  {0012}   0.4.00 - moved all 'data' functions into sub-package 'mcode-data'.
  *
  *
  *
@@ -92,6 +93,7 @@
 
 // #region  I M P O R T S
 
+const data = require('mcode-data');
 const packageJson = require('./package.json');
 
 // #endregion
@@ -272,7 +274,7 @@ const mcode = {
     log: function (message, source, severity = 'debug', error = null)
     {
         // if 'source' is not a string containing ".js" or ".ts", log it as an object...
-        if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
+        if (!data.isString(source) || (!source.includes('.js') && !source.includes('.ts')))
         {
             return mcode.logobj(message, source, severity);
         }
@@ -291,7 +293,7 @@ const mcode = {
         }
 
         // flatten the message object to strings for logging...
-        if (mcode.isArray(message))
+        if (data.isArray(message))
         {
             logifiedMessage += `{array}\n${vt.code}[\n`;
 
@@ -303,15 +305,15 @@ const mcode = {
             });
             logifiedMessage += ']';
         }
-        else if (mcode.isObject(message))
+        else if (data.isObject(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
-        else if (mcode.isJson(message))
+        else if (data.isJson(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
-        else if (mcode.isFunction(message))
+        else if (data.isFunction(message))
         {
             logifiedMessage = "\n" + `${message}`;
         }
@@ -386,11 +388,11 @@ const mcode = {
         let logifiedError = false;
         if (error)
         {
-            if (mcode.isObject(error))
+            if (data.isObject(error))
             {
                 logifiedError = mcode.logifyObject(error);
             }
-            else if (mcode.isJson(error))
+            else if (data.isJson(error))
             {
                 logifiedError = mcode.logifyObject(error);
             }
@@ -441,7 +443,7 @@ const mcode = {
         let logifiedMessage = "";
 
         // flatten the message object to strings for logging...
-        if (mcode.isArray(obj))
+        if (data.isArray(obj))
         {
             logifiedMessage += `{array}\n\n${vt.code}${objName}: \n[\n`;
 
@@ -453,11 +455,11 @@ const mcode = {
             });
             logifiedMessage += ']';
         }
-        else if (mcode.isObject(obj))
+        else if (data.isObject(obj))
         {
             logifiedMessage = `{${(typeof obj)}}\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
-        else if (mcode.isJson(obj))
+        else if (data.isJson(obj))
         {
             logifiedMessage = `{json}\n\n${vt.code}${objName}:\n` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(obj)), vt.code);
         }
@@ -518,7 +520,7 @@ const mcode = {
     exp: function (message, source, exception, exptrace = {})
     {
         // if 'source' is not a string containing ".js" or ".ts" (or an API Route), log it as an object...
-        if (!mcode.isString(source) || (!source.includes('.js') && !source.includes('.ts') && !source.includes(`/`)))
+        if (!data.isString(source) || (!source.includes('.js') && !source.includes('.ts') && !source.includes(`/`)))
         {
             return mcode.expobj(message, source, exception, exptrace);
         }
@@ -532,11 +534,11 @@ const mcode = {
         let isExpObject = false;
 
         // flatten the message object to strings for logging...
-        if (mcode.isObject(message))
+        if (data.isObject(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
-        else if (mcode.isJson(message))
+        else if (data.isJson(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
@@ -546,7 +548,7 @@ const mcode = {
         }
 
         // flatten the exception object to strings for logging...
-        if (mcode.isObject(exception))
+        if (data.isObject(exception))
         {
             isExpObject = true;
 
@@ -561,7 +563,7 @@ const mcode = {
                 logifiedException = `${vt.reset}` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(exception)), vt.code);
             }
         }
-        else if (mcode.isJson(exception))
+        else if (data.isJson(exception))
         {
             // treat as JSON, not a stack trace and show in default colors...
             logifiedException = `${vt.reset}` + mcode.colorizeLines(mcode.logifyObject(exception), vt.code);
@@ -646,7 +648,7 @@ const mcode = {
         var logifiedMessage = "";
 
         // flatten the message object to strings for logging...
-        if (mcode.isArray(obj))
+        if (data.isArray(obj))
         {
             logifiedMessage += `{array}\n\n${vt.code}${objName}: \n[\n`;
 
@@ -658,11 +660,11 @@ const mcode = {
             });
             logifiedMessage += ']';
         }
-        else if (mcode.isObject(obj))
+        else if (data.isObject(obj))
         {
             logifiedMessage = `{${(typeof obj)}}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
-        else if (mcode.isJson(obj))
+        else if (data.isJson(obj))
         {
             logifiedMessage = `{json}\n\n${vt.code}${objName}:\n` + mcode.logify(mcode.logifyObject(obj));
         }
@@ -672,7 +674,7 @@ const mcode = {
         }
 
         // flatten the exception object to strings for logging...
-        if (mcode.isObject(exception))
+        if (data.isObject(exception))
         {
             isExpObject = true;
 
@@ -686,7 +688,7 @@ const mcode = {
                 logifiedException = `${vt.reset}` + mcode.colorizeLines(mcode.logify(mcode.logifyObject(exception)), vt.code);
             }
         }
-        else if (mcode.isJson(exception))
+        else if (data.isJson(exception))
         {
             logifiedException = mcode.colorizeLines(mcode.logifyObject(exception), vt.code);
         }
@@ -765,11 +767,11 @@ const mcode = {
         let logifiedMessage = "";
 
         // flatten the message object to strings for logging...
-        if (mcode.isObject(message))
+        if (data.isObject(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
-        else if (mcode.isJson(message))
+        else if (data.isJson(message))
         {
             logifiedMessage = "\n" + mcode.logify(mcode.logifyObject(message));
         }
@@ -807,13 +809,13 @@ const mcode = {
      */
     simplify: function (object)
     {
-        if (mcode.isUndefined(object))
+        if (data.isUndefined(object))
         {
             return "undefined";
         }
 
         // flatten the message object to strings for logging...
-        if (mcode.isObject(object))
+        if (data.isObject(object))
         {
             // do not use JSON.stringify(object, null, 4)
             // --it's output is horrible, produce our own here in 'simplify()'
@@ -1233,7 +1235,7 @@ const mcode = {
                 return handleNonObject(currentObject);
             }
 
-            if (this.isTimeStamp(currentObject))
+            if (data.isTimeStamp(currentObject))
             {
                 return `"${this.timeStamp(now = currentObject, local = true)}"`;
             }
