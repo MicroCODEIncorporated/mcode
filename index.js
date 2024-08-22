@@ -76,7 +76,7 @@
  *                                    all in the pursuit of a more complete and consistent logging and debugging experience,
  *                                    in both the Console, NPM, and the Browser's DevTools.
  *  06-Jul-2024   TJM-MCODE  {0012}   0.4.00 - moved all 'data' functions into sub-package 'mcode-data'.
- *
+ *  22-Aug-2024   TJM-MCODE  {0013}   0.4.04 - corrected 'colorizeLines()' to carry on embedded colors to following lines.
  *
  *
  * NOTE: This module follow's MicroCODE's JavaScript Style Guide and Template JS file, see:
@@ -1062,7 +1062,7 @@ const mcode = {
                 continue;
             }
 
-            if (!inJson && c === '{')
+            if (!inString && !inJson && c === '{')
             {
                 inJson = true;
                 --i;  // reprocess '{' as JSON
@@ -1088,7 +1088,7 @@ const mcode = {
                 if (c === '"')
                 {
                     inString = false;
-                    c = '\'' + `${mcode.vt.reset}`;
+                    c = '\"' + `${mcode.vt.reset}`;
                 }
                 logifiedText += c;
                 continue;
@@ -1136,9 +1136,9 @@ const mcode = {
                     break;
                 case '"':
                     logifiedText += `${mcode.vt.string}`;
-                    logifiedText += '\'';
+                    logifiedText += '\"';
                     lineEmpty = false;
-                    inString = !inString;
+                    inString = true;
                     break;
                 case ' ':
                     lineEmpty = false;
@@ -1358,11 +1358,21 @@ const mcode = {
         // Split the input string into lines
         const lineArray = inputLines.split('\n');
 
-        // Apply the color to each line
-        const outputLines = lineArray.map(line => `${vtColor}${line}`);
+        let currentColor = vtColor;
+
+        // for each line in the array, find the last escape sequence and apply that color to
+        // all the lines that follow until a new escape sequence is found at the end of a line {0013}
+        for (let i = 0; i < lineArray.length; i++)
+        {
+            // Apply the color to each line
+            lineArray[i] = `${currentColor}${lineArray[i]}`;
+
+            // pick up the last color in the line we just added...
+            currentColor = lineArray[i].match(/\u001b\[\d+m/g).pop();
+        }
 
         // Rejoin the colorized lines into a single string
-        return outputLines.join('\n');
+        return lineArray.join('\n');
     },
 
     /**

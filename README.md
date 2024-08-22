@@ -274,6 +274,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.4.4
+    - Corrected 'colorizeLines()' to carry on embedded colors to following lines.
 * 0.4.3
     - Updated to mcode-data v0.4.3 to correct logging of pure strings, they were accidentally being treated as JSON objects.
 * 0.4.2
