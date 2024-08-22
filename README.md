@@ -274,6 +274,12 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.4.3
+    - Updated to mcode-data v0.4.3 to correct logging of pure strings, they were accidentally being treated as JSON objects.
+* 0.4.2
+    - Updated to mcode-data v0.4.2.
+* 0.4.1
+    - Updated to mcode-data v0.4.1.
 * 0.4.0
     - Synchronized mcode-data, mcode-log, mcode-list, mcode-package.
 * 0.3.93
