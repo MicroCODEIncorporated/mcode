@@ -77,6 +77,7 @@
  *                                    in both the Console, NPM, and the Browser's DevTools.
  *  06-Jul-2024   TJM-MCODE  {0012}   0.4.00 - moved all 'data' functions into sub-package 'mcode-data'.
  *  22-Aug-2024   TJM-MCODE  {0013}   0.4.04 - corrected 'colorizeLines()' to carry on embedded colors to following lines.
+ *  22-Aug-2024   TJM-MCODE  {0014}   0.4.05 - corrected 'logify()' to accept all legal JSON Key names.
  *
  *
  * NOTE: This module follow's MicroCODE's JavaScript Style Guide and Template JS file, see:
@@ -1013,10 +1014,14 @@ const mcode = {
             return newline;
         };
 
-        // ƒ to check for alpha-numeric characters -- [2024-03-02:TJM] added '.' to allow for floating point numbers
+        // ƒ to check for alpha-numeric characters
+        // -- [2024-03-02:TJM] added '.' to allow for floating point numbers
+        // -- [2024-08-27:TJM] allow any printable character in a key name except ':' and '"' {0014}
         let isKeyChar = (c) =>
         {
-            return (c === '_') || (c === '$') || (c === '.') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+            //* return (c === '-') || (c === '_') || (c === ' ') || (c === '$') || (c === '.') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+            const code = c.charCodeAt(0);
+            return (c !== '"') && (c !== ':') && (code >= 32 && code <= 126);  // any printable for our logging purposes
         };
 
         // process the JSON string...

@@ -274,6 +274,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.4.5
+    - Corrected 'logify()' to accept all legal JSON Key names.
 * 0.4.4
     - Corrected 'colorizeLines()' to carry on embedded colors to following lines.
 * 0.4.3
