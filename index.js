@@ -490,6 +490,8 @@ const mcode = {
     // convenient abbreviations of all the logged severities...
     info: function (message, source) {mcode.log(message, source, 'info');},
     warn: function (message, source) {mcode.log(message, source, 'warn');},
+    err: function (message, source) {mcode.log(message, source, 'error');},
+    err: function (message, source, err) {mcode.log(message, source, 'error', err);},
     error: function (message, source) {mcode.log(message, source, 'error');},
     error: function (message, source, error) {mcode.log(message, source, 'error', error);},
     crash: function (message, source) {mcode.log(message, source, 'exception');},

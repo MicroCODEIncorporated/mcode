@@ -274,6 +274,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.4.6
+    - Added synonym 'mcode.err()' for 'mcode.error()' as a natural use in JS was 'err' is commonly used.
 * 0.4.5
     - Corrected 'logify()' to accept all legal JSON Key names.
 * 0.4.4
