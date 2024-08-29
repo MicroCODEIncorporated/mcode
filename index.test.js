@@ -544,7 +544,7 @@ describe('mcode.logobj', () =>
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
-                expect.arrayContaining([expect.stringContaining("OBJECT")]),
+                expect.arrayContaining([expect.stringContaining("{object}")]),
                 expect.arrayContaining([expect.stringContaining("dataObject:")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
@@ -568,7 +568,7 @@ describe('mcode.logobj', () =>
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
-                expect.arrayContaining([expect.stringContaining("FUNCTION")]),
+                expect.arrayContaining([expect.stringContaining("function")]),
                 expect.arrayContaining([expect.stringContaining("mcode.logobj:")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
@@ -592,7 +592,7 @@ describe('mcode.logobj', () =>
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
-                expect.arrayContaining([expect.stringContaining("JSON")]),
+                expect.arrayContaining([expect.stringContaining("{json}")]),
                 expect.arrayContaining([expect.stringContaining("jsonString:")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
@@ -616,7 +616,7 @@ describe('mcode.logobj', () =>
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
-                expect.arrayContaining([expect.stringContaining("STRING")]),
+                expect.arrayContaining([expect.stringContaining("{string}")]),
                 expect.arrayContaining([expect.stringContaining("MODULE_NAME:")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")])
@@ -640,7 +640,7 @@ describe('mcode.logobj', () =>
         // Check that console.log was called with the expected message
         expect(consoleSpy.mock.calls).toEqual(
             expect.arrayContaining([
-                expect.arrayContaining([expect.stringContaining("ARRAY")]),
+                expect.arrayContaining([expect.stringContaining("{array}")]),
                 expect.arrayContaining([expect.stringContaining("objectArray:")]),
                 expect.arrayContaining([expect.stringContaining("},")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
@@ -677,7 +677,7 @@ describe('mcode.expobj', () =>
                 expect.arrayContaining([expect.stringContaining("exception w/stack")]),
                 expect.arrayContaining([expect.stringContaining("[INDEX]")]),
                 expect.arrayContaining([expect.stringContaining("index.test.js")]),
-                expect.arrayContaining([expect.stringContaining("EXCEPTION:")]),
+                expect.arrayContaining([expect.stringContaining("exception:")]),
                 expect.arrayContaining([expect.stringContaining(" at ")]),
                 expect.arrayContaining([expect.stringContaining("dataObject:")]),
                 expect.arrayContaining([expect.stringContaining("userName: ")])

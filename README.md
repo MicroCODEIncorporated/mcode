@@ -274,6 +274,11 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.5.1
+    - Updated JEST Test cases to match new formatting - all (25) tests pass.
+    - Corrected logify issue with new line formatting of numeric Key:Values.
+* 0.5.0
+    - All 'mcode-*' packages updated with 'ready()' only implemented in 'mcode-log'.
 * 0.4.6
     - Added synonym 'mcode.err()' for 'mcode.error()' as a natural use in JS was 'err' is commonly used.
 * 0.4.5

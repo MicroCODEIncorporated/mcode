@@ -490,8 +490,6 @@ const mcode = {
     // convenient abbreviations of all the logged severities...
     info: function (message, source) {mcode.log(message, source, 'info');},
     warn: function (message, source) {mcode.log(message, source, 'warn');},
-    err: function (message, source) {mcode.log(message, source, 'error');},
-    err: function (message, source, err) {mcode.log(message, source, 'error', err);},
     error: function (message, source) {mcode.log(message, source, 'error');},
     error: function (message, source, error) {mcode.log(message, source, 'error', error);},
     crash: function (message, source) {mcode.log(message, source, 'exception');},
@@ -506,7 +504,7 @@ const mcode = {
      */
     ready: function ()
     {
-        mcode.log(`MicroCODE ${MODULE_NAME} v${packageJson.version} is loaded, mode: ${mode}, theme: ${theme}.`, MODULE_NAME, 'success');
+        this.log(`MicroCODE ${MODULE_NAME} v${packageJson.version} is loaded, mode: ${mode}, theme: ${theme}.`, MODULE_NAME, 'success');
     },
 
     /**
@@ -1016,30 +1014,33 @@ const mcode = {
             return newline;
         };
 
-        // ƒ to check for alpha-numeric characters
-        // -- [2024-03-02:TJM] added '.' to allow for floating point numbers
-        // -- [2024-08-27:TJM] allow any printable character in a key name except ':' and '"' {0014}
+        // ƒ to check for legal value name characters
         let isKeyChar = (c) =>
         {
-            //* return (c === '-') || (c === '_') || (c === ' ') || (c === '$') || (c === '.') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
             const code = c.charCodeAt(0);
-            return (c !== '"') && (c !== ':') && (code >= 32 && code <= 126);  // any printable for our logging purposes
+            return (c !== '"') && (c !== ':') && (code >= 32 && code <= 126);
         };
 
-        // process the JSON string...
+        // ƒ to check for alpha-numeric characters
+        let isValueChar = (c) =>
+        {
+            return (c === '-') || (c === '_') || (c === ' ') || (c === '$') || (c === '.') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+        };
+
+        // S T A R T   P R O C E S S I N G   T H E   J S O N   S T R I N G
         textToLogify = keyPairs(textToLogify);
 
-        let c = '';  // current char
+        let cc = '';  // 'cc' - current character, vs. 'c' - temporary character
 
         for (let i = 0; i < textToLogify.length; i++)
         {
-            c = textToLogify[i];
+            cc = textToLogify[i];
 
             if (textToLogify.substring(i, i + 2) === '\\\\')
             {
                 // take backslash as-is
-                logifiedText += c;
-                logifiedText += c;
+                logifiedText += cc;
+                logifiedText += cc;
                 i++; // skip the next '\'
                 continue;
             }
@@ -1054,8 +1055,8 @@ const mcode = {
 
             if (inLiteral)
             {
-                logifiedText += c;
-                if (c === '}')
+                logifiedText += cc;
+                if (cc === '}')
                 {
                     inLiteral = false;
                 }
@@ -1065,11 +1066,11 @@ const mcode = {
             if (textToLogify.substring(i, i + 2) === '${')
             {
                 inLiteral = true;
-                logifiedText += c;
+                logifiedText += cc;
                 continue;
             }
 
-            if (!inString && !inJson && c === '{')
+            if (!inString && !inJson && cc === '{')
             {
                 inJson = true;
                 --i;  // reprocess '{' as JSON
@@ -1078,37 +1079,37 @@ const mcode = {
 
             if (inValue)
             {
-                if (!isKeyChar(c))
+                if (!isValueChar(cc))
                 {
                     inValue = false;
                     --i;  // reprocess non-alpha-numeric character outside of 'value'
                 }
                 else
                 {
-                    logifiedText += c;
+                    logifiedText += cc;
                 }
                 continue;
             }
 
             if (inString)
             {
-                if (c === '"')
+                if (cc === '"')
                 {
                     inString = false;
-                    c = '\"' + `${mcode.vt.reset}`;
+                    cc = '\"' + `${mcode.vt.reset}`;
                 }
-                logifiedText += c;
+                logifiedText += cc;
                 continue;
             }
 
             if (!inJson)
             {
-                logifiedText += c;
+                logifiedText += cc;
                 lineEmpty = false;
                 continue;
             }
 
-            switch (c)
+            switch (cc)
             {
                 case '{':
                     logifiedText += indent() + '{';
@@ -1151,10 +1152,10 @@ const mcode = {
                     lineEmpty = false;
                     break;
                 default:
-                    if (isKeyChar(c))
+                    if (isKeyChar(cc))
                     {
                         inValue = true;  // true, false, null, or number
-                        logifiedText += c;
+                        logifiedText += cc;
                         lineEmpty = false;
                     }
                     break;
