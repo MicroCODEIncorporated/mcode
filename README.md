@@ -212,6 +212,7 @@ These are the functions we want at the ready in any module for development and d
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.            | mcode.simplify('object or JSON string')                                 |
 | **logifyObject**   | Converts an Object into text appropriate for log.            | mcode.logifyObject('object')                                            |
 | **simplifyObject** | Converts an Object to string less BRACES, BRACKETS, etc.     | mcode.simplifyObject('object')                                          |
+| **listifyObject**  | Converts an Object of into a HTML or JSX List.               | mcode.listifyObject(object, 'html' or 'jsx');                             |
 | **listifyArray**   | Converts an array of text items into a HTML or JSX List.     | mcode.listifyArray(array, 'html' or 'jsx');                             |
 | **colorizeLines**  | Prefixes every line of a message with an VT color for log.   | mcode.colorizeLines('message', vt.<color>);                             |
 | **timeStamp**      | Returns - YYYY-MMM-DD Day HH:MM:SS.mmm UTC                   | mcode.timeStamp() --> 2024-Jan-22 Mon 15:23:42.790 UTC                  |
@@ -274,6 +275,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.5.2
+    - Added 'listifyObject()' for quick display JSON Objects in HTML or JSX.
 * 0.5.1
     - Updated JEST Test cases to match new formatting - all (25) tests pass.
     - Corrected logify issue with new line formatting of numeric Key:Values.

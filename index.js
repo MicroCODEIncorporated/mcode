@@ -1313,11 +1313,49 @@ const mcode = {
     },
 
     /**
+     * @func listifyObject
+     * @memberof mcode
+     * @desc Converts a JSON Object into a HTML or JSX List.
+     * @api public
+     * @param {Object} objectToListify the object to be converted to a HTML List.
+     * @param {string} outputType how to out the list: 'html' or 'jsx'.
+     * @returns {string} the HTML List code.
+     */
+    listifyObject: function (objectToListify, outputType = 'html')
+    {
+        let listifiedText = "";
+        var keyIndex = 0;
+
+        if (outputType === 'jsx')
+        {
+            listifiedText += '<ul className="list-group">';
+
+            Object.entries(objectToListify).forEach(([key, value]) =>
+            {
+                // ƒ to convert array element to text, simplify for display, and add to LIST...
+                listifiedText += `<li className="list-group-item" key="${keyIndex++}">${key}: ${value}</li>`;
+            });
+
+            listifiedText += '</ul>';
+        }
+        else
+        {
+            Object.entries(objectToListify).forEach(([key, value]) =>
+            {
+                // ƒ to convert array element to text, simplify for display, and add to LIST...
+                listifiedText += `<li className="list-group-item" key="${keyIndex++}">${key}: ${value}</li>`;
+            });
+        }
+
+        return listifiedText;
+    },
+
+    /**
      * @func listifyArray
      * @memberof mcode
      * @desc Converts an array of text items into a HTML or JSX List.
      * @api public
-     * @param {Array<any>} arrayToListify the array to be convert to a HTML List.
+     * @param {Array<any>} arrayToListify the array to be converted to a HTML List.
      * @param {string} outputType how to out the list: 'html' or 'jsx'.
      * @returns {string} the HTML List code.
      */
