@@ -1,6 +1,6 @@
 {
     "name": "mcode-log",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "A stand-alone package of core code for logging and debugging.",
     "main": "index.js",
     "scripts": {
@@ -29,7 +29,7 @@
     },
     "homepage": "https://github.com/MicroCODEIncorporated/mcode-log#readme",
     "dependencies": {
-        "mcode-data": "^0.5.0"
+        "mcode-data": "^0.5.1"
     },
     "devDependencies": {
         "jest": "^29.7.0"

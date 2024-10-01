@@ -750,6 +750,46 @@ const mcode = {
     },
 
     /**
+     * @func resx
+     * @memberof mcode
+     * @desc 'res' extension - logs an http response and returns the response result.
+     * @api public
+     * @param {object} res the response object.
+     * @param {string} action the action that was being performed.
+     * @param {object} response the response: {status, message, data, error}.
+     * @param {string} moduleName where the message orginated.
+     * @returns {object} the response object.
+     */
+    resx: function (res, action, response, moduleName)
+    {
+        // example: READ [200] OK,  entity: 'user' _id: nnnn-nnnn-nnnn-nnnn  or  Array: (n)
+        const id = response?.id || response?.data?.id || '<unknown>';
+        const entity = response?.entity || '<unknown>';
+        const status = response?.status || 0;
+        const countId = data.isArray(response?.data) ? `Array: (${response?.data.length})` : `id: '${id}'`;
+        const message = `${action?.toUpperCase()} ${data.httpStatus(status)},  entity: '${entity}' ${countId}`;
+
+        if (response.error)
+        {
+            // returning an error in the response...
+            this.exp(message, moduleName, response.error);
+            return res.status(response.status).send({message: message, error: response.error});
+        }
+        if (response.data)
+        {
+            // returning data in the response...
+            this.log(message, moduleName, 'info');
+            return res.status(response.status).send({message: message, data: response.data});
+        }
+
+        {
+            // returning generic response...
+            this.log(message, moduleName, 'dbug');
+            return res.status(response.status).send({message: message});
+        }
+    },
+
+    /**
      * @func trace
      * @memberof mcode
      * @desc logs 'function call' showing call patterns to the Console in a standardized format.
@@ -1399,7 +1439,7 @@ const mcode = {
      * @example
      *          mcode.colorizeLines('Hello, World!\nIThis is fun!', mcode.vt.red);  // returns: "\u001b[31mHello, World!\u001b[31mThis is fun!"
      */
-    colorizeLines(inputLines, vtColor)
+    colorizeLines: function (inputLines, vtColor)
     {
         // Split the input string into lines
         const lineArray = inputLines.split('\n');

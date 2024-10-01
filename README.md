@@ -207,6 +207,7 @@ These are the functions we want at the ready in any module for development and d
 | **debug**          | Short call form of 'mcode.log(msg, src, 'debug');            | mcode.debug('message' or object, 'module name')                         |
 | **exp**            | Logs a standardized exception with a collapsible stack dump. | mcode.exp('message' or object, 'module name', 'exp object')             |
 | **exp, expobj**    | Logs standardized exception with an object and stack dump.   | mcode.expobj('object name', object, 'module name', 'exp object')        |
+| **resx**           | Logs a standardized HTTP response and sends the response.    | mcode.resx(res, 'action', {code: 000, message: 'message', data: object, error: 'message'}, 'module name')
 | **trace**          | Logs a standardized function call with a trace dump.         | mcode.trace('message' or object, 'module name')                         |
 | **logify**         | Converts a message or JSON into text appropriate for log.    | mcode.logify('object or JSON string')                                   |
 | **simplify**       | Strips a string of BRACES, BRACKETS, QUOTES, etc.            | mcode.simplify('object or JSON string')                                 |
@@ -275,6 +276,10 @@ Contributor's names and contact info...
 
 ## Version History
 
+* 0.5.3
+    - Added 'resx()' a res() extension to form and log common HTTP responses and return res.().send() result.
+      This reduces common http response and error clauses to one-liners and gaurantees consistent formatting.
+    - Updated mcode-data to v0.5.1 for 'httpStatus()'
 * 0.5.2
     - Added 'listifyObject()' for quick display JSON Objects in HTML or JSX.
 * 0.5.1
