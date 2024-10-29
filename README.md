@@ -220,7 +220,7 @@ These are the functions we want at the ready in any module for development and d
 
 ### Documentation
 
-We believe is explicit code documentation, for other users, and for our 'future selves'.<br>
+We believe in explicit code documentation, for other users, and for our 'future selves'.<br>
 JSDocs is a standardized system for documenting functions and data structures that produces three (3) primary outputs:
 
 1. Inline documentation for the coder.
@@ -276,127 +276,130 @@ Contributor's names and contact info...
 
 ## Version History
 
-* 0.5.3
+* v0.5.4 - v0.5.5
+    - Correction in resx() to the display of "id:" when none is present.
+    - Updated to mcode-data v0.5.5
+* v0.5.3
     - Added 'resx()' a res() extension to form and log common HTTP responses and return res.().send() result.
       This reduces common http response and error clauses to one-liners and gaurantees consistent formatting.
     - Updated mcode-data to v0.5.1 for 'httpStatus()'
-* 0.5.2
+* v0.5.2
     - Added 'listifyObject()' for quick display JSON Objects in HTML or JSX.
-* 0.5.1
+* v0.5.1
     - Updated JEST Test cases to match new formatting - all (25) tests pass.
     - Corrected logify issue with new line formatting of numeric Key:Values.
-* 0.5.0
+* v0.5.0
     - All 'mcode-*' packages updated with 'ready()' only implemented in 'mcode-log'.
-* 0.4.6
+* v0.4.6
     - Added synonym 'mcode.err()' for 'mcode.error()' as a natural use in JS was 'err' is commonly used.
-* 0.4.5
+* v0.4.5
     - Corrected 'logify()' to accept all legal JSON Key names.
-* 0.4.4
+* v0.4.4
     - Corrected 'colorizeLines()' to carry on embedded colors to following lines.
-* 0.4.3
+* v0.4.3
     - Updated to mcode-data v0.4.3 to correct logging of pure strings, they were accidentally being treated as JSON objects.
-* 0.4.2
+* v0.4.2
     - Updated to mcode-data v0.4.2.
-* 0.4.1
+* v0.4.1
     - Updated to mcode-data v0.4.1.
-* 0.4.0
+* v0.4.0
     - Synchronized mcode-data, mcode-log, mcode-list, mcode-package.
-* 0.3.93
+* v0.3.93
     - Corrected 'this.isTimestamp()' to 'data.isTimestamp()'.
-* 0.3.92
+* v0.3.92
     - Updated mcode-data after reorgnization.
-* 0.3.91
+* v0.3.91
     - Added dependency on our 'mcode-data', too many references to data processing functions.
-* 0.3.9
+* v0.3.9
     - Removed (2) remaining references to 'isString()' to remove dependency on 'mcode-data'.
-* 0.3.8
+* v0.3.8
     - Moved all data handling functions into new mcode-data package.
-* 0.3.7
+* v0.3.7
     - Corrected the logging of exception stacks (/node_modules) were being converted into newline characters
         because of bad processing.
-* 0.3.4, 0.3.5, 0.3.6
+* v0.3.4, v0.3.5, v0.3.6
     - Minor adjustments to {type} logging and 'from:' statement on exceptions
     - Handle API Routes in the determination of logging exception objects.
-* 0.3.3
+* v0.3.3
     - Updated how teh leading 'module' name is extracted for logging (Now most punctuation and white space is used
         versus a '.' alone. This was needed for propelry logging exception headers.
     - Simplfied how 'logobj()' or 'log()' indicate datatype, from 'Log STRING...' to '{string}'
-* 0.3.2
+* v0.3.2
     - Corrected documentation and object presentation
-* 0.3.0
+* v0.3.0
     - Updated log() and exp() to automatically perform logobj() and expobj() if passed anything other than
         an JavaScript or TypeScript file name as the 2nd parameter (source).
     - Removed JEST from the NPM package, only needed for testing, instructions to install are included.
-* 0.2.9
+* v0.2.9
     - Renamed fnc() to trace() - the more appropriate name for debugging.
-* 0.2.8
+* v0.2.8
     - Corrected check for null when logging non-object data types.
-* 0.2.7
+* v0.2.7
     - Added recognition of Number and Boolean in logifyObject().HandleNonObject() and added default "unknown".
-* 0.2.6
+* v0.2.6
     - Added recognition of NULL in logifyObject().
-* 0.2.5
+* v0.2.5
     - Added 'isArray()' for detecting object arrays.
     - Added the detection and proper logging of arrays to 'logobj()', 'expobj()', and the other logging functions.
     - Updated documentation for all 'isType()' functions for consistency.
-* 0.2.4
+* v0.2.4
     - Added 'isFunction()', 'octify()', and 'colorizeLines()'.
     - Corrected long-standing issue of losing colorization on multi-line messages when executed within a larger logging environment.
-* 0.2.3
+* v0.2.3
     - Added 'hexify()' for debugging logging or data issues.
-* 0.2.2
+* v0.2.2
     - Added a new method 'expobj()' similar to 'logobj()' to log a labeled Object during an exception.
     - Added documentation for 'expobj()', EXAMPLEs, and JEST tests; and updated README images.
-* 0.2.1
+* v0.2.1
     - Added a new method 'logobj()' to log an object like 'info()' but added an explicit argument to display the object's name.
     - Added documentation for 'logobj()', EXAMPLEs, and JEST tests; and updated README images.
     - Corrected the logging of Floating Point numbers in Objects.
     - Minor adjustments to the emojis used for severity, I returned to ⛔ for 'error' instead of ❌, and 🟣 now represents 'exception' severity, and 🟪 an actual exception.
-* 0.2.0
+* v0.2.0
     - Removed extra blank lines between log entries, sync'ed package versions to v0.2.
-* 0.1.18
+* v0.1.18
     - Corrected logging for JSON and Objects, updates Test Cases, and documentation.
     - Implemented native 'grouping' via concatenated log lines.
-* 0.1.17
+* v0.1.17
     - Add exceptions for functions in 'logifyObject()'.
-* 0.1.16
+* v0.1.16
     - Removed the stripping of {}[]()<> from Objects logged to console.
-* 0.1.15
+* v0.1.15
     - Tried 'group/groupend' - did not like results, updated documentation.
-* 0.1.14
+* v0.1.14
     - Improved README examples, corrected typos.
-* 0.1.13
+* v0.1.13
     - Changed export to the Univeral Module Defintion (UMD) pattern.
-* 0.1.8 - 0.1.12
+* v0.1.8 - v0.1.12
     - Correcting 'mcode.done()' logging as 'error', function ordering in index.js.
-* 0.1.6 - 0.1.7
+* v0.1.6 - v0.1.7
     - Added locally defined 'getEnvVariable()' to safely get values in Server and Browser.
-* 0.1.5
+* v0.1.5
     - Updated README, uninstalled JSDocs and Jest for publsihing.
-* 0.1. - 0.1.4
+* v0.1. - v0.1.4
     - Preparation for NPM publish, named changed to "mcode-log", minor color changes.
-* 0.0.9
+* v0.0.9
     - Added short call forms of 'info()', 'warn()', 'error()', 'crash()', and 'debug()'.
-* 0.0.8
+* v0.0.8
     - Added trace() function trace logger.
-* 0.0.7
+* v0.0.7
     - Changed the [mcode] identification in the left margin to dim cyan--like the data labels--to focus on App content, not the package.
-* 0.0.6
+* v0.0.6
     - in mcode.exp() recognize 'Error()' objects and log appropriately.
-* 0.0.5
+* v0.0.5
     - Reset terminal VT video after an Exception.
-* 0.0.4
+* v0.0.4
     - Exception formatting and simplification.
-* 0.0.3
+* v0.0.3
     - Icon and colors adjustments
-* 0.0.2
+* v0.0.2
     - Updates after testing and documentating README.
-* 0.0.1
+* v0.0.1
     - Initial movement of our internal code into an NPM package for ease of use in other projects.
 
 ## Future Development
 
-* 0.0.\*
+* v0.0.\*
     - Any additional core code we development for general JavaScript MERN coding, debug, and support.
     - Handle identifying passed object string vs. true objects in req/res data.
         Currently makes object strings look like true objects, nice but, can be deceiving during debug.

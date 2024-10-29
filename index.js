@@ -762,11 +762,13 @@ const mcode = {
      */
     resx: function (res, action, response, moduleName)
     {
+        this.debug({response}, "index.js");
+
         // example: READ [200] OK,  entity: 'user' _id: nnnn-nnnn-nnnn-nnnn  or  Array: (n)
-        const id = response?.id || response?.data?.id || '<unknown>';
+        const id = response?.id || response?.data?.id || '';
         const entity = response?.entity || '<unknown>';
         const status = response?.status || 0;
-        const countId = data.isArray(response?.data) ? `Array: (${response?.data.length})` : `id: '${id}'`;
+        const countId = data.isArray(response?.data) ? `Array: (${response?.data.length})` : (id != '') ? `id: '${id}'` : ``;
         const message = `${action?.toUpperCase()} ${data.httpStatus(status)},  entity: '${entity}' ${countId}`;
 
         if (response.error)
