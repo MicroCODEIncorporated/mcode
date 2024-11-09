@@ -762,8 +762,6 @@ const mcode = {
      */
     resx: function (res, action, response, moduleName)
     {
-        this.debug({response}, "index.js");
-
         // example: READ [200] OK,  entity: 'user' _id: nnnn-nnnn-nnnn-nnnn  or  Array: (n)
         const id = response?.id || response?.data?.id || '';
         const entity = response?.entity || '<unknown>';

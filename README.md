@@ -276,6 +276,8 @@ Contributor's names and contact info...
 
 ## Version History
 
+* v0.5.6
+    - Remove an unwanted debug statement from resx().
 * v0.5.4 - v0.5.5
     - Correction in resx() to the display of "id:" when none is present.
     - Updated to mcode-data v0.5.5
