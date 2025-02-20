@@ -78,6 +78,10 @@
  *  06-Jul-2024   TJM-MCODE  {0012}   0.4.00 - moved all 'data' functions into sub-package 'mcode-data'.
  *  22-Aug-2024   TJM-MCODE  {0013}   0.4.04 - corrected 'colorizeLines()' to carry on embedded colors to following lines.
  *  22-Aug-2024   TJM-MCODE  {0014}   0.4.05 - corrected 'logify()' to accept all legal JSON Key names.
+ *  19-Feb-2025   TJM-MCODE  {0015}   0.5.08 - updated 'resx()' to support returning non-db entity results,
+ *                                             to carry this common response code into our HTMX UI responses.
+ *
+ *
  *
  *
  * NOTE: This module follow's MicroCODE's JavaScript Style Guide and Template JS file, see:
@@ -594,7 +598,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟣 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor} exception:\n`;
             entry2 += logifiedException + `\n`;
             entry3 +=
@@ -611,7 +615,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟣 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
             entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
             entry3 +=
@@ -717,7 +721,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟣 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}exception:\n`;
             entry2 += `${vt.reset}` + logifiedException + `\n`;
             entry3 +=
@@ -734,7 +738,7 @@ const mcode = {
         {
             entry1 +=
                 `${vt.reset}${vt.dim}++\n` +
-                `${vt.reset}${vt.dim} * ｢mcode｣: 🟪 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
+                `${vt.reset}${vt.dim} * ｢mcode｣: 🟣 ${sevColor}[${appModule}] '${logifiedMessage}'\n` +
                 `${vt.reset}${vt.dim}${sevColor}${loggedException}${vt.gray}\n`;
             entry2 += mcode.colorizeLines(`call stack: ${new Error().stack}\n`, vt.gray);
             entry3 +=
@@ -762,12 +766,15 @@ const mcode = {
      */
     resx: function (res, action, response, moduleName)
     {
-        // example: READ [200] OK,  entity: 'user' _id: nnnn-nnnn-nnnn-nnnn  or  Array: (n)
+        // example   DB Entity: READ [200] OK,  Entity: 'user' _id: nnnn-nnnn-nnnn-nnnn  or  Array: (n)
+        // example HTML Result: READ [200] OK,  Endpoint: 'account.settings'
         const id = response?.id || response?.data?.id || '';
-        const entity = response?.entity || '<unknown>';
+        const entity = response?.entity;
+        const endpoint = response?.endpoint || `<unknown>`;
         const status = response?.status || 0;
         const countId = data.isArray(response?.data) ? `Array: (${response?.data.length})` : (id != '') ? `id: '${id}'` : ``;
-        const message = `${action?.toUpperCase()} ${data.httpStatus(status)},  entity: '${entity}' ${countId}`;
+        const caller = (entity) ? `Entity: '${entity}' ${countId}` : `Endpoint: '${endpoint}'`;
+        const message = `${action?.toUpperCase()} ${data.httpStatus(status)},  ${caller}`;
 
         if (response.error)
         {
@@ -777,16 +784,23 @@ const mcode = {
         }
         if (response.data)
         {
-            // returning data in the response...
-            this.log(message, moduleName, 'info');
-            return res.status(response.status).send({message: message, data: response.data});
+            if (entity)
+            {
+                // returning Entity data in the response...
+                this.log(message, moduleName, 'info');
+                return res.status(response.status).send({message: message, data: response.data});
+            }
+            else
+            {
+                // returning a direct Endpoint *result*, like HTML/HTMX - {0015}
+                this.log(message, moduleName, 'info');
+                return res.status(response.status).send(response.data);
+            }
         }
 
-        {
-            // returning generic response...
-            this.log(message, moduleName, 'dbug');
-            return res.status(response.status).send({message: message});
-        }
+        // returning generic response...
+        this.log(message, moduleName, 'dbug');
+        return res.status(response.status).send({message: message});
     },
 
     /**
@@ -797,7 +811,6 @@ const mcode = {
      * @param {object} message pre-formatted message to be logged.
      * @param {string} source where the message orginated.
      * @returns nothing.
-     *
      */
     trace: function (message, source)
     {

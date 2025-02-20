@@ -276,6 +276,12 @@ Contributor's names and contact info...
 
 ## Version History
 
+* v0.5.8
+    - Updated 'resx()' to support returning non-db entity results,
+      to carry this common response code into our HTMX UI responses.
+* v0.5.7
+    - Changing remaining 🟪 to 🟣 for exception logging, missed in earlier change.
+    - Corrected cross-spawn  7.0.0 - 7.0.4; Severity: high; Regular Expression Denial of Service
 * v0.5.6
     - Remove an unwanted debug statement from resx().
 * v0.5.4 - v0.5.5
